@@ -63,7 +63,8 @@ MAIN_LANGS = tuple(GAME["main_langs"])
 KEYS = (
     "nav_home nav_contact skip theme_dark theme_light lang_label status_badge "
     "crumb_home footer_line home_title home_desc hero_h1 hero_lead hero_note "
-    "card1_h card1_p card2_h card2_p card3_h card3_p facts_h fact1 fact2 fact3 fact4 fact5 "
+    "card1_h card1_p card2_h card2_p card3_h card3_p shots_h shots_note "
+    "facts_h fact1 fact2 fact3 fact4 fact5 "
     "contact_cta not_found"
 ).split()
 KST = kit.KST
@@ -243,8 +244,8 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
              '<meta name="twitter:title" content="%s">' % esc(title), '<meta name="twitter:description" content="%s">' % esc(kit.meta_desc(desc)),
              '<meta name="twitter:image" content="%s">' % (SITE + OG_IMAGE),
              '<meta name="theme-color" content="%s">' % esc(GAME["theme_color"]), '<meta name="color-scheme" content="light dark">',
-             '<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">',
-             '<link rel="apple-touch-icon" href="/assets/icon-180.png">',
+             '<link rel="icon" href="/assets/favicon.svg?v=%s" type="image/svg+xml">' % ASSET_V,
+             '<link rel="apple-touch-icon" href="/assets/icon-180.png?v=%s">' % ASSET_V,
              '<link rel="stylesheet" href="/assets/site.css?v=%s">' % ASSET_V, theme_script(),
              kit.jsonld_script({"@context": "https://schema.org", "@graph": graph})]
     switch = "".join('<li><a href="%s" hreflang="%s" lang="%s"%s>%s</a></li>' % (
@@ -252,12 +253,12 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
     navlinks = [(path_home(lang), t("nav_home"), "home")] + [(path_page(lang, s), t("nav_" + s), s) for s in PAGE_SLUGS]
     nav_html = "".join('<a href="%s"%s>%s</a>' % (esc(h), ' aria-current="page"' if nav == k else "", esc(label)) for h, label, k in navlinks)
     header = ('<header class="site-header"><div class="wrap bar"><a class="brand" href="%s" aria-label="%s">'
-              '<img src="/assets/logo.svg" alt="" width="28" height="28"><span>%s</span></a>'
+              '<img src="/assets/logo.svg?v=%s" alt="" width="28" height="28"><span>%s</span></a>'
               '<nav class="nav" aria-label="main">%s</nav><div class="tools">'
               '<a class="ipe-link" href="https://ipe.rest/">ipe.rest<span aria-hidden="true"> ↗</span></a>'
               '<details class="lang"><summary aria-label="%s">%s</summary><ul>%s</ul></details>'
               '<button class="theme" type="button" aria-label="%s" data-dark="%s" data-light="%s"><span aria-hidden="true">◐</span></button>'
-              '</div></div></header>') % (esc(path_home(lang)), esc(NAME), esc(NAME), nav_html, esc(t("lang_label")), esc(name), switch,
+              '</div></div></header>') % (esc(path_home(lang)), esc(NAME), ASSET_V, esc(NAME), nav_html, esc(t("lang_label")), esc(name), switch,
                                          esc(t("theme_dark")), esc(t("theme_dark")), esc(t("theme_light")))
     foot_langs = ('<p class="foot-langs" aria-label="%s">%s</p>' % (esc(t("lang_label")), " ".join(
         '<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0]))
@@ -301,11 +302,12 @@ def build_home(ctx, lang):
     facts = "".join("<li>%s</li>" % esc(t("fact%d" % i)) for i in range(1, 6))
     body = ('<section class="hero"><div class="hero-text"><p class="badge">%s</p><h1>%s</h1><p class="lead">%s</p>'
             '<p class="actions"><a class="btn" href="%s">%s</a></p><p class="note">%s</p></div>'
-            '<img class="hero-art" src="/assets/hero.svg" alt="" width="640" height="720" fetchpriority="high"></section>'
+            '<img class="hero-art" src="/assets/hero.svg?v=%s" alt="" width="640" height="720" fetchpriority="high"></section>'
             '<section class="section"><div class="grid three">%s</div></section>'
+            '<section class="section shots"><h2>%s</h2><figure class="shot-ph"><figcaption>%s</figcaption></figure></section>'
             '<section class="section facts"><h2>%s</h2><ul>%s</ul></section>') % (
         esc(t("status_badge")), esc(t("hero_h1")), esc(t("hero_lead")), esc(path_page(lang, "contact")), esc(t("contact_cta")),
-        esc(t("hero_note")), cards, esc(t("facts_h")), facts)
+        esc(t("hero_note")), ASSET_V, cards, esc(t("shots_h")), esc(t("shots_note")), esc(t("facts_h")), facts)
     alt = {l: path_home(l) for l in ctx.langs}
     graph = [kit.ORG, website_ld(lang), game_ld(lang, ctx)]
     return path_home(lang), render(ctx, lang, path=path_home(lang), title=t("home_title"), desc=t("home_desc"), body=body,

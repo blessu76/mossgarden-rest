@@ -1,5 +1,5 @@
 {
-  "_note": "The ONE place where the game's name and domain live. Everything else (build_site.py, CNAME check, llms.txt, JSON-LD, sitemap) reads this file. Name 이끼정원 (Moss Garden) confirmed by Davy 2026-11-10; domain CNAME registered 2026-11-08. iOS first — Android not mentioned until Davy decides.",
+  "_note": "The ONE place where the game's name and domain live. Everything else (build_site.py, CNAME check, llms.txt, JSON-LD, sitemap) reads this file. Name 이끼정원 (Moss Garden) confirmed by Davy 2026-11-10; domain CNAME registered 2026-11-08. iOS first — other platforms await the owner's decision.",
   "id": "mossgarden",
   "foundry": "F-027",
   "name": "Moss Garden",
@@ -10,9 +10,9 @@
   "operator": "Davy Kim (ipe Studio)",
   "email": "ipe.haven@gmail.com",
   "effective": "2026-11-10",
-  "pages_updated": "2026-11-10",
+  "pages_updated": "2026-11-11",
   "theme_color": "#47764E",
-  "asset_version": "20261110a",
+  "asset_version": "20261111a",
   "langs": ["en", "ko"],
   "main_langs": ["en", "ko"]
 }
