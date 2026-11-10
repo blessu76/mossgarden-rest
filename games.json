@@ -1,0 +1,11 @@
+{
+  "_note": "The ONE place where the game's name and domain live. Domain is not decided yet (empty) — no CNAME until the owner approves.",
+  "id": "mossgarden",
+  "name": "Moss Garden",
+  "name_ko": "이끼정원",
+  "domain": "",
+  "operator": "Davy Kim (ipe Studio)",
+  "email": "ipe.haven@gmail.com",
+  "langs": ["en", "ko"],
+  "main_langs": ["en", "ko"]
+}
