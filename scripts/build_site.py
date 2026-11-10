@@ -62,7 +62,7 @@ LANGS = {l: _ALL_LANGS[l] for l in GAME["langs"]}
 MAIN_LANGS = tuple(GAME["main_langs"])
 KEYS = (
     "nav_home nav_contact skip theme_dark theme_light lang_label status_badge "
-    "crumb_home footer_line home_title home_desc hero_h1 hero_lead hero_note "
+    "crumb_home footer_line footer_privacy home_title home_desc hero_h1 hero_lead hero_note "
     "card1_h card1_p card2_h card2_p card3_h card3_p shots_h shots_note "
     "facts_h fact1 fact2 fact3 fact4 fact5 "
     "contact_cta not_found"
@@ -263,10 +263,11 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
     foot_langs = ('<p class="foot-langs" aria-label="%s">%s</p>' % (esc(t("lang_label")), " ".join(
         '<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0]))
         for l, pth in alt.items()))) if len(alt) > 1 else ""
+    # privacy slot: a real page does not exist yet (legal review pending) — reserved link spot, not a URL
     footer = ('<footer class="site-footer"><div class="wrap"><p class="foot-tag">%s <a href="https://ipe.rest/">ipe.rest</a></p>'
-              '<p class="foot-links">%s</p>%s<p class="foot-small">© 2026 ipe() · %s</p></div></footer>') % (
+              '<p class="foot-links">%s · <span class="foot-slot">%s</span></p>%s<p class="foot-small">© 2026 ipe() · %s</p></div></footer>') % (
         esc(t("footer_line")), " · ".join('<a href="%s">%s</a>' % (esc(path_page(lang, s)), esc(t("nav_" + s))) for s in PAGE_SLUGS),
-        foot_langs, esc(t("status_badge")))
+        esc(t("footer_privacy")), foot_langs, esc(t("status_badge")))
     return ('<!doctype html>\n<!-- %s -->\n<html lang="%s" dir="%s" data-ads="off"><head>%s</head><body>'
             '<a class="skip" href="#main">%s</a>%s<main id="main" class="wrap">%s</main>%s'
             '<script src="/assets/site.js?v=%s" defer></script></body></html>\n') % (

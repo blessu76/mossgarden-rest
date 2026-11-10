@@ -28,6 +28,13 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(errs, [])
         self.assertTrue(urls)
 
+    def test_footer_has_privacy_slot(self):
+        # reserved link spot for the future privacy page — text only, no href yet
+        files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
+        for key in ("index.html", "ko/index.html", "contact/index.html", "ko/contact/index.html", "404.html"):
+            self.assertIn('class="foot-slot"', files[key], key)
+            self.assertNotIn('href="/privacy/', files[key], key)
+
     def test_no_store_or_price_claims_in_copy(self):
         files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
         blob = "\n".join(files.values()).lower()
