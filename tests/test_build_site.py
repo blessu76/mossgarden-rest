@@ -73,12 +73,30 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(errs, [])
         self.assertTrue(urls)
 
-    def test_footer_has_privacy_slot(self):
-        # reserved link spot for the future privacy page — text only, no href yet
+    def test_footer_privacy_link(self):
+        # the privacy page exists (draft placeholder) — the footer slot became a real link
         files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
-        for key in ("index.html", "ko/index.html", "contact/index.html", "ko/contact/index.html", "404.html"):
-            self.assertIn('class="foot-slot"', files[key], key)
-            self.assertNotIn('href="/privacy/', files[key], key)
+        for key, href in (("index.html", 'href="/privacy/"'), ("ko/index.html", 'href="/ko/privacy/"'),
+                          ("contact/index.html", 'href="/privacy/"'), ("ko/contact/index.html", 'href="/ko/privacy/"'),
+                          ("release-notes/index.html", 'href="/privacy/"'), ("ko/release-notes/index.html", 'href="/ko/privacy/"'),
+                          ("404.html", 'href="/privacy/"')):
+            self.assertIn(href, files[key], key)
+            self.assertNotIn('class="foot-slot"', files[key], key)
+
+    def test_privacy_page_is_a_marked_draft(self):
+        files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
+        for key, lang, notice in (("privacy/index.html", "en", "not a final policy"),
+                                  ("ko/privacy/index.html", "ko", "확정되지 않은")):
+            html = files[key]
+            self.assertIn(notice, html, key)
+            self.assertIn('<link rel="canonical" href="%s">' % bs.url(bs.path_page(lang, "privacy")), html, key)
+            self.assertIn('<link rel="alternate" hreflang="en" href="%s/privacy/">' % bs.SITE, html, key)
+            self.assertIn('<link rel="alternate" hreflang="ko" href="%s/ko/privacy/">' % bs.SITE, html, key)
+        for l in bs.LANGS:
+            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_page(l, "privacy")), files["sitemap.xml"])
+        self.assertIn("[Privacy Policy](%s/privacy/)" % bs.SITE, files["llms.txt"])
+        self.assertIn('<a href="/privacy/">Privacy Policy</a>', files["index.html"])
+        self.assertIn('<a href="/ko/privacy/">개인정보 처리방침</a>', files["ko/index.html"])
 
     def test_no_store_or_price_claims_in_copy(self):
         files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
