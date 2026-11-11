@@ -1,0 +1,43 @@
+{
+ "_note": "Data copy of the TestFlight release notes — the in-app Settings menu is the source of truth (no release page on this site). Checked by scripts/check_release.py; the app repo's deploy_ios.sh runs `--build N [--latest]` before every upload.",
+ "releases": [
+  {
+   "id": "1.0.0-2",
+   "version": "1.0.0",
+   "build": "2",
+   "status": "testflight",
+   "date": "2026-11-11",
+   "notes": {
+    "en": [
+     "The dew total and per-second rate at the top of the garden now show decimals under 1000 (two places below 1, one place from 1 up, rounded down), so small gains are visible right away.",
+     "A splash screen with the Moss Garden logo and name now opens the app, joining the iOS launch screen without a white flash.",
+     "Fixed: 1000 showed as \"1K\" instead of \"1000\".",
+     "Fixed: very large numbers could show a broken format."
+    ],
+    "ko": [
+     "정원 화면 상단의 이슬 합계와 초당 이슬이 1000 미만이면 소수까지 보입니다(1 미만 2자리, 1 이상 1자리, 내림). 작은 성장도 바로 눈에 띕니다.",
+     "앱 시작 시 이끼정원 로고와 이름이 잠깐 보이는 스플래시 화면이 생겼습니다. iOS 시작 화면과 이어져 흰 화면 깜빡임이 없습니다.",
+     "수정: 1000 이 「1K」 로 보이던 버그를 「1000」 으로 고쳤습니다.",
+     "수정: 아주 큰 숫자의 표기가 깨지던 버그를 고쳤습니다."
+    ]
+   }
+  },
+  {
+   "id": "1.0.0-1",
+   "version": "1.0.0",
+   "build": "1",
+   "status": "testflight",
+   "date": "2026-11-11",
+   "notes": {
+    "en": [
+     "First TestFlight build of Moss Garden: tap to water your moss garden, and it keeps growing on its own, even offline.",
+     "Eight plants to unlock in the plant encyclopedia, seasons that restart the garden while lasting bonuses remain, and a local save with backup and restore."
+    ],
+    "ko": [
+     "이끼정원의 첫 TestFlight 빌드입니다. 탭해서 이끼 정원에 물을 주면, 멀리 있는 동안에도 저절로 자랍니다.",
+     "식물 도감에 모이는 식물 8종, 영구적인 보너스를 남기고 다시 시작하는 계절, 백업·복구 되는 로컬 저장을 담았습니다."
+    ]
+   }
+  }
+ ]
+}
