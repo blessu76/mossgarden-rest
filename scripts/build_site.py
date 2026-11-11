@@ -57,6 +57,11 @@ OG_IMAGE = "/assets/og-image.png"
 PAGE_SLUGS = ("contact", "privacy")  # privacy is a clearly marked draft placeholder until legal review is done
 REL_SLUG = "release-notes"  # release notes page — generated from content/releases.json (no content/pages source)
 
+
+def brand_name(lang):
+    """Brand header + page-title name — ko pages carry the Korean name (consistent with the ko home title)."""
+    return GAME["name_ko"] + " (%s)" % NAME if lang == "ko" else NAME
+
 _ALL_LANGS = {
     "en": ("English", "en_US", "ltr"), "ko": ("한국어", "ko_KR", "ltr"),
 }
@@ -284,13 +289,14 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
                 + [(path_page(lang, s), t("nav_" + s), s) for s in PAGE_SLUGS]
                 + [(path_release(lang), t("nav_release_notes"), REL_SLUG)])
     nav_html = "".join('<a href="%s"%s>%s</a>' % (esc(h), ' aria-current="page"' if nav == k else "", esc(label)) for h, label, k in navlinks)
+    bn = brand_name(lang)
     header = ('<header class="site-header"><div class="wrap bar"><a class="brand" href="%s" aria-label="%s">'
               '<img src="/assets/logo.svg?v=%s" alt="" width="28" height="28"><span>%s</span></a>'
               '<nav class="nav" aria-label="main">%s</nav><div class="tools">'
               '<a class="ipe-link" href="https://ipe.rest/">ipe.rest<span aria-hidden="true"> ↗</span></a>'
               '<details class="lang"><summary aria-label="%s">%s</summary><ul>%s</ul></details>'
               '<button class="theme" type="button" aria-label="%s" data-dark="%s" data-light="%s"><span aria-hidden="true">◐</span></button>'
-              '</div></div></header>') % (esc(path_home(lang)), esc(NAME), ASSET_V, esc(NAME), nav_html, esc(t("lang_label")), esc(name), switch,
+              '</div></div></header>') % (esc(path_home(lang)), esc(bn), ASSET_V, esc(bn), nav_html, esc(t("lang_label")), esc(name), switch,
                                          esc(t("theme_dark")), esc(t("theme_dark")), esc(t("theme_light")))
     foot_langs = ('<p class="foot-langs" aria-label="%s">%s</p>' % (esc(t("lang_label")), " ".join(
         '<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0]))
@@ -359,7 +365,7 @@ def build_page(ctx, lang, slug):
                "isPartOf": {"@id": SITE + "/#website"}}
     graph = [kit.ORG, website_ld(lang), page_ld, breadcrumb_ld(crumbs)]
     alt = {l: path_page(l, slug) for l in ctx.langs if (l, slug) in ctx.pages}
-    return path_page(lang, slug), render(ctx, lang, path=path_page(lang, slug), title="%s — %s" % (meta["title"], NAME),
+    return path_page(lang, slug), render(ctx, lang, path=path_page(lang, slug), title="%s — %s" % (meta["title"], brand_name(lang)),
                                          desc=meta["description"], body=body, graph=graph, alt=alt, nav=slug)
 
 

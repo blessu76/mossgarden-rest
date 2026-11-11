@@ -98,6 +98,20 @@ class SiteTests(unittest.TestCase):
         self.assertIn('<a href="/privacy/">Privacy Policy</a>', files["index.html"])
         self.assertIn('<a href="/ko/privacy/">개인정보 처리방침</a>', files["ko/index.html"])
 
+    def test_ko_pages_use_korean_brand(self):
+        # ko pages carry the Korean name in the brand header, its aria-label and the page titles (consistent with the ko home title)
+        files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
+        brand = bs.brand_name("ko")
+        self.assertIn("이끼정원", brand)
+        for key in ("ko/index.html", "ko/contact/index.html", "ko/privacy/index.html", "ko/release-notes/index.html"):
+            self.assertIn('<a class="brand" href="/ko/" aria-label="%s">' % brand, files[key], key)
+            self.assertIn("<span>%s</span>" % brand, files[key], key)
+        self.assertIn("<title>문의 — %s</title>" % brand, files["ko/contact/index.html"])
+        self.assertIn("<title>개인정보 처리방침 — %s</title>" % brand, files["ko/privacy/index.html"])
+        # en pages keep the English name
+        self.assertIn('<a class="brand" href="/" aria-label="%s">' % bs.NAME, files["index.html"])
+        self.assertIn("<title>Contact — %s</title>" % bs.NAME, files["contact/index.html"])
+
     def test_no_store_or_price_claims_in_copy(self):
         files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
         blob = "\n".join(files.values()).lower()

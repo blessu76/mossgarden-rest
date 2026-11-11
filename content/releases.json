@@ -9,12 +9,12 @@
    "date": "2026-11-11",
    "notes": {
     "en": [
-     "The dew total and per-second rate at the top of the garden now show full numbers instead of short forms like \"1.23K\" (one decimal under a million, two under 1, rounded down), so small gains show right away.",
+     "The dew total and per-second rate at the top of the garden now show full numbers instead of short forms like \"1.23K\" (one decimal from 1 up to a million, two decimals under 1, rounded down, with thousands separators), so small gains show right away.",
      "A splash screen with the Moss Garden logo and name now opens the app, joining the iOS launch screen without a white flash.",
      "See what changed in each build under Settings > Release notes."
     ],
     "ko": [
-     "정원 상단 이슬 합계·초당 이슬이 「1.23K」 같은 축약 없이 전체 숫자로 보입니다(세 자리 콤마, 100만 미만은 소수 1자리·1 미만은 2자리, 내림). 작은 성장도 바로 보입니다.",
+     "정원 상단 이슬 합계·초당 이슬이 「1.23K」 같은 축약 없이 전체 숫자로 보입니다(1 이상 100만 미만은 소수 1자리, 1 미만은 소수 2자리(내림), 세 자리 콤마). 작은 성장도 바로 보입니다.",
      "앱 시작 시 이끼정원 로고와 이름이 잠깐 보이는 스플래시 화면이 생겼습니다. iOS 시작 화면과 이어져 흰 화면 깜빡임이 없습니다.",
      "설정 > 릴리즈 노트에서 빌드별 변경 사항을 볼 수 있습니다."
     ]
