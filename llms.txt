@@ -10,7 +10,7 @@ Moss Garden is a single-player idle game by ipe() (https://ipe.rest/). It is in 
 - Tap to water; the garden grows on its own, even offline.
 - New plants and decorations unlock as the garden grows, collected in a plant encyclopedia.
 - The garden's look changes with the time of day and the season.
-- For iOS. No release date yet.
+- For iOS first. Other platforms are on hold for now. No release date yet.
 
 ## Pages
 
