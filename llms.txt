@@ -16,6 +16,7 @@ Moss Garden is a single-player idle game by ipe() (https://ipe.rest/). It is in 
 
 - [Home](https://mossgarden.ipe.rest/): Moss Garden is a slow, healing garden for your phone. Water a small moss garden and watch it grow on its own. New plants and decorations unlock as the garden grows, and it keeps growing even while you are away.
 - [Contact](https://mossgarden.ipe.rest/contact/)
+- [Release notes](https://mossgarden.ipe.rest/release-notes/): what each TestFlight build changes, newest first.
 
 ## Languages
 

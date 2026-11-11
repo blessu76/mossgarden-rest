@@ -1,6 +1,7 @@
 {
  "nav_home": "홈",
  "nav_contact": "문의",
+ "nav_release_notes": "릴리즈 노트",
  "skip": "본문으로 건너뛰기",
  "theme_dark": "어두운 테마로 전환",
  "theme_light": "밝은 테마로 전환",
@@ -28,6 +29,13 @@
  "fact3": "정원이 자라면 새 식물과 장식이 열리고, 식물 도감에 모입니다.",
  "fact4": "정원의 모습은 시간대와 계절에 따라 바뀝니다.",
  "fact5": "iOS 를 위해 준비 중입니다. 출시일은 아직 없습니다.",
+ "release_title": "릴리즈 노트 — 이끼정원 (Moss Garden)",
+ "release_desc": "이끼정원의 TestFlight 빌드마다 무엇이 바뀌었는지, 최신순으로 적어 둡니다. 테스터가 읽는 기준은 앱 안 설정 메뉴입니다.",
+ "release_h1": "릴리즈 노트",
+ "release_intro": "TestFlight 빌드마다 무엇이 바뀌었는지 최신순으로 적어 둡니다. 테스터는 앱 안 설정 메뉴에서 읽고, 이 페이지는 사이트의 사본입니다.",
+ "release_build": "빌드",
+ "release_empty": "아직 릴리즈 노트가 없습니다.",
+ "status_testflight": "테스트플라이트",
  "contact_cta": "문의하기",
  "not_found": "이 페이지는 (아직) 없습니다."
 }

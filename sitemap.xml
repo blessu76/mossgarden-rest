@@ -6,6 +6,11 @@
 <xhtml:link rel="alternate" hreflang="ko" href="https://mossgarden.ipe.rest/ko/"/>
 <xhtml:link rel="alternate" hreflang="x-default" href="https://mossgarden.ipe.rest/"/>
 </url>
+<url><loc>https://mossgarden.ipe.rest/release-notes/</loc><lastmod>2026-11-11</lastmod>
+<xhtml:link rel="alternate" hreflang="en" href="https://mossgarden.ipe.rest/release-notes/"/>
+<xhtml:link rel="alternate" hreflang="ko" href="https://mossgarden.ipe.rest/ko/release-notes/"/>
+<xhtml:link rel="alternate" hreflang="x-default" href="https://mossgarden.ipe.rest/release-notes/"/>
+</url>
 <url><loc>https://mossgarden.ipe.rest/contact/</loc><lastmod>2026-11-11</lastmod>
 <xhtml:link rel="alternate" hreflang="en" href="https://mossgarden.ipe.rest/contact/"/>
 <xhtml:link rel="alternate" hreflang="ko" href="https://mossgarden.ipe.rest/ko/contact/"/>
@@ -15,6 +20,11 @@
 <xhtml:link rel="alternate" hreflang="en" href="https://mossgarden.ipe.rest/"/>
 <xhtml:link rel="alternate" hreflang="ko" href="https://mossgarden.ipe.rest/ko/"/>
 <xhtml:link rel="alternate" hreflang="x-default" href="https://mossgarden.ipe.rest/"/>
+</url>
+<url><loc>https://mossgarden.ipe.rest/ko/release-notes/</loc><lastmod>2026-11-11</lastmod>
+<xhtml:link rel="alternate" hreflang="en" href="https://mossgarden.ipe.rest/release-notes/"/>
+<xhtml:link rel="alternate" hreflang="ko" href="https://mossgarden.ipe.rest/ko/release-notes/"/>
+<xhtml:link rel="alternate" hreflang="x-default" href="https://mossgarden.ipe.rest/release-notes/"/>
 </url>
 <url><loc>https://mossgarden.ipe.rest/ko/contact/</loc><lastmod>2026-11-11</lastmod>
 <xhtml:link rel="alternate" hreflang="en" href="https://mossgarden.ipe.rest/contact/"/>

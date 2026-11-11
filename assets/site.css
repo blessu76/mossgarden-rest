@@ -55,6 +55,11 @@ h3{font-size:19px;margin:.2em 0 .4em}
 .crumbs{font-size:14px;color:var(--muted);margin-bottom:6px}
 .crumbs a{color:var(--muted)}
 .prose{max-width:720px}
+.rel{margin:24px 0;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.rel h2{margin:0;font-size:20px}
+.rel-meta{margin:2px 0 10px;color:var(--muted);font-size:14px}
+.rel ul{margin:0;padding-left:1.2em}
+.rel li{margin:.35em 0}
 figure{margin:1.4em 0}
 blockquote{margin:1.2em 0;padding:.2em 1em;border-inline-start:4px solid var(--coral);background:var(--surface);border-radius:0 12px 12px 0;color:var(--muted)}
 pre{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto;font-size:14px}
