@@ -29,6 +29,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "vendor"))
 from ipe_web_kit import seo as kit  # noqa: E402  (esc · org_jsonld · jsonld_script · meta_desc · alternate_links)
+from ipe_web_kit import releases as kr  # noqa: E402  (load_site · cards_html — release notes module)
+from ipe_web_kit import ui as kui  # noqa: E402  (inline_css — release card styles)
 
 GAMES_FILE = "games.json"
 GAME_KEYS = ("id", "foundry", "name", "name_ko", "domain", "genre", "platforms", "operator", "email", "effective",
@@ -222,25 +224,14 @@ def load_pages(root):
 
 
 def load_releases(root):
+    """-> (kit SiteDoc or None, problems)"""
     f = Path(root) / "content" / "releases.json"
     if not f.is_file():
-        return [], ["content/releases.json: missing"]
+        return None, ["content/releases.json: missing"]
     try:
-        data = json.loads(f.read_text(encoding="utf-8"))
-    except ValueError as ex:
-        return [], ["content/releases.json: %s" % ex]
-    rel = data.get("releases") if isinstance(data, dict) else None
-    if not isinstance(rel, list):
-        return [], ['content/releases.json: top-level "releases" must be a list']
-    return rel, []
-
-
-def sort_releases(entries):
-    """Newest first: higher build number, then later date."""
-    def key(e):
-        b = str(e.get("build", ""))
-        return (int(b) if b.isdigit() else -1, str(e.get("date", "")))
-    return sorted(entries, key=key, reverse=True)
+        return kr.load_site(f), []
+    except (ValueError, KeyError, TypeError) as ex:
+        return None, ["content/releases.json: %s" % ex]
 
 
 def theme_script():
@@ -373,19 +364,10 @@ def build_release_notes(ctx, lang):
     """Release notes page, generated from content/releases.json (newest build first)."""
     t = lambda k: ctx.t(lang, k)  # noqa: E731
     crumbs = [(path_home(lang), t("crumb_home")), (None, t("nav_release_notes"))]
-    rels = []
-    for e in sort_releases(ctx.releases):
-        notes = e.get("notes") if isinstance(e.get("notes"), dict) else {}
-        items = [esc(x) for x in notes.get(lang, []) if isinstance(x, str) and x.strip()]
-        status = str(e.get("status", ""))
-        meta = " · ".join(x for x in (str(e.get("date", "")),
-                                      t("status_testflight") if status == "testflight" else status) if x)
-        rels.append('<section class="rel"><h2>%s · %s %s</h2><p class="rel-meta">%s</p>%s</section>' % (
-            esc(str(e.get("version", ""))), esc(t("release_build")), esc(str(e.get("build", ""))), esc(meta),
-            "<ul>%s</ul>" % "".join("<li>%s</li>" % x for x in items) if items else ""))
-    body = ('%s<article class="prose"><h1>%s</h1><p class="lead">%s</p>%s%s</article>' % (
-        breadcrumb_html(crumbs), esc(t("release_h1")), esc(t("release_intro")), "".join(rels),
-        '<p class="lead">%s</p>' % esc(t("release_empty")) if not rels else ""))
+    cards = kr.cards_html(ctx.releases, lang)
+    body = ('%s%s<article class="prose"><h1>%s</h1><p class="lead">%s</p>%s%s</article>' % (
+        kui.inline_css(), breadcrumb_html(crumbs), esc(t("release_h1")), esc(t("release_intro")), cards,
+        '<p class="lead">%s</p>' % esc(t("release_empty")) if not cards else ""))
     path = path_release(lang)
     page_ld = {"@type": "WebPage", "@id": url(path) + "#page", "url": url(path), "name": t("release_h1"),
                "description": t("release_desc"), "inLanguage": lang, "isPartOf": {"@id": SITE + "/#website"}}
@@ -460,6 +442,8 @@ def make_ctx(root, require_all=False):
     pages, e2 = load_pages(root)
     releases, e3 = load_releases(root)
     errs += e2 + e3
+    if releases is None:
+        releases = kr.parse_site('{"releases": []}')
     langs = [l for l in LANGS if l in i18n and all((l, s) in pages for s in PAGE_SLUGS)]
     if not all(m in langs for m in MAIN_LANGS):
         errs.append("%s must be complete (i18n + %s)" % (" and ".join(MAIN_LANGS), " + ".join(PAGE_SLUGS)))

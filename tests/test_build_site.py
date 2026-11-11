@@ -35,23 +35,26 @@ class SiteTests(unittest.TestCase):
                          '<link rel="alternate" hreflang="ko" href="%s/ko/release-notes/">' % bs.SITE,
                          '<link rel="alternate" hreflang="x-default" href="%s/release-notes/">' % bs.SITE,
                          'href="/assets/site.css?v=%s"' % bs.ASSET_V, 'src="/assets/site.js?v=%s"' % bs.ASSET_V,
-                         'class="rel"'):
+                         'class="ipe-rel" id="1.0.0-3"'):
                 self.assertIn(want, html, key)
         en, ko = files["release-notes/index.html"], files["ko/release-notes/index.html"]
         # both builds, both notes languages
-        for s in ("1.0.0 · Build 2", "1.0.0 · Build 1", "2026-11-11", "The dew total", "First TestFlight build"):
+        for s in ("1.0.0 (3)", "1.0.0 (2)", "1.0.0 (1)", "2026-11-11", "The dew total", "First TestFlight build"):
             self.assertIn(s, en)
-        for s in ("1.0.0 · 빌드 2", "1.0.0 · 빌드 1", "2026-11-11", "이슬 합계", "첫 TestFlight 빌드"):
+        for s in ("1.0.0 (3)", "1.0.0 (2)", "1.0.0 (1)", "2026-11-11", "이슬 합계", "첫 TestFlight 빌드"):
             self.assertIn(s, ko)
         # newest first: build 2 section before build 1
         self.assertLess(en.index("The dew total"), en.index("First TestFlight build"))
         self.assertLess(ko.index("이슬 합계"), ko.index("첫 TestFlight 빌드"))
 
     def test_release_notes_order_newest_first(self):
-        e = lambda b, d: {"build": str(b), "date": d}
-        ordered = bs.sort_releases([e(1, "2026-11-11"), e(10, "2026-11-10"), e(2, "2026-11-11")])
-        self.assertEqual([x["build"] for x in ordered], ["10", "2", "1"])
-        self.assertEqual([x["build"] for x in bs.sort_releases([e(2, "2026-11-12"), e(2, "2026-11-10")])], ["2", "2"])
+        import sys
+        sys.path.insert(0, str(REPO / "vendor"))
+        from ipe_web_kit import releases as kr
+        site = kr.load_site(REPO / "content" / "releases.json")
+        builds = [r.build_int for r in kr.visible(site)]
+        self.assertEqual(builds, sorted(builds, reverse=True))
+        self.assertEqual(builds[:3], [3, 2, 1])
 
     def test_release_notes_links_and_site_files(self):
         files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])

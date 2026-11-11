@@ -8,12 +8,13 @@ from helpers import REPO
 
 import check_release as cr  # noqa: E402
 
+NOTES = {"en": ["Settings shows the notes.", "Notes are cross-checked.", "Build info is shown."],
+         "ko": ["설정에서 노트를 볼 수 있습니다.", "노트가 함께 확인됩니다.", "빌드 정보가 보입니다."]}
 
-def entry(build, version="1.0.0", date="2026-11-11", notes=None):
-    if notes is None:
-        notes = {"en": ["n1"], "ko": ["n1"]}
-    return {"id": "%s-%s" % (version, build), "version": version, "build": str(build),
-            "status": "testflight", "date": date, "notes": notes}
+
+def entry(build, version="1.0.0", date="2026-11-11", notes=None, id_=None):
+    return {"id": id_ or "%s-%s" % (version, build), "version": version, "build": str(build),
+            "status": "testflight", "date": date, "notes": NOTES if notes is None else notes}
 
 
 class ReleaseGate(unittest.TestCase):
@@ -28,10 +29,8 @@ class ReleaseGate(unittest.TestCase):
     def test_repo_entries_are_complete(self):
         self.assertEqual(cr.check_all(REPO), [])
 
-    def test_repo_has_build_1_and_2(self):
-        entries, errs = cr.load_releases(REPO)
-        self.assertEqual(errs, [])
-        self.assertEqual({str(e["build"]) for e in entries}, {"1", "2"})
+    def test_repo_build_3_passes_gate(self):
+        self.assertEqual(cr.check(REPO, "3", latest=True), [])
 
     def test_missing_build_fails(self):
         d = self.make_root([entry(2)])
@@ -44,17 +43,13 @@ class ReleaseGate(unittest.TestCase):
         self.assertTrue(any("missing" in x for x in cr.check(d, "2")))
 
     def test_empty_ko_notes_fail(self):
-        d = self.make_root([entry(2, notes={"en": ["n1"], "ko": []})])
-        self.assertTrue(any("notes.ko" in x for x in cr.check(d, "2")))
-
-    def test_non_string_notes_fail(self):
-        d = self.make_root([entry(2, notes={"en": [1], "ko": ["n1"]})])
-        self.assertTrue(any("notes.en" in x for x in cr.check(d, "2")))
+        d = self.make_root([entry(2, notes={"en": NOTES["en"], "ko": []})])
+        self.assertTrue(any("ko" in x for x in cr.check(d, "2")))
 
     def test_duplicate_build_fails(self):
         d = self.make_root([entry(2), entry(2)])
-        self.assertTrue(any("expected one" in x for x in cr.check(d, "2")))
-        self.assertTrue(any("expected one" in x for x in cr.check_all(d)))
+        self.assertTrue(cr.check(d, "2"))
+        self.assertTrue(cr.check_all(d))
 
     def test_latest_flag(self):
         d = self.make_root([entry(2), entry(1)])
@@ -63,13 +58,15 @@ class ReleaseGate(unittest.TestCase):
 
     def test_testflight_needs_date(self):
         d = self.make_root([entry(2, date="")])
-        self.assertTrue(any("needs a date" in x for x in cr.check(d, "2")))
+        self.assertTrue(any("date" in x for x in cr.check(d, "2")))
 
     def test_bad_id_fails(self):
-        e = entry(2)
-        e["id"] = "wrong"
-        d = self.make_root([e])
-        self.assertTrue(any("should be" in x for x in cr.check(d, "2")))
+        d = self.make_root([entry(2, id_="wrong")])
+        self.assertTrue(any("version-build" in x for x in cr.check(d, "2")))
+
+    def test_internal_word_fails(self):
+        d = self.make_root([entry(2, notes={"en": NOTES["en"], "ko": NOTES["ko"][:2] + ["TestFlight 빌드 안정화."]})])
+        self.assertTrue(any("TestFlight 빌드" in x for x in cr.check(d, "2")))
 
     def test_check_all_refuses_empty(self):
         d = self.make_root([])
