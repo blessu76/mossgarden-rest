@@ -12,6 +12,19 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(bs.DOMAIN, g["domain"])
         self.assertEqual((REPO / "CNAME").read_text().strip(), g["domain"])
 
+    def test_game_langs_come_from_kit_languages(self):
+        from ipe_web_kit import languages as kl
+        g = json.loads((REPO / "games.json").read_text(encoding="utf-8"))
+        for l in g["langs"] + g["main_langs"]:
+            self.assertIn(l, kl.SUPPORTED)
+        for l, (name, _, _) in bs.LANGS.items():
+            self.assertEqual(name, kl.NAMES[l])
+        self.assertEqual(bs.kl.hreflang("pt-BR"), "pt-BR")
+
+    def test_unsupported_game_lang_fails_build(self):
+        with self.assertRaises(SystemExit):
+            bs.check_game_langs({"langs": ["en", "ru"], "main_langs": ["en"]})
+
     def test_all_languages_complete(self):
         ctx = bs.make_ctx(REPO, require_all=True)[0]
         self.assertEqual(set(ctx.langs), set(bs.LANGS))

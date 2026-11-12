@@ -31,10 +31,17 @@ sys.path.insert(0, str(ROOT / "vendor"))
 from ipe_web_kit import seo as kit  # noqa: E402  (esc · org_jsonld · jsonld_script · meta_desc · alternate_links)
 from ipe_web_kit import releases as kr  # noqa: E402  (load_site · cards_html — release notes module)
 from ipe_web_kit import ui as kui  # noqa: E402  (inline_css — release card styles)
+from ipe_web_kit import languages as kl  # noqa: E402  (SUPPORTED · NAMES · hreflang — kit-0029 공통 12개 목록)
 
 GAMES_FILE = "games.json"
 GAME_KEYS = ("id", "foundry", "name", "name_ko", "domain", "genre", "platforms", "operator", "email", "effective",
              "pages_updated", "theme_color", "asset_version", "langs", "main_langs")
+
+
+def check_game_langs(g):
+    bad = [l for l in list(g["langs"]) + list(g["main_langs"]) if l not in kl.SUPPORTED]
+    if bad:
+        raise SystemExit("%s: language not in ipe_web_kit languages.SUPPORTED: %s" % (GAMES_FILE, ", ".join(bad)))
 
 
 def load_game(root):
@@ -43,6 +50,7 @@ def load_game(root):
     miss = [k for k in GAME_KEYS if k not in g]
     if miss:
         raise SystemExit("%s: missing %s" % (GAMES_FILE, ", ".join(miss)))
+    check_game_langs(g)
     return g
 
 
@@ -64,11 +72,9 @@ def brand_name(lang):
     """Brand header + page-title name — ko pages carry the Korean name (consistent with the ko home title)."""
     return GAME["name_ko"] + " (%s)" % NAME if lang == "ko" else NAME
 
-_ALL_LANGS = {
-    "en": ("English", "en_US", "ltr"), "ko": ("한국어", "ko_KR", "ltr"),
-}
+_OG_LOCALE = {"en": "en_US", "ko": "ko_KR"}  # 번역이 있는 언어만 — 새 언어는 번역과 함께 여기에 올린다
 # order = language switcher order (games.json "langs"); en = root, ko = human original
-LANGS = {l: _ALL_LANGS[l] for l in GAME["langs"]}
+LANGS = {l: (kl.NAMES[l], _OG_LOCALE[l], "ltr") for l in GAME["langs"]}
 MAIN_LANGS = tuple(GAME["main_langs"])
 KEYS = (
     "nav_home nav_contact nav_privacy nav_release_notes skip theme_dark theme_light lang_label status_badge "
@@ -261,7 +267,7 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
     head.append('<link rel="canonical" href="%s">' % esc(canonical))
     if hreflang and len(alt) > 1:
         # alternate_links returns one multi-line string — keep it as a single head element
-        head.append(kit.alternate_links({l: url(pth) for l, pth in alt.items()}, x_default=url(alt.get("en", next(iter(alt.values()))))))
+        head.append(kit.alternate_links({kl.hreflang(l): url(pth) for l, pth in alt.items()}, x_default=url(alt.get("en", next(iter(alt.values()))))))
     head += ['<meta property="og:type" content="%s">' % og_type, '<meta property="og:site_name" content="%s">' % esc(NAME),
              '<meta property="og:title" content="%s">' % esc(title), '<meta property="og:description" content="%s">' % esc(kit.meta_desc(desc)),
              '<meta property="og:url" content="%s">' % esc(canonical), '<meta property="og:locale" content="%s">' % og_loc,
@@ -406,7 +412,7 @@ def build_sitemap(ctx):
     for pth, lm, alts in sitemap_entries(ctx):
         rows.append("<url><loc>%s</loc><lastmod>%s</lastmod>" % (esc(url(pth)), lm))
         if len(alts) > 1:
-            rows += ['<xhtml:link rel="alternate" hreflang="%s" href="%s"/>' % (l, esc(url(ap))) for l, ap in alts.items()]
+            rows += ['<xhtml:link rel="alternate" hreflang="%s" href="%s"/>' % (kl.hreflang(l), esc(url(ap))) for l, ap in alts.items()]
             rows.append('<xhtml:link rel="alternate" hreflang="x-default" href="%s"/>' % esc(url(alts.get("en", next(iter(alts.values()))))))
         rows.append("</url>")
     rows.append("</urlset>")
