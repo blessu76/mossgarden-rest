@@ -1,12 +1,12 @@
 #!/bin/bash
 # Green gate for mossgarden-rest — run before every commit. Exit 0 = green.
-#   scripts/check.sh              # kit + sources + release notes + tests + build (into a temp copy) + sitemap check
+#   scripts/check.sh              # kit + sources + tests + build (into a temp copy) + sitemap check
 #   scripts/check.sh --all-langs  # additionally require all languages for every page
 set -euo pipefail
 cd "$(dirname "$0")/.."
 echo "== 0/5 kit"; python3 scripts/kit_lock.py check
 echo "== 1/5 sources"; python3 scripts/build_site.py --check ${1:+--require-all}
-echo "== 2/5 release notes"; python3 scripts/check_release.py --all
+echo "== 2/5 release data (app deploy)"; python3 scripts/check_release.py --all
 echo "== 3/5 unit tests"; python3 -m unittest discover -s tests -q
 echo "== 4/5 build is up to date"
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
