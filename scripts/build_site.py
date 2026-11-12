@@ -72,7 +72,8 @@ def brand_name(lang):
     """Brand header + page-title name — ko pages carry the Korean name (consistent with the ko home title)."""
     return GAME["name_ko"] + " (%s)" % NAME if lang == "ko" else NAME
 
-_OG_LOCALE = {"en": "en_US", "ko": "ko_KR"}  # 번역이 있는 언어만 — 새 언어는 번역과 함께 여기에 올린다
+_OG_LOCALE = {"en": "en_US", "ko": "ko_KR", "ja": "ja_JP", "zh-Hant": "zh_TW", "es": "es_ES", "pt-BR": "pt_BR", "fr": "fr_FR",
+              "de": "de_DE", "id": "id_ID", "th": "th_TH", "vi": "vi_VN", "tr": "tr_TR"}  # kit languages.SUPPORTED 12개 전부
 # order = language switcher order (games.json "langs"); en = root, ko = human original
 LANGS = {l: (kl.NAMES[l], _OG_LOCALE[l], "ltr") for l in GAME["langs"]}
 MAIN_LANGS = tuple(GAME["main_langs"])
@@ -438,8 +439,9 @@ def build_llms(ctx):
     for slug in PAGE_SLUGS:
         rows.append("- [%s](%s%s)" % (ctx.pages[("en", slug)][0]["title"], SITE, path_page("en", slug)))
     rows.append("- [Release notes](%s%s): what each TestFlight build changes, newest first." % (SITE, path_release("en")))
-    rows += ["", "## Languages", "", "The site is available in English and Korean, both written by hand. "
-             "Each language lives under /<code>/ (English at the root).", "",
+    rows += ["", "## Languages", "", "The site is available in 12 languages: %s. English and Korean are written by hand; the others are machine-translated drafts. "
+             "Legal pages (privacy) exist only in English and Korean; other languages link to them. "
+             "Each language lives under /<code>/ (English at the root)." % ", ".join(kl.NAMES[l] for l in ctx.langs), "",
              "## Contact and operator", "", "%s — %s" % (OPERATOR, EMAIL), ""]
     return "\n".join(rows)
 

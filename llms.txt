@@ -21,7 +21,7 @@ Moss Garden is a single-player idle game by ipe() (https://ipe.rest/). It is in 
 
 ## Languages
 
-The site is available in English and Korean, both written by hand. Each language lives under /<code>/ (English at the root).
+The site is available in 12 languages: English, 한국어, 日本語, 繁體中文, Español, Português (Brasil), Français, Deutsch, Bahasa Indonesia, ไทย, Tiếng Việt, Türkçe. English and Korean are written by hand; the others are machine-translated drafts. Legal pages (privacy) exist only in English and Korean; other languages link to them. Each language lives under /<code>/ (English at the root).
 
 ## Contact and operator
 

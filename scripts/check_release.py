@@ -21,6 +21,9 @@ sys.path.insert(0, str(HERE.parent / "vendor"))
 from ipe_web_kit import releases as kr  # noqa: E402
 
 
+REQUIRED = ("ko", "en")  # notes are written by hand in ko+en only; the other site languages fall back to en (kit RN14 = warning)
+
+
 def parse_build(raw):
     """'2' or '1.0.0+2' -> '2'; None if it is neither."""
     m = re.match(r"^(?:\d+(?:\.\d+)*\+)?(\d+)$", str(raw).strip())
@@ -65,10 +68,10 @@ def check(root, build, latest=False):
         return errs
     hits = [r for r in site.releases if r.build == n]
     if not hits:
-        return errs + ["build %s: no entry in content/releases.json (add one with notes for %s)" % (n, " + ".join(ls))]
+        return errs + ["build %s: no entry in content/releases.json (add one with notes for %s)" % (n, " + ".join(REQUIRED))]
     if len(hits) > 1:
         errs.append("build %s: %d entries in content/releases.json, expected one" % (n, len(hits)))
-    errs += _errors(kr.lint_site(site, langs=ls, build=n, site_langs=ls))
+    errs += _errors(kr.lint_site(site, langs=REQUIRED, build=n, site_langs=ls))
     if latest:
         newer = sorted({r.build for r in site.releases if r.build_int > int(n)}, key=int)
         if newer:
@@ -84,7 +87,7 @@ def check_all(root):
         return errs
     if not site.releases:
         return errs + ["content/releases.json: no entries"]
-    return errs + _errors(kr.lint_site(site, langs=ls, site_langs=ls))
+    return errs + _errors(kr.lint_site(site, langs=REQUIRED, site_langs=ls))
 
 
 def main(argv=None):

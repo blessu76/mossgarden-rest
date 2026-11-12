@@ -1,6 +1,6 @@
 # mossgarden-rest
 
-Intro site for **Moss Garden / 이끼정원** (F-027). Static site, GitHub Pages, Python 3.8+ stdlib only, English + Korean.
+Intro site for **Moss Garden / 이끼정원** (F-027). Static site, GitHub Pages, Python 3.8+ stdlib only, 12 languages (en ko ja zh-Hant es pt-BR fr de id th vi tr; en + ko by hand, the rest machine-translated drafts).
 
 - Game name / domain / operator live in ONE place: `games.json` (+ root `CNAME` must equal its `domain`).
 - Build: `python3 scripts/build_site.py` — writes the generated pages, sitemap.xml, robots.txt, llms.txt.
