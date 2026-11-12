@@ -37,5 +37,8 @@
  "release_empty": "아직 릴리즈 노트가 없습니다.",
  "status_testflight": "테스트플라이트",
  "contact_cta": "문의하기",
- "not_found": "이 페이지는 (아직) 없습니다."
+ "not_found": "이 페이지는 (아직) 없습니다.",
+ "store_h": "게임 받기",
+ "terms_soon": "이용약관 · 준비 중",
+ "store_soon": "스토어 페이지 · 준비 중"
 }

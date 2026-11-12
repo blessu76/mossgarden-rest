@@ -37,5 +37,8 @@
  "release_empty": "No release notes yet.",
  "status_testflight": "TestFlight",
  "contact_cta": "Contact",
- "not_found": "This page does not exist (yet)."
+ "not_found": "This page does not exist (yet).",
+ "store_h": "Get the game",
+ "terms_soon": "Terms of Use · coming soon",
+ "store_soon": "Store page · coming soon"
 }

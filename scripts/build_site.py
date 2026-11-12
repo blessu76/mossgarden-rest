@@ -76,7 +76,7 @@ KEYS = (
     "card1_h card1_p card2_h card2_p card3_h card3_p shots_h shots_note "
     "facts_h fact1 fact2 fact3 fact4 fact5 "
     "release_title release_desc release_h1 release_intro release_build release_empty status_testflight "
-    "contact_cta not_found"
+    "contact_cta not_found store_soon store_h terms_soon"
 ).split()
 KST = kit.KST
 # never in public text: local paths, internal tools, secrets
@@ -295,6 +295,7 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
     # privacy is a page now (a clearly marked draft placeholder — legal review still pending)
     foot_page_links = "".join('<a href="%s">%s</a>' % (esc(path_page(lang, s)), esc(t("nav_" + s))) for s in PAGE_SLUGS)
     foot_page_links += '<a href="%s">%s</a>' % (esc(path_release(lang)), esc(t("nav_release_notes")))
+    foot_page_links += '<span class="foot-soon">%s</span>' % esc(t("terms_soon"))
     footer = ('<footer class="site-footer"><div class="wrap"><p class="foot-tag">%s <a href="https://ipe.rest/">ipe.rest</a></p>'
               '<p class="foot-links">%s</p>%s<p class="foot-small">© 2026 ipe() · %s</p></div></footer>') % (
         esc(t("footer_line")), foot_page_links, foot_langs, esc(t("status_badge")))
@@ -332,12 +333,14 @@ def build_home(ctx, lang):
     cards = "".join('<article class="card feat"><h3>%s</h3><p>%s</p></article>' % (esc(t("card%d_h" % i)), esc(t("card%d_p" % i))) for i in (1, 2, 3))
     facts = "".join("<li>%s</li>" % esc(t("fact%d" % i)) for i in range(1, 6))
     body = ('<section class="hero"><div class="hero-text"><p class="badge">%s</p><h1>%s</h1><p class="lead">%s</p>'
-            '<p class="actions"><a class="btn" href="%s">%s</a></p><p class="note">%s</p></div>'
+            '<p class="actions"><a class="btn" href="%s">%s</a></p>'
+            '<div class="stores" aria-label="%s"><span class="store"><b>%s</b></span></div><p class="note">%s</p></div>'
             '<img class="hero-art" src="/assets/hero.svg?v=%s" alt="" width="640" height="720" fetchpriority="high"></section>'
             '<section class="section"><div class="grid three">%s</div></section>'
             '<section class="section shots"><h2>%s</h2><figure class="shot-ph"><figcaption>%s</figcaption></figure></section>'
             '<section class="section facts"><h2>%s</h2><ul>%s</ul></section>') % (
         esc(t("status_badge")), esc(t("hero_h1")), esc(t("hero_lead")), esc(path_page(lang, "contact")), esc(t("contact_cta")),
+        esc(t("store_h")), esc(t("store_soon")),
         esc(t("hero_note")), ASSET_V, cards, esc(t("shots_h")), esc(t("shots_note")), esc(t("facts_h")), facts)
     alt = {l: path_home(l) for l in ctx.langs}
     graph = [kit.ORG, website_ld(lang), game_ld(lang, ctx)]
