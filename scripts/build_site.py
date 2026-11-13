@@ -385,30 +385,33 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
              '<link rel="apple-touch-icon" href="/assets/icon-180.png?v=%s">' % ASSET_V,
              '<link rel="stylesheet" href="/assets/site.css?v=%s">' % ASSET_V, theme_script(),
              kit.jsonld_script({"@context": "https://schema.org", "@graph": graph})]
-    switch = "".join('<li><a href="%s" hreflang="%s" lang="%s"%s>%s</a></li>' % (
-        esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0])) for l, pth in alt.items())
     navlinks = ([(path_home(lang), t("nav_home"), "home"), (path_journal(lang), t("nav_journal"), "journal")]
-                + [(path_page(lang, s), t("nav_" + s), s) for s in PAGE_SLUGS])
+                + [(path_page(lang, s), t("nav_" + s), s) for s in PAGE_SLUGS if s != "privacy"])  # legal pages: footer only
     nav_html = "".join('<a href="%s"%s>%s</a>' % (esc(h), ' aria-current="page"' if nav == k else "", esc(label)) for h, label, k in navlinks)
     bn = brand_name(lang)
     header = ('<header class="site-header"><div class="wrap bar"><a class="brand" href="%s" aria-label="%s">'
               '<img src="/assets/logo.svg?v=%s" alt="" width="28" height="28"><span>%s</span></a>'
               '<nav class="nav" aria-label="main">%s</nav><div class="tools">'
               '<a class="ipe-link" href="https://ipe.rest/">ipe.rest<span aria-hidden="true"> ↗</span></a>'
-              '<details class="lang"><summary aria-label="%s">%s</summary><ul>%s</ul></details>'
               '<button class="theme" type="button" aria-label="%s" data-dark="%s" data-light="%s"><span aria-hidden="true">◐</span></button>'
-              '</div></div></header>') % (esc(path_home(lang)), esc(bn), ASSET_V, esc(bn), nav_html, esc(t("lang_label")), esc(name), switch,
+              '</div></div></header>') % (esc(path_home(lang)), esc(bn), ASSET_V, esc(bn), nav_html,
                                          esc(t("theme_dark")), esc(t("theme_dark")), esc(t("theme_light")))
-    foot_langs = ('<p class="foot-langs" aria-label="%s">%s</p>' % (esc(t("lang_label")), " ".join(
-        '<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0]))
-        for l, pth in alt.items()))) if len(alt) > 1 else ""
+    lang_ui = ""
+    if len(alt) > 1:
+        options = "".join('<option value="%s" lang="%s"%s>%s</option>' % (
+            esc(pth), l, " selected" if l == lang else "", esc(LANGS[l][0])) for l, pth in alt.items())
+        noscript_links = " ".join('<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (
+            esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0])) for l, pth in alt.items())
+        lang_ui = ('<div class="foot-lang"><label for="lang-select">%s</label><select id="lang-select" class="lang-select">%s</select></div>'
+                   '<noscript><p class="foot-langs" aria-label="%s">%s</p></noscript>') % (
+            esc(t("lang_label")), options, esc(t("lang_label")), noscript_links)
     # privacy is a page now (a clearly marked draft placeholder — legal review still pending)
     foot_page_links = '<a href="%s">%s</a>' % (esc(path_journal(lang)), esc(t("nav_journal")))
     foot_page_links += "".join('<a href="%s">%s</a>' % (esc(path_page(lang, s)), esc(t("nav_" + s))) for s in PAGE_SLUGS)
     foot_page_links += '<span class="foot-soon">%s</span>' % esc(t("terms_soon"))
     footer = ('<footer class="site-footer"><div class="wrap"><p class="foot-tag">%s <a href="https://ipe.rest/">ipe.rest</a></p>'
               '<p class="foot-links">%s</p>%s<p class="foot-small">© 2026 ipe() · %s</p></div></footer>') % (
-        esc(t("footer_line")), foot_page_links, foot_langs, esc(t("status_badge")))
+        esc(t("footer_line")), foot_page_links, lang_ui, esc(t("status_badge")))
     return ('<!doctype html>\n<!-- %s -->\n<html lang="%s" dir="%s" data-ads="off"><head>%s</head><body>'
             '<a class="skip" href="#main">%s</a>%s<main id="main" class="wrap">%s</main>%s'
             '<script src="/assets/site.js?v=%s" defer></script></body></html>\n') % (

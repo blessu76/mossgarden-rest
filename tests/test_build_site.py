@@ -206,3 +206,60 @@ class JournalTests(unittest.TestCase):
         self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, good.replace("iOS", "phone")))
         self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, good.replace("### Q2?\na2\n", "")))
         self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T" * 80}, good))
+
+
+class LayoutTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
+        cls.pages = {k: v for k, v in cls.files.items() if k.endswith("index.html") or k == "404.html"}
+
+    def regions(self, html):
+        header = re.search(r"<header.*?</header>", html, re.S).group(0)
+        footer = re.search(r"<footer.*?</footer>", html, re.S).group(0)
+        return header, footer, re.sub(r"<noscript>.*?</noscript>", "", footer, flags=re.S)
+
+    def test_every_page_and_language_is_generated(self):
+        for l in bs.LANGS:
+            for slug in ("", "contact/", "privacy/", "journal/"):
+                key = (l + "/" if l != "en" else "") + slug + "index.html"
+                self.assertIn(key, self.pages, key)
+
+    def test_legal_links_only_in_footer(self):
+        for key, html in self.pages.items():
+            header, _, _ = self.regions(html)
+            self.assertIsNone(re.search(r'href="[^"]*privacy/"', header), key)
+            self.assertNotIn("terms", header, key)
+            self.assertNotIn("<details", header, key)
+
+    def test_footer_has_privacy_link(self):
+        for key, html in self.pages.items():
+            _, footer, _ = self.regions(html)
+            self.assertRegex(footer, r'href="(?:/[a-zA-Z-]+)?/privacy/"', key)
+
+    def test_language_select_with_label_and_targets(self):
+        for key, html in self.pages.items():
+            if key == "404.html":
+                continue
+            _, _, footer = self.regions(html)
+            self.assertRegex(footer, r'<label for="lang-select">[^<]+</label>', key)
+            self.assertEqual(footer.count('<select id="lang-select"'), 1, key)
+            values = re.findall(r'<option value="([^"]+)" lang="[^"]+"', footer)
+            self.assertEqual(len(values), len(bs.LANGS), key)
+            for v in values:
+                target = v.lstrip("/") + ("index.html" if v.endswith("/") else "")
+                self.assertIn(target, self.files, (key, v))
+            self.assertEqual(len(re.findall(r"<option [^>]*selected", footer)), 1, key)
+
+    def test_no_one_line_language_list_outside_noscript(self):
+        for key, html in self.pages.items():
+            _, _, footer = self.regions(html)
+            self.assertNotIn('class="foot-langs"', footer, key)
+            self.assertNotIn("hreflang=", footer, key)
+            if key != "404.html":
+                self.assertIn('<noscript><p class="foot-langs"', html, key)
+
+    def test_select_script_is_shipped(self):
+        js = (REPO / "assets" / "site.js").read_text(encoding="utf-8")
+        self.assertIn("lang-select", js)
+        self.assertIn("location.href", js)
