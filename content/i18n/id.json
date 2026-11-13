@@ -1,5 +1,6 @@
 {
  "nav_home": "Beranda",
+ "nav_journal": "Jurnal",
  "nav_contact": "Kontak",
  "nav_privacy": "Kebijakan Privasi",
  "skip": "Langsung ke konten",
@@ -32,5 +33,10 @@
  "not_found": "Halaman ini tidak ada (belum).",
  "store_h": "Dapatkan game-nya",
  "terms_soon": "Ketentuan Penggunaan · segera hadir",
- "store_soon": "Halaman toko · segera hadir"
+ "store_soon": "Halaman toko · segera hadir",
+ "journal_title": "Jurnal pembuatan",
+ "journal_desc": "Satu cerita singkat setiap hari tentang proses pembuatan Moss Garden.",
+ "journal_back": "← Semua tulisan",
+ "journal_fallback": "Tulisan ini ditampilkan dalam bahasa Inggris; terjemahannya belum tersedia.",
+ "journal_empty": "Tulisan pertama segera hadir."
 }

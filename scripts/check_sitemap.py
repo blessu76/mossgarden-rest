@@ -8,7 +8,7 @@ Offline checks
   1. sitemap.xml is valid XML and every <loc> is on the game domain (games.json).
   2. every <loc> has a file on disk (index.html of that path).
   3. (reserved)
-  4. home + every page in PAGE_SLUGS exist for every language that has a home page.
+  4. home + /journal/ + every page in PAGE_SLUGS exist for every language that has a home page.
   5. hreflang: lists itself + x-default, every target is itself in the sitemap, references are reciprocal.
   6. no <lastmod> or post time is in the future.
 """
@@ -48,7 +48,7 @@ def check(root, now=None):
             errs.append("lastmod in the future: %s %s" % (u, lastmod[u]))
     homes = [l for l in bs.LANGS if bs.url(bs.path_home(l)) in urls]
     for l in homes:
-        for path in tuple(bs.path_page(l, p) for p in bs.PAGE_SLUGS):
+        for path in tuple(bs.path_page(l, p) for p in bs.PAGE_SLUGS) + (bs.path_journal(l),):
             if bs.url(path) not in urls:
                 errs.append("missing from sitemap: %s" % bs.url(path))
     for loc, links in urls.items():

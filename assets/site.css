@@ -60,6 +60,12 @@ blockquote{margin:1.2em 0;padding:.2em 1em;border-inline-start:4px solid var(--c
 pre{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto;font-size:14px}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:var(--chip);padding:1px 5px;border-radius:5px}
 pre code{background:none;padding:0}
+.post-list{display:grid;gap:14px;margin:24px 0}
+.post-card{padding:16px 20px;overflow-wrap:anywhere}
+.post-card h2{margin:.1em 0 .3em;font-size:1.15rem}
+.post-card p{margin:.3em 0;color:var(--muted)}
+.post-date{margin:0 0 .4em;color:var(--muted);font-size:14px}
+.post p,.post h1{overflow-wrap:anywhere}
 .site-footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:14px}
 .site-footer p{margin:.3em 0}
 .foot-tag{font-size:15px}

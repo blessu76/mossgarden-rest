@@ -1,5 +1,6 @@
 {
  "nav_home": "Ana sayfa",
+ "nav_journal": "Günlük",
  "nav_contact": "İletişim",
  "nav_privacy": "Gizlilik Politikası",
  "skip": "İçeriğe geç",
@@ -32,5 +33,10 @@
  "not_found": "Bu sayfa mevcut değil (henüz).",
  "store_h": "Oyunu edinin",
  "terms_soon": "Kullanım Koşulları · yakında",
- "store_soon": "Mağaza sayfası · yakında"
+ "store_soon": "Mağaza sayfası · yakında",
+ "journal_title": "Yapım günlüğü",
+ "journal_desc": "Moss Garden'ın nasıl yapıldığına dair her gün kısa bir hikâye.",
+ "journal_back": "← Tüm yazılar",
+ "journal_fallback": "Bu yazı İngilizce gösteriliyor; çeviri henüz yok.",
+ "journal_empty": "İlk yazı yakında geliyor."
 }

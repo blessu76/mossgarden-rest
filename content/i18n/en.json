@@ -1,5 +1,6 @@
 {
  "nav_home": "Home",
+ "nav_journal": "Journal",
  "nav_contact": "Contact",
  "nav_privacy": "Privacy Policy",
  "skip": "Skip to content",
@@ -32,5 +33,10 @@
  "not_found": "This page does not exist (yet).",
  "store_h": "Get the game",
  "terms_soon": "Terms of Use · coming soon",
- "store_soon": "Store page · coming soon"
+ "store_soon": "Store page · coming soon",
+ "journal_title": "Production journal",
+ "journal_desc": "One short story a day about how Moss Garden is made.",
+ "journal_back": "← All posts",
+ "journal_fallback": "This post is shown in English; a translation is not available yet.",
+ "journal_empty": "The first post is coming soon."
 }

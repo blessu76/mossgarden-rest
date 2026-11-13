@@ -1,5 +1,6 @@
 {
  "nav_home": "ホーム",
+ "nav_journal": "ジャーナル",
  "nav_contact": "お問い合わせ",
  "nav_privacy": "プライバシーポリシー",
  "skip": "本文へスキップ",
@@ -32,5 +33,10 @@
  "not_found": "このページはまだ存在しません。",
  "store_h": "ゲームを入手する",
  "terms_soon": "利用規約 · 近日公開",
- "store_soon": "ストアページ · 近日公開"
+ "store_soon": "ストアページ · 近日公開",
+ "journal_title": "制作ジャーナル",
+ "journal_desc": "苔の庭ができるまでの話を、1日1本ずつお届けします。",
+ "journal_back": "← すべての記事",
+ "journal_fallback": "この記事はまだ翻訳がないため、英語で表示しています。",
+ "journal_empty": "最初の記事はまもなく公開されます。"
 }

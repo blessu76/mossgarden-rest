@@ -1,5 +1,6 @@
 {
  "nav_home": "Trang chủ",
+ "nav_journal": "Nhật ký",
  "nav_contact": "Liên hệ",
  "nav_privacy": "Chính sách quyền riêng tư",
  "skip": "Chuyển đến nội dung",
@@ -32,5 +33,10 @@
  "not_found": "Trang này không tồn tại (hoặc chưa có).",
  "store_h": "Tải trò chơi",
  "terms_soon": "Điều khoản sử dụng · sắp có",
- "store_soon": "Trang cửa hàng · sắp có"
+ "store_soon": "Trang cửa hàng · sắp có",
+ "journal_title": "Nhật ký phát triển",
+ "journal_desc": "Mỗi ngày một câu chuyện ngắn về cách Moss Garden được làm ra.",
+ "journal_back": "← Tất cả bài viết",
+ "journal_fallback": "Bài viết này hiển thị bằng tiếng Anh vì chưa có bản dịch.",
+ "journal_empty": "Bài viết đầu tiên sắp ra mắt."
 }

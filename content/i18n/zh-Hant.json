@@ -1,5 +1,6 @@
 {
  "nav_home": "首頁",
+ "nav_journal": "日誌",
  "nav_contact": "聯絡我們",
  "nav_privacy": "隱私權政策",
  "skip": "跳至主要內容",
@@ -32,5 +33,10 @@
  "not_found": "這個頁面不存在(或還沒有)。",
  "store_h": "取得遊戲",
  "terms_soon": "使用條款 · 即將推出",
- "store_soon": "商店頁面 · 即將推出"
+ "store_soon": "商店頁面 · 即將推出",
+ "journal_title": "製作日誌",
+ "journal_desc": "每天一篇，分享《苔蘚庭園》的製作故事。",
+ "journal_back": "← 所有文章",
+ "journal_fallback": "這篇文章尚無翻譯，以英文顯示。",
+ "journal_empty": "第一篇文章即將發布。"
 }

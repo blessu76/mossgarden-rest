@@ -137,3 +137,32 @@ class TwelveLanguageTests(unittest.TestCase):
             html = files[l + "/privacy/index.html"]
             self.assertIn('href="/privacy/"', html, l)
             self.assertIn('href="/ko/privacy/"', html, l)
+
+
+class JournalTests(unittest.TestCase):
+    def build(self, today):
+        return bs.build_all(bs.make_ctx(REPO, require_all=True, today=today)[0])
+
+    def test_future_posts_are_not_built(self):
+        files = self.build("2026-11-13")
+        self.assertIn("journal/dew-decimals/index.html", files)
+        self.assertNotIn("journal/garden-redesign/index.html", files)
+        self.assertIn("journal/garden-redesign/index.html", self.build("2026-11-14"))
+
+    def test_ko_original_and_en_fallback(self):
+        files = self.build("2026-11-13")
+        self.assertIn('<html lang="ko"', files["ko/journal/dew-decimals/index.html"])
+        self.assertIn('<div lang="ko">', files["ko/journal/dew-decimals/index.html"])
+        self.assertIn('<div lang="en">', files["ja/journal/dew-decimals/index.html"])
+        self.assertIn('class="note"', files["ja/journal/dew-decimals/index.html"])
+
+    def test_nav_footer_sitemap_hreflang(self):
+        files = self.build("2026-11-13")
+        for l in bs.LANGS:
+            home = files[(l + "/" if l != "en" else "") + "index.html"]
+            self.assertIn('href="%s"' % bs.path_journal(l), home, l)
+            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_journal(l)), files["sitemap.xml"])
+            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_post(l, "dew-decimals")), files["sitemap.xml"])
+            page = files[bs.path_post(l, "dew-decimals").strip("/") + "/index.html"]
+            self.assertEqual(page.count('rel="alternate" hreflang='), 13, l)
+        self.assertNotIn("release-notes", files["sitemap.xml"])

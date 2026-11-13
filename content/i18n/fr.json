@@ -1,5 +1,6 @@
 {
  "nav_home": "Accueil",
+ "nav_journal": "Journal",
  "nav_contact": "Contact",
  "nav_privacy": "Politique de confidentialité",
  "skip": "Aller au contenu",
@@ -32,5 +33,10 @@
  "not_found": "Cette page n'existe pas (encore).",
  "store_h": "Obtenir le jeu",
  "terms_soon": "Conditions d'utilisation · bientôt disponibles",
- "store_soon": "Page du store · bientôt disponible"
+ "store_soon": "Page du store · bientôt disponible",
+ "journal_title": "Journal de fabrication",
+ "journal_desc": "Une courte histoire par jour sur la fabrication de Moss Garden.",
+ "journal_back": "← Tous les articles",
+ "journal_fallback": "Cet article est affiché en anglais ; la traduction n'est pas encore disponible.",
+ "journal_empty": "Le premier article arrive bientôt."
 }

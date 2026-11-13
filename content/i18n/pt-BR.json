@@ -1,5 +1,6 @@
 {
  "nav_home": "Início",
+ "nav_journal": "Diário",
  "nav_contact": "Contato",
  "nav_privacy": "Política de privacidade",
  "skip": "Pular para o conteúdo",
@@ -32,5 +33,10 @@
  "not_found": "Esta página não existe (ainda).",
  "store_h": "Baixe o jogo",
  "terms_soon": "Termos de uso · em breve",
- "store_soon": "Página na loja · em breve"
+ "store_soon": "Página na loja · em breve",
+ "journal_title": "Diário de desenvolvimento",
+ "journal_desc": "Uma história curta por dia sobre como o Moss Garden é feito.",
+ "journal_back": "← Todas as publicações",
+ "journal_fallback": "Esta publicação é exibida em inglês; ainda não há tradução.",
+ "journal_empty": "A primeira publicação chega em breve."
 }
