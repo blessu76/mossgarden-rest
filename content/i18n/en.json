@@ -38,5 +38,9 @@
  "journal_desc": "One short story a day about how Moss Garden is made.",
  "journal_back": "← All posts",
  "journal_fallback": "This post is shown in English; a translation is not available yet.",
- "journal_empty": "The first post is coming soon."
+ "journal_empty": "The first post is coming soon.",
+ "post_about_h": "About the game",
+ "label_genre": "Genre",
+ "label_platform": "Platform",
+ "genre_idle": "Idle (incremental)"
 }

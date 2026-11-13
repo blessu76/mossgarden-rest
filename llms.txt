@@ -21,6 +21,8 @@ Moss Garden is a single-player idle game by ipe() (https://ipe.rest/). It is in 
 
 ## Journal posts (English)
 
+Feed: https://mossgarden.ipe.rest/journal/feed.xml (Korean: https://mossgarden.ipe.rest/ko/journal/feed.xml)
+
 - [Why show dew with decimals](https://mossgarden.ipe.rest/journal/dew-decimals/) — 2026-11-13
 
 ## Languages

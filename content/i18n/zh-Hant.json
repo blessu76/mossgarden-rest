@@ -38,5 +38,9 @@
  "journal_desc": "每天一篇，分享《苔蘚庭園》的製作故事。",
  "journal_back": "← 所有文章",
  "journal_fallback": "這篇文章尚無翻譯，以英文顯示。",
- "journal_empty": "第一篇文章即將發布。"
+ "journal_empty": "第一篇文章即將發布。",
+ "post_about_h": "關於遊戲",
+ "label_genre": "類型",
+ "label_platform": "平台",
+ "genre_idle": "放置類"
 }

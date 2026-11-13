@@ -38,5 +38,9 @@
  "journal_desc": "Moss Garden'ın nasıl yapıldığına dair her gün kısa bir hikâye.",
  "journal_back": "← Tüm yazılar",
  "journal_fallback": "Bu yazı İngilizce gösteriliyor; çeviri henüz yok.",
- "journal_empty": "İlk yazı yakında geliyor."
+ "journal_empty": "İlk yazı yakında geliyor.",
+ "post_about_h": "Oyun hakkında",
+ "label_genre": "Tür",
+ "label_platform": "Platform",
+ "genre_idle": "Idle (artımlı)"
 }

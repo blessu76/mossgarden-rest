@@ -38,5 +38,9 @@
  "journal_desc": "Satu cerita singkat setiap hari tentang proses pembuatan Moss Garden.",
  "journal_back": "← Semua tulisan",
  "journal_fallback": "Tulisan ini ditampilkan dalam bahasa Inggris; terjemahannya belum tersedia.",
- "journal_empty": "Tulisan pertama segera hadir."
+ "journal_empty": "Tulisan pertama segera hadir.",
+ "post_about_h": "Tentang game",
+ "label_genre": "Genre",
+ "label_platform": "Platform",
+ "genre_idle": "Idle (inkremental)"
 }

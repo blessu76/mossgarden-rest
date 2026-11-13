@@ -85,7 +85,7 @@ KEYS = (
     "card1_h card1_p card2_h card2_p card3_h card3_p shots_h shots_note "
     "facts_h fact1 fact2 fact3 fact4 fact5 "
     "contact_cta not_found store_soon store_h terms_soon "
-    "journal_title journal_desc journal_back journal_fallback journal_empty"
+    "journal_title journal_desc journal_back journal_fallback journal_empty post_about_h label_genre label_platform genre_idle"
 ).split()
 KST = kit.KST
 # never in public text: local paths, internal tools, secrets
@@ -110,6 +110,11 @@ def path_page(lang, slug):
 
 def path_journal(lang):
     return lp(lang) + "/journal/"
+
+
+def path_feed(lang):
+    """Atom feed: Korean for ko, English for every other language (only ko and en have their own post text)."""
+    return path_journal("ko" if lang == "ko" else "en") + "feed.xml"
 
 
 def path_post(lang, slug):
@@ -242,6 +247,60 @@ def today_kst(override=None):
     return dt.datetime.now(KST).strftime("%Y-%m-%d")
 
 
+def plain(md):
+    """Markdown inline -> plain text (FAQ answers in JSON-LD)."""
+    md = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", md)
+    return re.sub(r"[*`]", "", " ".join(md.split()))
+
+
+def split_faq(body):
+    """-> [(question, answer markdown)] — the FAQ is the LAST '## ' section of a post; every '### ' in it is one question."""
+    lines = body.split("\n")
+    h2 = [i for i, l in enumerate(lines) if l.startswith("## ")]
+    faq, cur = [], None
+    for l in lines[h2[-1] + 1:] if h2 else []:
+        if l.startswith("### "):
+            cur = [l[4:].strip(), []]; faq.append(cur)
+        elif cur is not None:
+            cur[1].append(l)
+    return [(q, "\n".join(a).strip()) for q, a in faq]
+
+
+def summary_of(body):
+    para = []
+    for l in body.split("\n"):
+        if not l.strip():
+            if para: break
+            continue
+        if l.lstrip().startswith("#"):
+            break
+        para.append(l.strip())
+    return " ".join(para)
+
+
+def lint_post(name, lang, meta, body):
+    """GEO template rules for a post text (ko or en): answer-first summary, H2s, FAQ, game name + genre + platform spelled out."""
+    errs = []
+    summ = summary_of(body)
+    if not summ:
+        errs.append("journal/%s: the first block must be a 2-3 sentence summary paragraph that answers the title (no heading first)" % name)
+    elif len(summ) > 450:
+        errs.append("journal/%s: summary paragraph is %d chars (max 450)" % (name, len(summ)))
+    if len(re.findall(r"^## ", body, re.M)) < 2:
+        errs.append("journal/%s: needs at least two '## ' sections (content + the final FAQ section)" % name)
+    faq = split_faq(body)
+    if len(faq) < 2 or any(not a for _, a in faq):
+        errs.append("journal/%s: the last '## ' section must be an FAQ with at least 2 '### question' + answer pairs" % name)
+    low = body.lower()
+    terms = (GAME["name_ko"], "iOS", "방치형") if lang == "ko" else (NAME, "iOS", "idle")
+    for term in terms:
+        if (term.lower() if term == "idle" else term) not in (low if term == "idle" else body):
+            errs.append("journal/%s: body must mention %r (game name, genre and platform)" % (name, term))
+    if len(meta.get("title", "")) > 70:
+        errs.append("journal/%s: title is longer than 70 chars" % name)
+    return errs
+
+
 def load_journal(root, today):
     """-> (posts newest first, errors). A post needs the Korean original and the English version; posts dated after `today` are validated but not returned."""
     posts, errs, found = [], [], {}
@@ -261,6 +320,7 @@ def load_journal(root, today):
         for bad in FORBIDDEN:
             if bad in body or bad in meta.get("title", "") or bad in meta.get("description", ""):
                 errs.append("journal/%s: forbidden text %r" % (f.name, bad))
+        errs += lint_post(f.name, "en" if en else "ko", meta, body)
         found.setdefault((date, slug), {})["en" if en else "ko"] = (meta, body)
     seen = {}
     for (date, slug), v in sorted(found.items(), reverse=True):
@@ -299,17 +359,20 @@ class Ctx:
                 .replace("{{EMAIL}}", EMAIL))
 
 
-def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website", noindex=False, hreflang=True, nav=""):
+def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website", noindex=False, hreflang=True, nav="", canonical_path=None, hl_alt=None):
     t = lambda k: ctx.t(lang, k)  # noqa: E731
     name, og_loc, direction = LANGS[lang]
-    canonical = url(path)
+    canonical = url(canonical_path or path)
     head = ['<meta charset="utf-8">', '<meta name="viewport" content="width=device-width,initial-scale=1">',
             "<title>%s</title>" % esc(title), '<meta name="description" content="%s">' % esc(kit.meta_desc(desc))]
     head.append('<meta name="robots" content="%s">' % ("noindex,follow" if noindex else "index,follow,max-image-preview:large"))
     head.append('<link rel="canonical" href="%s">' % esc(canonical))
-    if hreflang and len(alt) > 1:
+    hl = alt if hl_alt is None else hl_alt  # hreflang set (the language switcher always lists `alt`)
+    if hreflang and len(hl) > 1:
         # alternate_links returns one multi-line string — keep it as a single head element
-        head.append(kit.alternate_links({kl.hreflang(l): url(pth) for l, pth in alt.items()}, x_default=url(alt.get("en", next(iter(alt.values()))))))
+        head.append(kit.alternate_links({kl.hreflang(l): url(pth) for l, pth in hl.items()}, x_default=url(hl.get("en", next(iter(hl.values()))))))
+    if ctx.posts:
+        head.append('<link rel="alternate" type="application/atom+xml" title="%s" href="%s">' % (esc(ctx.t(lang, "journal_title") + " — " + NAME), esc(path_feed(lang))))
     head += ['<meta property="og:type" content="%s">' % og_type, '<meta property="og:site_name" content="%s">' % esc(NAME),
              '<meta property="og:title" content="%s">' % esc(title), '<meta property="og:description" content="%s">' % esc(kit.meta_desc(desc)),
              '<meta property="og:url" content="%s">' % esc(canonical), '<meta property="og:locale" content="%s">' % og_loc,
@@ -375,6 +438,15 @@ def game_ld(lang, ctx):
 
 
 # ---------------------------------------------------------------- page builders
+def latest_posts(ctx, lang):
+    """Home -> journal internal links: the newest posts plus a link to the whole journal."""
+    if not ctx.posts:
+        return ""
+    t = lambda k: ctx.t(lang, k)  # noqa: E731
+    return ('<section class="section"><h2><a href="%s">%s</a></h2><div class="post-list">%s</div></section>') % (
+        esc(path_journal(lang)), esc(t("journal_title")), "".join(post_card(ctx, lang, p) for p in ctx.posts[:3]))
+
+
 def build_home(ctx, lang):
     t = lambda k: ctx.t(lang, k)  # noqa: E731
     cards = "".join('<article class="card feat"><h3>%s</h3><p>%s</p></article>' % (esc(t("card%d_h" % i)), esc(t("card%d_p" % i))) for i in (1, 2, 3))
@@ -385,10 +457,10 @@ def build_home(ctx, lang):
             '<img class="hero-art" src="/assets/hero.svg?v=%s" alt="" width="640" height="720" fetchpriority="high"></section>'
             '<section class="section"><div class="grid three">%s</div></section>'
             '<section class="section shots"><h2>%s</h2><figure class="shot-ph"><figcaption>%s</figcaption></figure></section>'
-            '<section class="section facts"><h2>%s</h2><ul>%s</ul></section>') % (
+            '<section class="section facts"><h2>%s</h2><ul>%s</ul></section>%s') % (
         esc(t("status_badge")), esc(t("hero_h1")), esc(t("hero_lead")), esc(path_page(lang, "contact")), esc(t("contact_cta")),
         esc(t("store_h")), esc(t("store_soon")),
-        esc(t("hero_note")), ASSET_V, cards, esc(t("shots_h")), esc(t("shots_note")), esc(t("facts_h")), facts)
+        esc(t("hero_note")), ASSET_V, cards, esc(t("shots_h")), esc(t("shots_note")), esc(t("facts_h")), facts, latest_posts(ctx, lang))
     alt = {l: path_home(l) for l in ctx.langs}
     graph = [kit.ORG, website_ld(lang), game_ld(lang, ctx)]
     return path_home(lang), render(ctx, lang, path=path_home(lang), title=t("home_title"), desc=t("home_desc"), body=body,
@@ -431,22 +503,64 @@ def build_journal(ctx, lang):
                                       desc=t("journal_desc"), body=body, graph=graph, alt=alt, nav="journal")
 
 
+def game_box(ctx, lang):
+    """Game name + genre + platform as visible text on every post (GEO: the entity is spelled out next to the story)."""
+    t = lambda k: ctx.t(lang, k)  # noqa: E731
+    return ('<aside class="card feat game-box"><h2>%s</h2><p><a href="%s">%s</a></p><dl><dt>%s</dt><dd>%s</dd><dt>%s</dt><dd>%s — %s</dd></dl></aside>') % (
+        esc(t("post_about_h")), esc(path_home(lang)), esc(brand_name(lang)), esc(t("label_genre")), esc(t("genre_idle")),
+        esc(t("label_platform")), esc(", ".join(GAME["platforms"])), esc(t("status_badge")))
+
+
 def build_post(ctx, lang, post):
     t = lambda k: ctx.t(lang, k)  # noqa: E731
     meta, md, tl = post_text(post, lang)
     pth = path_post(lang, post["slug"])
+    own = tl == lang                       # ko/en have their own text; the other 10 languages show English and point canonical at it
+    canon = pth if own else path_post("en", post["slug"])
     crumbs = [(path_home(lang), t("crumb_home")), (path_journal(lang), t("journal_title")), (None, meta["title"])]
-    note = '<p class="note">%s</p>' % esc(t("journal_fallback")) if tl != lang else ""
+    note = '<p class="note">%s</p>' % esc(t("journal_fallback")) if not own else ""
+    modified = meta.get("updated", post["date"])
     body = ('%s<article class="prose post"><p class="post-date"><time datetime="%s">%s</time></p>'
-            '<div lang="%s"><h1>%s</h1>%s</div>%s<p><a href="%s">%s</a></p></article>') % (
-        breadcrumb_html(crumbs), post["date"], post["date"], tl, esc(meta["title"]), markdown(ctx.sub(md)), note,
+            '<div lang="%s"><h1>%s</h1>%s</div>%s%s<p><a href="%s">%s</a></p></article>') % (
+        breadcrumb_html(crumbs), post["date"], post["date"], tl, esc(meta["title"]), markdown(ctx.sub(md)), game_box(ctx, lang), note,
         esc(path_journal(lang)), esc(t("journal_back")))
-    art = {"@type": "BlogPosting", "@id": url(pth) + "#post", "url": url(pth), "headline": meta["title"], "description": meta["description"],
-           "datePublished": post["date"], "dateModified": post["date"], "inLanguage": tl, "author": kit.org_ref(), "publisher": kit.org_ref(),
-           "isPartOf": {"@id": url(path_journal(lang)) + "#blog"}, "image": SITE + OG_IMAGE}
+    org = kit.org_ref()
+    art = {"@type": "BlogPosting", "@id": url(canon) + "#post", "url": url(canon), "mainEntityOfPage": {"@type": "WebPage", "@id": url(canon)},
+           "headline": meta["title"], "description": meta["description"], "datePublished": post["date"], "dateModified": modified,
+           "inLanguage": tl, "author": org, "publisher": org, "isPartOf": {"@id": url(path_journal(tl)) + "#blog"}, "image": SITE + OG_IMAGE,
+           "about": {"@type": "VideoGame", "name": NAME, "url": url(path_home("en")), "genre": [GAME["genre"]], "gamePlatform": GAME["platforms"],
+                     "applicationCategory": "GameApplication"}}
+    graph = [kit.ORG, website_ld(lang), art, breadcrumb_ld(crumbs)]
+    faq = split_faq(md)
+    if faq:
+        graph.append({"@type": "FAQPage", "@id": url(canon) + "#faq", "url": url(canon), "inLanguage": tl,
+                      "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(ctx.sub(a))}} for q, a in faq]})
     alt = {l: path_post(l, post["slug"]) for l in ctx.langs}
+    hl = {l: pp for l, pp in alt.items() if l in ("en", "ko")}   # hreflang only between the two real texts
     return pth, render(ctx, lang, path=pth, title="%s — %s" % (meta["title"], brand_name(lang)), desc=meta["description"], body=body,
-                       graph=[kit.ORG, website_ld(lang), art, breadcrumb_ld(crumbs)], alt=alt, og_type="article", nav="journal")
+                       graph=graph, alt=alt, og_type="article", nav="journal", canonical_path=canon, hl_alt=hl if own else {})
+
+
+def build_feed(ctx, lang):
+    """Atom feed of all published posts in the feed's language (ko or en)."""
+    tl = "ko" if lang == "ko" else "en"
+    stamp = lambda d: d + "T00:00:00+09:00"  # noqa: E731
+    top = ctx.posts[0]["date"] if ctx.posts else PAGES_UPDATED
+    rows = ['<?xml version="1.0" encoding="utf-8"?>', "<!-- %s -->" % GEN_MARK, '<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="%s">' % tl,
+            "<id>%s</id>" % esc(url(path_journal(tl))), "<title>%s</title>" % esc(ctx.t(tl, "journal_title") + " — " + brand_name(tl)),
+            "<subtitle>%s</subtitle>" % esc(ctx.t(tl, "journal_desc")), "<updated>%s</updated>" % stamp(top),
+            '<link rel="self" type="application/atom+xml" href="%s"/>' % esc(url(path_feed(tl))),
+            '<link rel="alternate" type="text/html" href="%s"/>' % esc(url(path_journal(tl))),
+            "<author><name>%s</name></author>" % esc(kit.ORG.get("name", "ipe()"))]
+    for p in ctx.posts:
+        meta, md, _ = post_text(p, tl)
+        rows += ["<entry>", "<id>%s</id>" % esc(url(path_post(tl, p["slug"]))), "<title>%s</title>" % esc(meta["title"]),
+                 '<link rel="alternate" type="text/html" href="%s"/>' % esc(url(path_post(tl, p["slug"]))),
+                 "<published>%s</published>" % stamp(p["date"]), "<updated>%s</updated>" % stamp(meta.get("updated", p["date"])),
+                 "<summary>%s</summary>" % esc(meta["description"]),
+                 '<content type="html">%s</content>' % esc(markdown(ctx.sub(md))), "</entry>"]
+    rows.append("</feed>")
+    return "\n".join(rows) + "\n"
 
 
 def build_404(ctx):
@@ -461,13 +575,14 @@ def sitemap_entries(ctx):
     """[(path, lastmod, {lang: path})]"""
     ents = []
     for l in ctx.langs:
-        ents.append((path_home(l), PAGES_UPDATED, {x: path_home(x) for x in ctx.langs}))
+        ents.append((path_home(l), max([PAGES_UPDATED] + [p["date"] for p in ctx.posts]), {x: path_home(x) for x in ctx.langs}))
         for slug in PAGE_SLUGS:
             if (l, slug) in ctx.pages:
                 ents.append((path_page(l, slug), PAGES_UPDATED, {x: path_page(x, slug) for x in ctx.langs if (x, slug) in ctx.pages}))
         ents.append((path_journal(l), max([PAGES_UPDATED] + [p["date"] for p in ctx.posts]), {x: path_journal(x) for x in ctx.langs}))
-        for p in ctx.posts:
-            ents.append((path_post(l, p["slug"]), p["date"], {x: path_post(x, p["slug"]) for x in ctx.langs}))
+        if l in ("en", "ko"):   # the other languages' post pages repeat the English text and point canonical at it — not listed
+            for p in ctx.posts:
+                ents.append((path_post(l, p["slug"]), p["date"], {x: path_post(x, p["slug"]) for x in ("en", "ko") if x in ctx.langs}))
     return ents
 
 
@@ -504,7 +619,7 @@ def build_llms(ctx):
     for slug in PAGE_SLUGS:
         rows.append("- [%s](%s%s)" % (ctx.pages[("en", slug)][0]["title"], SITE, path_page("en", slug)))
     if ctx.posts:
-        rows += ["", "## Journal posts (English)", ""]
+        rows += ["", "## Journal posts (English)", "", "Feed: %s%s (Korean: %s%s)" % (SITE, path_feed("en"), SITE, path_feed("ko")), ""]
         rows += ["- [%s](%s%s) — %s" % (p["en"][0]["title"], SITE, path_post("en", p["slug"]), p["date"]) for p in ctx.posts]
     rows += ["", "## Languages", "", "The site is available in 12 languages: %s. English and Korean are written by hand; the others are machine-translated drafts. "
              "Legal pages (privacy) exist only in English and Korean; other languages link to them. "
@@ -546,6 +661,8 @@ def build_all(ctx):
         for slug in PAGE_SLUGS:
             put(*build_page(ctx, l, slug))
         put(*build_journal(ctx, l))
+        if l in ("en", "ko") and ctx.posts:
+            files[path_feed(l).lstrip("/")] = build_feed(ctx, l)
         for p in ctx.posts:
             put(*build_post(ctx, l, p))
     files["404.html"] = build_404(ctx)

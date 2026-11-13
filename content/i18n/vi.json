@@ -38,5 +38,9 @@
  "journal_desc": "Mỗi ngày một câu chuyện ngắn về cách Moss Garden được làm ra.",
  "journal_back": "← Tất cả bài viết",
  "journal_fallback": "Bài viết này hiển thị bằng tiếng Anh vì chưa có bản dịch.",
- "journal_empty": "Bài viết đầu tiên sắp ra mắt."
+ "journal_empty": "Bài viết đầu tiên sắp ra mắt.",
+ "post_about_h": "Về trò chơi",
+ "label_genre": "Thể loại",
+ "label_platform": "Nền tảng",
+ "genre_idle": "Idle (nhàn rỗi)"
 }

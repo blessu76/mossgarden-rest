@@ -38,5 +38,9 @@
  "journal_desc": "Uma história curta por dia sobre como o Moss Garden é feito.",
  "journal_back": "← Todas as publicações",
  "journal_fallback": "Esta publicação é exibida em inglês; ainda não há tradução.",
- "journal_empty": "A primeira publicação chega em breve."
+ "journal_empty": "A primeira publicação chega em breve.",
+ "post_about_h": "Sobre o jogo",
+ "label_genre": "Gênero",
+ "label_platform": "Plataforma",
+ "genre_idle": "Idle (incremental)"
 }

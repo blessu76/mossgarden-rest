@@ -64,6 +64,12 @@ pre code{background:none;padding:0}
 .post-card{padding:16px 20px;overflow-wrap:anywhere}
 .post-card h2{margin:.1em 0 .3em;font-size:1.15rem}
 .post-card p{margin:.3em 0;color:var(--muted)}
+.game-box{margin-top:2em;overflow-wrap:anywhere}
+.game-box h2{margin:0 0 .3em;font-size:1.05rem}
+.game-box dl{margin:.4em 0 0;display:grid;grid-template-columns:max-content 1fr;gap:.2em 1em}
+.game-box dt{color:var(--muted)}
+.game-box dd{margin:0}
+.post h2{margin-top:1.6em}
 .post-date{margin:0 0 .4em;color:var(--muted);font-size:14px}
 .post p,.post h1{overflow-wrap:anywhere}
 .site-footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:14px}

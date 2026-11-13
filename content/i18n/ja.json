@@ -38,5 +38,9 @@
  "journal_desc": "苔の庭ができるまでの話を、1日1本ずつお届けします。",
  "journal_back": "← すべての記事",
  "journal_fallback": "この記事はまだ翻訳がないため、英語で表示しています。",
- "journal_empty": "最初の記事はまもなく公開されます。"
+ "journal_empty": "最初の記事はまもなく公開されます。",
+ "post_about_h": "ゲームについて",
+ "label_genre": "ジャンル",
+ "label_platform": "プラットフォーム",
+ "genre_idle": "放置系"
 }

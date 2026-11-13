@@ -162,7 +162,47 @@ class JournalTests(unittest.TestCase):
             home = files[(l + "/" if l != "en" else "") + "index.html"]
             self.assertIn('href="%s"' % bs.path_journal(l), home, l)
             self.assertIn("<loc>%s</loc>" % bs.url(bs.path_journal(l)), files["sitemap.xml"])
-            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_post(l, "dew-decimals")), files["sitemap.xml"])
             page = files[bs.path_post(l, "dew-decimals").strip("/") + "/index.html"]
-            self.assertEqual(page.count('rel="alternate" hreflang='), 13, l)
+            self.assertIn('<link rel="canonical" href="%s">' % bs.url(bs.path_post(l if l in ("en", "ko") else "en", "dew-decimals")), page, l)
+            # hreflang only between the two real texts; fallback pages carry none
+            self.assertEqual(page.count('rel="alternate" hreflang='), 3 if l in ("en", "ko") else 0, l)
+            self.assertEqual("<loc>%s</loc>" % bs.url(bs.path_post(l, "dew-decimals")) in files["sitemap.xml"], l in ("en", "ko"), l)
         self.assertNotIn("release-notes", files["sitemap.xml"])
+
+    def test_geo_jsonld_and_feed(self):
+        import json
+        import re
+        import xml.dom.minidom as md
+        files = self.build("2026-11-17")
+        for path, html in files.items():
+            if not path.endswith(".html"):
+                continue
+            blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+            self.assertTrue(blocks, path)
+            for b in blocks:
+                json.loads(b)
+        for l in ("en", "ko", "ja"):
+            html = files[bs.path_post(l, "safe-saves").strip("/") + "/index.html"]
+            nodes = [n for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S) for n in json.loads(b).get("@graph", [])]
+            types = {n["@type"]: n for n in nodes}
+            post, faq = types["BlogPosting"], types["FAQPage"]
+            for k in ("headline", "description", "author", "datePublished", "dateModified", "inLanguage", "image", "mainEntityOfPage"):
+                self.assertTrue(post.get(k), (l, k))
+            self.assertEqual(post["about"]["@type"], "VideoGame")
+            self.assertEqual(post["about"]["gamePlatform"], ["iOS"])
+            self.assertGreaterEqual(len(faq["mainEntity"]), 2)
+            self.assertIn('rel="alternate" type="application/atom+xml"', html)
+            self.assertIn("<h2", html)
+        for f in ("journal/feed.xml", "ko/journal/feed.xml"):
+            dom = md.parseString(files[f].encode("utf-8"))
+            self.assertEqual(len(dom.getElementsByTagName("entry")), 5, f)
+        self.assertIn("journal/feed.xml", files["llms.txt"])
+        self.assertIn("/journal/safe-saves/", files["llms.txt"])
+
+    def test_lint_rejects_non_template_posts(self):
+        good = "Moss Garden is an idle game for iOS. It shows things.\n\n## A\n\ntext\n\n## FAQ\n\n### Q1?\na1\n\n### Q2?\na2\n"
+        self.assertEqual(bs.lint_post("x.en.md", "en", {"title": "T"}, good), [])
+        self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, "## Heading first\n\ntext\n"))
+        self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, good.replace("iOS", "phone")))
+        self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, good.replace("### Q2?\na2\n", "")))
+        self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T" * 80}, good))
