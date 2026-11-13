@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- TEMPLATE: the home-directory placeholder below is filled in by ops/install_launchd.sh (launchd does not expand ~ or $HOME). The repo never installs or loads it. Random afternoon slot: journal_gate.sh runs every 15 min 12:00-18:45 and decides — StartCalendarInterval uses the Mac's LOCAL time, so the Mac's time zone must be KST (TZ below only affects the script). -->
+<!-- TEMPLATE: the home-directory placeholder below is filled in by ops/install_launchd.sh (launchd does not expand ~ or $HOME). The job runs ONLY in the dedicated publish clone ~/ipe-publish/mossgarden-rest (never the work clone ~/Developer/mossgarden-rest). The repo never installs or loads it. Random afternoon slot: journal_gate.sh runs every 15 min 12:00-18:45 and decides — StartCalendarInterval uses the Mac's LOCAL time, so the Mac's time zone must be KST (TZ below only affects the script). -->
 <plist version="1.0">
 <dict>
   <key>Label</key><string>rest.ipe.mossgarden-publish</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>__HOME__/Developer/mossgarden-rest/ops/journal_gate.sh</string>
+    <string>__HOME__/ipe-publish/mossgarden-rest/ops/journal_gate.sh</string>
   </array>
   <key>StartCalendarInterval</key>
   <array>
@@ -41,7 +41,7 @@
     <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>45</integer></dict>
   </array>
   <key>EnvironmentVariables</key>
-  <dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string><key>TZ</key><string>Asia/Seoul</string><key>GIT_TERMINAL_PROMPT</key><string>0</string><key>MOSSGARDEN_PUBLISH_DIR</key><string>__HOME__/Developer/mossgarden-rest</string></dict>
+  <dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string><key>TZ</key><string>Asia/Seoul</string><key>GIT_TERMINAL_PROMPT</key><string>0</string><key>MOSSGARDEN_PUBLISH_DIR</key><string>__HOME__/ipe-publish/mossgarden-rest</string></dict>
   <key>StandardOutPath</key><string>__HOME__/Library/Logs/mossgarden-publish.log</string>
   <key>StandardErrorPath</key><string>__HOME__/Library/Logs/mossgarden-publish.log</string>
   <key>RunAtLoad</key><false/>

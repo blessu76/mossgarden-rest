@@ -5,8 +5,9 @@
 # Needs: python3, git (non-interactive push access to origin), network for the live check / IndexNow.
 #
 # Safety rules (same as the sibling inkisle-rest ops)
-#   - Runs only in a dedicated publish clone (MOSSGARDEN_PUBLISH_DIR, default ~/Developer/mossgarden-rest) checked out on `main` with a clean tree;
-#     otherwise it does nothing and exits 0 (see the log). Never point it at a clone where feature branches / work in progress live.
+#   - Runs only in a dedicated publish clone (MOSSGARDEN_PUBLISH_DIR, default ~/ipe-publish/mossgarden-rest; origin = the real origin) that is marked
+#     `git config ipe.publishClone true` (ops/install_launchd.sh sets it), checked out on `main` with a clean tree; otherwise it does nothing and
+#     exits 0 (see the log). The rollback uses reset --hard / clean, so never point it at a clone where feature branches / work in progress live.
 #   - Local commits not yet on origin/main (a previous push failed) are pushed first.
 #   - Publishing is all-or-nothing: if anything before the commit fails, the tree is reset to the commit it started from.
 #   - One run at a time: .git/publish.lock (stale after its process is gone or 3 h).
@@ -22,7 +23,7 @@ export GIT_TERMINAL_PROMPT=0     # under launchd nobody can type a password: fai
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S') KST] publish_daily: $*"; }
 skip() { log "SKIP — $*"; exit 0; }
 
-REPO="${MOSSGARDEN_PUBLISH_DIR:-$HOME/Developer/mossgarden-rest}"
+REPO="${MOSSGARDEN_PUBLISH_DIR:-$HOME/ipe-publish/mossgarden-rest}"
 CHECK_CMD="${MOSSGARDEN_CHECK_CMD:-bash scripts/check.sh}"
 KIT_DIR="${MOSSGARDEN_KIT_DIR:-$HOME/Developer/ipe_web_kit}"
 KIT_CHECK_CMD="${MOSSGARDEN_KIT_CHECK_CMD:-python3 scripts/kit_lock.py check}"
@@ -33,6 +34,8 @@ PUBLISH_PATHS="index.html 404.html sitemap.xml llms.txt robots.txt journal conta
 
 [ -d "$REPO/.git" ] || skip "$REPO is not a git clone"
 cd "$REPO"
+[ "$(git config --local --get ipe.publishClone 2>/dev/null || true)" = "true" ] \
+  || skip "$REPO is not marked as a publish clone (git config ipe.publishClone true) — refusing to run reset/clean here"
 
 lock="$REPO/.git/publish.lock"
 if ! mkdir "$lock" 2>/dev/null; then
