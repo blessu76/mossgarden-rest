@@ -81,9 +81,16 @@ class InstallLaunchd(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0)
 
 
+# Frozen copies of a real post (they satisfy the build_site content rules); the tests plant them under TODAY.
+POST_KO = '---\ntitle: "첫 TestFlight 빌드가 올라간 과정"\ndescription: "MVP를 끝내고 내부 테스트용 첫 빌드를 올리기까지, 배포 스크립트가 한 번 멈춘 이야기입니다."\n---\niOS용 방치형 게임 이끼정원의 첫 MVP를, 배포 스크립트가 첫 시도를 한 번 멈춰 세운 뒤에 내부 테스트용 TestFlight 1.0.0(1)로 올렸습니다. 처리에 3분쯤 걸렸고, 심사 제출이나 외부 공개는 하지 않았습니다.\n\n## MVP에 담은 것\n\n첫 MVP는 식물 8종, 오프라인 정산, 계절, 도감, 저장, 설정까지 담아 한 덩어리로 맞췄습니다. 그리고 내부 테스트용 TestFlight 1.0.0(1)로 올렸습니다. 업로드가 처리되는 데 3분쯤 걸렸고, 심사 제출이나 외부 공개는 하지 않았습니다.\n\n## 첫 시도는 실패했습니다\n\n배포 스크립트 안에서 테스트 통과 검사(그린 게이트)를 돌릴 때, 「번호를 올리지 않는다」는 환경 변수가 테스트 쪽으로 새어 들어가 테스트가 깨졌고, 스크립트는 그 자리에서 멈췄습니다. 멈춰 준 덕분에 잘못된 빌드는 올라가지 않았습니다. 하위 프로세스가 바깥 환경을 물려받지 않도록 고친 뒤에 다시 올렸습니다.\n\n배포가 번거로워도 테스트가 그린이 아니면 올리지 않는 규칙은 계속 가져갑니다.\n\n## 자주 묻는 질문\n\n### 이끼정원의 첫 TestFlight 빌드에는 무엇이 들어 있나요?\n식물 8종, 오프라인 정산, 계절, 도감, 저장, 설정이며 내부 테스트용 1.0.0(1)로 올렸습니다.\n\n### 이끼정원은 App Store 심사에 제출됐나요?\n아니요. 이 빌드는 내부 테스트용으로만 올렸고, 심사 제출은 하지 않았습니다.\n'
+POST_EN = '---\ntitle: "How the first TestFlight build went up"\ndescription: "After finishing the MVP, the first internal build went up, but the deploy script stopped us once along the way."\n---\nThe first MVP of Moss Garden, an idle game for iOS, went up to TestFlight as 1.0.0 (1) for internal testing after a deploy script stopped the first attempt. Processing took about three minutes, and the build was not submitted for review or opened to external testers.\n\n## What was in the MVP\n\nThe first MVP came together with eight plants, offline settlement, seasons, a collection book, saving and settings. We then uploaded it to TestFlight as 1.0.0 (1) for internal testing. Processing took about three minutes, and we did not submit it for review or open it to external testers.\n\n## The first attempt failed\n\nWhen the deploy script ran the green gate, an environment variable meaning "don\'t bump the build number" leaked into the tests and broke them, and the script stopped right there. Thanks to that stop, no bad build was uploaded. We fixed it so child processes no longer inherit the outer environment, then uploaded again.\n\nDeploys can be a hassle, but we keep the rule: if the tests aren\'t green, nothing ships.\n\n## FAQ\n\n### What was in the first Moss Garden TestFlight build?\nEight plants, offline settlement, seasons, a collection book, saving and settings, uploaded as 1.0.0 (1) for internal testing.\n\n### Has Moss Garden been submitted for App Store review?\nNo. This build was only uploaded for internal testing, and we did not submit it for review.\n'
+
+
 @unittest.skipUnless((REPO / "vendor" / "ipe_web_kit").is_dir(), "vendor/ipe_web_kit not installed")
 class PublishDaily(unittest.TestCase):
-    TODAY = "2026-11-15"        # a post dated this day exists in content/journal/ but is not built into the committed site yet
+    # A synthetic post dated this day is planted in the seed (see seed_unbuilt_today): the tests must not depend on
+    # which real posts the daily bot has already published, or on the wall clock (MOSSGARDEN_TODAY pins "today").
+    TODAY = "2040-06-15"
 
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
@@ -95,6 +102,7 @@ class PublishDaily(unittest.TestCase):
         seed = self.tmp / "seed"
         seed.mkdir()
         subprocess.run(f"git archive HEAD | tar -x -C {seed}", shell=True, cwd=REPO, check=True)
+        self.seed_unbuilt_today(seed)
         git("init", "-q", "-b", "main", cwd=seed)
         git("add", "-A", cwd=seed)
         git("commit", "-q", "-m", "seed", cwd=seed)
@@ -105,6 +113,20 @@ class PublishDaily(unittest.TestCase):
         git("config", "--local", "ipe.publishClone", "true", cwd=self.clone)
         self.add_translations_for_today()
         self.set_review(None)
+
+    def seed_unbuilt_today(self, seed):
+        """Make the seed's journal deterministic: drop real posts that are not built yet, add one unbuilt post dated TODAY (ko + en)."""
+        journal = seed / "content" / "journal"
+        for ko in journal.glob("????-??-??-*.md"):
+            if ko.name.count(".") != 1:
+                continue
+            slug = ko.stem[len("2026-11-14-"):]
+            if not (seed / "journal" / slug / "index.html").exists():
+                for f in journal.glob(ko.stem + ".*md"):
+                    f.unlink()
+                ko.unlink(missing_ok=True)
+        for suffix, text in (("", POST_KO), (".en", POST_EN)):
+            (journal / ("%s-first-testflight%s.md" % (self.TODAY, suffix))).write_text(text, encoding="utf-8")
 
     def add_translations_for_today(self):
         journal = self.clone / "content" / "journal"
