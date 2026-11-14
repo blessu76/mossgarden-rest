@@ -2,6 +2,7 @@
 # Daily journal publish (one post a day, in the random afternoon slot picked by ops/journal_gate.py):
 #   pull -> push leftovers -> build the site "as of today" (the post dated today appears) -> green gate -> commit -> push -> live check -> IndexNow.
 # Posts are written ahead as content/journal/<YYYY-MM-DD>-<slug>{,.en}.md; a post dated in the future is simply not built yet (scripts/build_site.py).
+# Today's post publishes only when both files carry `copy_review: iris YYYY-MM-DD` in their front matter (otherwise NO_COPY_REVIEW + nothing to publish).
 # Needs: python3, git (non-interactive push access to origin), network for the live check / IndexNow.
 #
 # Safety rules (same as the sibling inkisle-rest ops)
@@ -100,6 +101,25 @@ fi
 slug="$(basename "$post" .md)"; slug="${slug#"$TODAY"-}"
 ahead="$(ls content/journal/*.md 2>/dev/null | grep -v '\.en\.md$' | awk -F/ '{print substr($3,1,10)}' | awk -v t="$TODAY" '$0>t' | sort -u | wc -l | tr -d ' ')"
 [ "$ahead" -gt 2 ] || log "QUEUE_LOW $ahead — only $ahead day(s) of posts written after today; write more soon"
+
+copy_review_ok() {
+  [ -f "$1" ] || return 1
+  local fm
+  fm="$(awk 'NR==1 && /^---[ \t]*$/ {f=1; next} f && /^---[ \t]*$/ {exit} f' "$1")"
+  grep -Eq '^copy_review: iris [0-9]{4}-[0-9]{2}-[0-9]{2}$' <<< "$fm"
+}
+pending=0
+for f in $(ls content/journal/*.md 2>/dev/null | grep -v '\.en\.md$'); do
+  d="$(basename "$f" | cut -c1-10)"
+  [[ "$d" > "$TODAY" ]] || continue
+  copy_review_ok "$f" || pending=$((pending + 1))
+done
+log "COPY_REVIEW_PENDING $pending"
+unreviewed=0
+for f in "$post" "${post%.md}.en.md"; do
+  copy_review_ok "$f" || { log "NO_COPY_REVIEW — $f"; unreviewed=1; }
+done
+if [ "$unreviewed" = 1 ]; then log "nothing to publish"; exit 0; fi
 
 base="$(git rev-parse HEAD)"
 stage=prepublish
