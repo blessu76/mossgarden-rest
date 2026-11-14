@@ -1,6 +1,9 @@
 import json
 import re
+import shutil
+import tempfile
 import unittest
+from pathlib import Path
 
 from helpers import REPO
 import build_site as bs
@@ -216,6 +219,41 @@ class JournalTests(unittest.TestCase):
     def test_copy_review_survives_front_matter_parsing(self):
         meta, _ = bs.parse_front('---\ntitle: "T"\ncopy_review: iris 2026-11-14\n---\n\nbody\n')
         self.assertEqual(meta["copy_review"], "iris 2026-11-14")
+
+    def fixture(self, skip=()):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, True)
+        shutil.copy(REPO / "games.json", tmp / "games.json")
+        if (REPO / "CNAME").exists():
+            shutil.copy(REPO / "CNAME", tmp / "CNAME")
+        shutil.copytree(REPO / "content", tmp / "content")
+        journal = tmp / "content" / "journal"
+        en = (journal / "2026-11-14-garden-redesign.en.md").read_text(encoding="utf-8")
+        en = re.sub(r"^copy_review:.*\n", "", en, flags=re.M).replace("\n---\n", "\ncopy_review: iris 2026-11-14\n---\n", 1)
+        for l in bs.LANGS:
+            if l in ("ko", "en") or l in skip:
+                continue
+            (journal / ("2026-11-14-garden-redesign.%s.md" % l)).write_text(en, encoding="utf-8")
+        return tmp
+
+    def test_complete_post_gets_twelve_pages_and_hreflang_13(self):
+        root = self.fixture()
+        files = bs.build_all(bs.make_ctx(root, require_all=True, today="2026-11-14")[0])
+        for l in bs.LANGS:
+            page = files[bs.path_post(l, "garden-redesign").strip("/") + "/index.html"]
+            self.assertIn('<div lang="%s">' % l, page, l)
+            self.assertEqual(page.count('rel="alternate" hreflang='), 13, l)
+            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_post(l, "garden-redesign")), files["sitemap.xml"], l)
+
+    def test_incomplete_post_falls_back_without_hreflang(self):
+        root = self.fixture(skip=("ja",))
+        files = bs.build_all(bs.make_ctx(root, require_all=True, today="2026-11-14")[0])
+        page = files[bs.path_post("ja", "garden-redesign").strip("/") + "/index.html"]
+        self.assertIn('<div lang="en">', page)
+        self.assertEqual(page.count('rel="alternate" hreflang='), 0)
+        self.assertNotIn("<loc>%s</loc>" % bs.url(bs.path_post("ja", "garden-redesign")), files["sitemap.xml"])
+        ko = files[bs.path_post("ko", "garden-redesign").strip("/") + "/index.html"]
+        self.assertEqual(ko.count('rel="alternate" hreflang='), 3)
 
 
 class LayoutTests(unittest.TestCase):

@@ -1,4 +1,5 @@
 """ops/install_launchd.sh and ops/publish_daily.sh: install checks (KST, publish clone) and the publish path against a throw-away bare origin (no network, no real push)."""
+import json
 import os
 import re
 import shutil
@@ -11,6 +12,7 @@ import helpers
 from helpers import REPO
 
 OPS = REPO / "ops"
+JOURNAL_LANGS = json.loads((REPO / "games.json").read_text(encoding="utf-8"))["langs"]
 GIT_ENV = {"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t", "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
 
 
@@ -94,7 +96,22 @@ class PublishDaily(unittest.TestCase):
         git("clone", "-q", str(self.origin), str(self.clone), cwd=self.tmp)
         shutil.copytree(REPO / "vendor", self.clone / "vendor", dirs_exist_ok=True)
         git("config", "--local", "ipe.publishClone", "true", cwd=self.clone)
+        self.add_translations_for_today()
         self.set_review(None)
+
+    def add_translations_for_today(self):
+        journal = self.clone / "content" / "journal"
+        en = (journal / ("%s-garden-redesign.en.md" % self.TODAY)).read_text(encoding="utf-8")
+        for lang in JOURNAL_LANGS:
+            if lang in ("ko", "en"):
+                continue
+            (journal / ("%s-garden-redesign.%s.md" % (self.TODAY, lang))).write_text(en, encoding="utf-8")
+
+    def push_journal(self, msg):
+        git("add", "content/journal", cwd=self.clone)
+        if sh(["git", "diff", "--cached", "--quiet"], cwd=self.clone).returncode:
+            git("commit", "-q", "-m", msg, cwd=self.clone)
+            git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
 
     def run_publish(self, **extra):
         opts = {"MOSSGARDEN_PUBLISH_DIR": str(self.clone), "MOSSGARDEN_SKIP_NET": "1", "MOSSGARDEN_CHECK_CMD": "true",
@@ -114,10 +131,7 @@ class PublishDaily(unittest.TestCase):
             if value:
                 text = text.replace("\n---\n", "\ncopy_review: %s\n---\n" % value, 1)
             f.write_text(text, encoding="utf-8")
-        git("add", "content/journal", cwd=self.clone)
-        if sh(["git", "diff", "--cached", "--quiet"], cwd=self.clone).returncode:
-            git("commit", "-q", "-m", "test: copy review", cwd=self.clone)
-            git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        self.push_journal("test: copy review")
 
     def mark_reviewed(self, value=None, en=True):
         self.set_review(value or "iris %s" % self.TODAY, en=en)
@@ -147,7 +161,7 @@ class PublishDaily(unittest.TestCase):
         before = self.head(self.origin)
         r = self.run_publish()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("NO_COPY_REVIEW — content/journal/%s-" % self.TODAY, r.stdout)
+        self.assertIn("NO_COPY_REVIEW content/journal/%s-" % self.TODAY, r.stdout)
         self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), before)
         self.assertEqual(git("status", "--porcelain", cwd=self.clone), "")
@@ -156,7 +170,7 @@ class PublishDaily(unittest.TestCase):
         self.mark_reviewed(en=False)
         before = self.head(self.origin)
         r = self.run_publish()
-        self.assertIn("NO_COPY_REVIEW — content/journal/%s-" % self.TODAY, r.stdout)
+        self.assertIn("NO_COPY_REVIEW content/journal/%s-" % self.TODAY, r.stdout)
         self.assertIn(".en.md", r.stdout)
         self.assertEqual(self.head(self.origin), before)
 
@@ -167,12 +181,58 @@ class PublishDaily(unittest.TestCase):
         self.assertIn("NO_COPY_REVIEW", r.stdout)
         self.assertEqual(self.head(self.origin), before)
 
+    def test_all_twelve_languages_reviewed_publishes(self):
+        self.mark_reviewed()
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn("LANG_MISSING", r.stdout)
+        self.assertNotIn("NO_COPY_REVIEW", r.stdout)
+        self.assertIn("publish_daily: pushed ", r.stdout.strip().splitlines()[-1])
+
+    def test_missing_language_file_skips(self):
+        self.mark_reviewed()
+        (self.clone / "content" / "journal" / ("%s-garden-redesign.ja.md" % self.TODAY)).unlink()
+        self.push_journal("test: drop ja")
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("LANG_MISSING content/journal/%s-garden-redesign.ja.md" % self.TODAY, r.stdout)
+        self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
+        self.assertEqual(self.head(self.origin), before)
+
+    def test_one_language_without_copy_review_skips(self):
+        self.mark_reviewed()
+        ja = self.clone / "content" / "journal" / ("%s-garden-redesign.ja.md" % self.TODAY)
+        ja.write_text(re.sub(r"^copy_review:.*\n", "", ja.read_text(encoding="utf-8"), flags=re.M), encoding="utf-8")
+        self.push_journal("test: ja not reviewed")
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("NO_COPY_REVIEW content/journal/%s-garden-redesign.ja.md" % self.TODAY, r.stdout)
+        self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
+        self.assertEqual(self.head(self.origin), before)
+
+    def test_already_published_post_is_not_blocked_by_missing_languages(self):
+        journal = self.clone / "content" / "journal"
+        self.assertTrue((journal / ("%s-garden-redesign.md" % self.TODAY)).exists())
+        files = {"2026-11-12-old-post%s.md" % suffix: (journal / ("%s-garden-redesign%s.md" % (self.TODAY, suffix))).read_text(encoding="utf-8")
+                 for suffix in ("", ".en")}
+        self.add_posts_to_origin(files)
+        (self.clone / "journal" / "old-post").mkdir(parents=True)
+        (self.clone / "journal" / "old-post" / "index.html").write_text("<!doctype html>", encoding="utf-8")
+        git("add", "journal", cwd=self.clone)
+        git("commit", "-q", "-m", "test: old post published", cwd=self.clone)
+        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        self.mark_reviewed()
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn("LANG_MISSING content/journal/2026-11-12", r.stdout)
+        self.assertIn("publish_daily: pushed ", r.stdout.strip().splitlines()[-1])
+
     def add_posts_to_origin(self, files):
         for name, text in files.items():
             (self.clone / "content" / "journal" / name).write_text(text, encoding="utf-8")
-        git("add", "content/journal", cwd=self.clone)
-        git("commit", "-q", "-m", "test: journal posts", cwd=self.clone)
-        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        self.push_journal("test: journal posts")
 
     def unreviewed_copy_of(self, src, dst_name):
         text = re.sub(r"^copy_review:.*\n", "", src.read_text(encoding="utf-8"), flags=re.M)
@@ -187,7 +247,7 @@ class PublishDaily(unittest.TestCase):
         before = self.head(self.origin)
         r = self.run_publish()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("NO_COPY_REVIEW — content/journal/2026-11-13-unreviewed-", r.stdout)
+        self.assertIn("NO_COPY_REVIEW content/journal/2026-11-13-unreviewed-", r.stdout)
         self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), before)
 
@@ -217,12 +277,8 @@ class PublishDaily(unittest.TestCase):
     def test_counts_unreviewed_future_posts(self):
         n = self.pending_count(self.run_publish())
         journal = self.clone / "content" / "journal"
-        for src in sorted(journal.glob("%s-*.md" % self.TODAY)):
-            suffix = ".en.md" if src.name.endswith(".en.md") else ".md"
-            shutil.copy(src, journal / ("2099-01-01-pending-check" + suffix))
-        git("add", "content/journal", cwd=self.clone)
-        git("commit", "-q", "-m", "test: future post", cwd=self.clone)
-        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        shutil.copy(journal / ("%s-garden-redesign.md" % self.TODAY), journal / "2099-01-01-pending-check.md")
+        self.push_journal("test: future post")
         self.assertEqual(self.pending_count(self.run_publish()), n + 1)
 
     def test_no_post_today_is_nothing_to_publish(self):

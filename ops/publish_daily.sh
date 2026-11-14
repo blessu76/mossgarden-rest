@@ -92,14 +92,26 @@ if ! bash -c "$KIT_CHECK_CMD" >/dev/null 2>&1; then
   log "kit re-synced: $sync_out"
 fi
 
+# The post files are the Korean sources (<date>-<slug>.md); every other language is <date>-<slug>.<lang>.md next to it.
+JOURNAL_LANGS="$(python3 -c 'import json,sys; print(" ".join(l for l in json.load(open("games.json"))["langs"] if l != "ko"))')"
+ko_posts() {
+  local f b
+  for f in content/journal/*.md; do
+    [ -f "$f" ] || continue
+    b="$(basename "$f")"
+    [[ "$b" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$ ]] || continue
+    printf '%s\n' "$f"
+  done
+}
+
 # Which post is today's? No post dated today = nothing to publish (done for today, the series simply has a gap — make it loud in the log).
-post="$(ls content/journal/"$TODAY"-*.md 2>/dev/null | grep -v '\.en\.md$' | head -1 || true)"
+post="$(ko_posts | grep "/$TODAY-" | head -1 || true)"
 if [ -z "$post" ]; then
   log "NO_POST — no content/journal/$TODAY-*.md; write more posts ahead or the daily series has a gap"
   log "nothing to publish"; exit 0
 fi
 slug="$(basename "$post" .md)"; slug="${slug#"$TODAY"-}"
-ahead="$(ls content/journal/*.md 2>/dev/null | grep -v '\.en\.md$' | awk -F/ '{print substr($3,1,10)}' | awk -v t="$TODAY" '$0>t' | sort -u | wc -l | tr -d ' ')"
+ahead="$(ko_posts | awk -F/ '{print substr($3,1,10)}' | awk -v t="$TODAY" '$0>t' | sort -u | wc -l | tr -d ' ')"
 [ "$ahead" -gt 2 ] || log "QUEUE_LOW $ahead — only $ahead day(s) of posts written after today; write more soon"
 
 copy_review_ok() {
@@ -109,19 +121,29 @@ copy_review_ok() {
   grep -Eq '^copy_review: iris [0-9]{4}-[0-9]{2}-[0-9]{2}$' <<< "$fm"
 }
 pending=0
-for f in $(ls content/journal/*.md 2>/dev/null | grep -v '\.en\.md$'); do
+for f in $(ko_posts); do
   d="$(basename "$f" | cut -c1-10)"
   [[ "$d" > "$TODAY" ]] || continue
   copy_review_ok "$f" || pending=$((pending + 1))
 done
 log "COPY_REVIEW_PENDING $pending"
-unreviewed=""
-for f in $(ls content/journal/*.md 2>/dev/null); do
+
+# A post dated up to today that is not yet live must have all 12 language files, each with copy_review.
+# Already-published posts (journal/<slug>/index.html on main) are never blocked.
+blocked=0
+for f in $(ko_posts); do
   d="$(basename "$f" | cut -c1-10)"
-  if [[ "$d" > "$TODAY" ]]; then continue; fi
-  copy_review_ok "$f" || unreviewed="$unreviewed $f"
+  [[ "$d" > "$TODAY" ]] && continue
+  s="$(basename "$f" .md)"; s="${s#"$d"-}"
+  [ -f "journal/$s/index.html" ] && continue
+  for l in $JOURNAL_LANGS; do
+    lf="content/journal/$d-$s.$l.md"
+    if [ ! -f "$lf" ]; then log "LANG_MISSING $lf"; blocked=1; continue; fi
+    copy_review_ok "$lf" || { log "NO_COPY_REVIEW $lf"; blocked=1; }
+  done
+  copy_review_ok "$f" || { log "NO_COPY_REVIEW $f"; blocked=1; }
 done
-if [ -n "$unreviewed" ]; then log "NO_COPY_REVIEW — ${unreviewed# }"; log "nothing to publish"; exit 0; fi
+if [ "$blocked" = 1 ]; then log "nothing to publish"; exit 0; fi
 
 base="$(git rev-parse HEAD)"
 stage=prepublish
