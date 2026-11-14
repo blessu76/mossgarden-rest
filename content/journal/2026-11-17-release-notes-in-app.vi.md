@@ -1,6 +1,7 @@
 ---
 title: "Ghi chú phát hành nằm ngay trong ứng dụng"
 description: "Cách chúng tôi để bạn đọc ghi chú cập nhật ngay từ phần cài đặt của ứng dụng."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, một game idle trên iOS, hiển thị ghi chú cập nhật ngay trong ứng dụng: phần cài đặt có mục ghi chú phát hành, phiên bản mới nhất xếp đầu tiên. Ghi chú hiện bằng ngôn ngữ thiết bị của bạn nếu có, nếu không thì bằng tiếng Anh, và bản build thiếu ghi chú tiếng Hàn hoặc tiếng Anh sẽ không được phát hành.
 

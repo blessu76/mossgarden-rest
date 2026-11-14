@@ -1,6 +1,7 @@
 ---
 title: "Pourquoi afficher la rosée avec des décimales"
 description: "La mousse pousse de 0,1 par seconde, mais le compteur de rosée semblait figé. Voici comment nous avons corrigé le format du nombre."
+copy_review: iris 2026-11-14
 ---
 Moss Garden est un jeu idle (incrémental) pour iOS, et son compteur de rosée semblait figé parce qu'il n'affichait que des nombres entiers à partir de dix. Nous affichons désormais deux décimales en dessous de 1 et une décimale en dessous de 1 000, et nous arrondissons à l'inférieur pour que le nombre ne promette jamais plus que ce que vous avez.
 

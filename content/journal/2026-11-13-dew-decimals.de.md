@@ -1,6 +1,7 @@
 ---
 title: "Warum der Tau mit Nachkommastellen angezeigt wird"
 description: "Das Moos wächst um 0,1 pro Sekunde, doch der Tauzähler wirkte wie eingefroren. So haben wir das Zahlenformat korrigiert."
+copy_review: iris 2026-11-14
 ---
 Moss Garden ist ein Idle-Spiel (Incremental) für iOS, und sein Tauzähler wirkte eingefroren, weil er ab zehn nur ganze Zahlen anzeigte. Jetzt zeigen wir unter 1 zwei Nachkommastellen und unter 1.000 eine, und wir runden ab, damit die Zahl nie mehr verspricht, als Sie haben.
 

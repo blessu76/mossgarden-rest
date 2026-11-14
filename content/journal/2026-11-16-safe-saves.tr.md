@@ -1,6 +1,7 @@
 ---
 title: "Kayıt dosyasının iki kopyasını neden tutuyoruz"
 description: "Emek verdiğiniz bahçeyi kaybetmek en kötüsü; bu yüzden kayıt, ana dosya ve yedek olarak ikiye ayrıldı."
+copy_review: iris 2026-11-14
 ---
 iOS için bir idle oyun olan Moss Garden, bahçenizi iki güvenceyle korur: bozulmuş bir kaydı fark eden bir sağlama toplamı ve geri yüklemek için kullanılan, ayrı tutulan bir yedek; geri yükleme olursa size bildirilir. Ödül almak için cihaz saatini geri almak da yakalanır ve o süre hesaba katılmaz.
 

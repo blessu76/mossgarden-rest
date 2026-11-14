@@ -1,12 +1,13 @@
 ---
 title: "Çiyi neden ondalıklı gösteriyoruz"
 description: "Yosun saniyede 0,1 büyüyor ama çiy sayacı donmuş gibiydi. Sayı biçimini böyle düzelttik."
+copy_review: iris 2026-11-14
 ---
-Moss Garden, iOS için bir idle (artımlı) oyundur ve çiy sayacı, ondan itibaren yalnızca tam sayı gösterdiği için donmuş gibi görünüyordu. Artık 1'in altında iki, 1.000'in altında bir ondalık basamak gösteriyoruz ve sayı sahip olduğunuzdan fazlasını vadetmesin diye aşağı yuvarlıyoruz.
+Moss Garden, iOS için bir idle (artımlı) oyundur ve çiy sayacı, on ve üzerindeki değerlerde yalnızca tam sayı gösterdiği için donmuş gibi görünüyordu. Artık 1'in altında iki, 1.000'in altında bir ondalık basamak gösteriyoruz ve sayı sahip olduğunuzdan fazlasını vadetmesin diye aşağı yuvarlıyoruz.
 
 ## Sayı neden donmuş gibiydi
 
-Yosun saniyede 0,1 birikiyordu ama ekranın üstündeki çiy sayısı uzun süre aynı kalıyordu. Bir test kullanıcısı, sayacın saydığını hiç anlayamadığını söyledi. Neden basitti: ondan itibaren yalnızca tam sayı gösteriyorduk.
+Yosun saniyede 0,1 birikiyordu ama ekranın üstündeki çiy sayısı uzun süre aynı kalıyordu. Bir test kullanıcısı, sayacın saydığını hiç anlayamadığını söyledi. Neden basitti: on ve üzerindeki değerlerde yalnızca tam sayı gösteriyorduk.
 
 ## Ne değiştirdik
 

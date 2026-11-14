@@ -1,6 +1,7 @@
 ---
 title: "İlk TestFlight sürümü nasıl yüklendi"
 description: "MVP bittikten sonra ilk dahili sürüm yüklendi, ancak dağıtım betiği yolda bizi bir kez durdurdu."
+copy_review: iris 2026-11-14
 ---
 iOS için bir idle oyun olan Moss Garden'ın ilk MVP'si, dağıtım betiği ilk denemeyi durdurduktan sonra dahili test için 1.0.0 (1) olarak TestFlight'a yüklendi. İşlenmesi yaklaşık üç dakika sürdü; sürüm incelemeye gönderilmedi ve harici test kullanıcılarına açılmadı.
 

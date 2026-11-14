@@ -1,6 +1,7 @@
 ---
 title: "Ngày chúng tôi vẽ lại khu vườn"
 description: "Sau khi nghe nói ứng dụng trông khá nhạt nhẽo, chúng tôi làm lại màn hình khu vườn từ đầu."
+copy_review: iris 2026-11-14
 ---
 Chúng tôi đã vẽ lại màn hình khu vườn của Moss Garden, một game idle trên iOS, sau khi nghe nói giao diện trông nhạt nhẽo. Giờ đây gam màu xanh rừng đậm hơn, có khung cảnh khu vườn lớn với đồi, ao sen và đom đóm, còn đồ trang trí chỉ để ngắm nên không làm thay đổi nhịp chơi.
 

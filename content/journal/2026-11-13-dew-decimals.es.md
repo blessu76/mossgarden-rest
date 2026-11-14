@@ -1,6 +1,7 @@
 ---
 title: "Por qué mostramos el rocío con decimales"
 description: "El musgo crece 0,1 por segundo, pero el contador de rocío parecía congelado. Así arreglamos el formato del número."
+copy_review: iris 2026-11-14
 ---
 Moss Garden es un juego idle (incremental) para iOS, y su contador de rocío parecía congelado porque a partir de diez solo mostraba números enteros. Ahora mostramos dos decimales por debajo de 1 y un decimal por debajo de 1000, y redondeamos hacia abajo para que el número nunca prometa más de lo que tienes.
 

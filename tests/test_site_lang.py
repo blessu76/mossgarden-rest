@@ -14,10 +14,13 @@ const calls = [];
 const sandbox = {
   document: {
     documentElement: { lang: input.lang, getAttribute() { return null; } },
-    querySelectorAll() {
-      return input.alts.map(([hl, href]) => ({ hreflang: hl, getAttribute() { return href; } }));
+    currentScript: { getAttribute(n) { return input.redirect === false ? null : ''; } },
+    getElementById() {
+      const options = input.alts.map(([hl, href]) => ({ lang: hl, value: href }));
+      const idx = Math.max(0, options.findIndex(o => o.lang === input.lang));
+      return { options, selectedIndex: idx };
     },
-    getElementById() { return null; },
+    querySelectorAll() { return []; },
     querySelector() { return null; },
     addEventListener() {},
   },
@@ -27,9 +30,9 @@ const sandbox = {
     setItem() {},
   },
   location: { replace(h) { calls.push(h); }, href: '' },
-  window: { matchMedia() { return { matches: false }; } },
   console,
 };
+sandbox.window = sandbox;
 vm.runInNewContext(fs.readFileSync(input.file, 'utf8'), sandbox);
 process.stdout.write(JSON.stringify(calls));
 """
@@ -41,9 +44,9 @@ DESKTOP = "Mozilla/5.0 (Macintosh) Safari"
 
 @unittest.skipUnless(NODE, "node not installed")
 class SiteLangDetection(unittest.TestCase):
-    def redirect(self, languages, stored=None, lang="en", ua=DESKTOP, alts=ALTS):
-        payload = {"file": str(REPO / "assets" / "site.js"), "lang": lang, "ua": ua, "languages": languages,
-                   "stored": stored, "alts": alts}
+    def redirect(self, languages, stored=None, lang="en", ua=DESKTOP, alts=ALTS, redirect=True):
+        payload = {"file": str(REPO / "assets" / "ipe-lang.js"), "lang": lang, "ua": ua, "languages": languages,
+                   "stored": stored, "alts": alts, "redirect": redirect}
         out = subprocess.run([NODE, "-e", RUNNER, json.dumps(payload)], capture_output=True, text=True, check=True)
         return json.loads(out.stdout)
 
@@ -71,8 +74,8 @@ class SiteLangDetection(unittest.TestCase):
         self.assertEqual(self.redirect(["ja"], stored="en"), [])
 
     def test_language_bound_urls_never_redirect(self):
-        self.assertEqual(self.redirect(["ja"], lang="ja"), [])
-        self.assertEqual(self.redirect(["ja"], stored="ko", lang="ja"), [])
+        self.assertEqual(self.redirect(["ja"], lang="ja", redirect=False), [])
+        self.assertEqual(self.redirect(["ja"], stored="ko", lang="ja", redirect=False), [])
 
     def test_bots_never_redirect(self):
         self.assertEqual(self.redirect(["ja"], ua="Googlebot/2.1"), [])

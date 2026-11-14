@@ -1,6 +1,7 @@
 ---
 title: "Pourquoi nous gardons deux copies de la sauvegarde"
 description: "Perdre un jardin que l'on a fait pousser est le pire, alors la sauvegarde est répartie entre un fichier principal et une copie de secours."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, un jeu idle pour iOS, protège votre jardin avec deux garde-fous : une somme de contrôle qui détecte une sauvegarde endommagée et une copie de secours distincte à partir de laquelle il restaure, en vous prévenant. Reculer l'horloge de l'appareil pour récupérer des récompenses est également détecté, et cette période n'est pas comptabilisée.
 

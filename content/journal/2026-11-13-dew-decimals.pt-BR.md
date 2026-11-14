@@ -1,6 +1,7 @@
 ---
 title: "Por que mostrar o orvalho com casas decimais"
 description: "O musgo cresce 0,1 por segundo, mas o contador de orvalho parecia travado. Assim corrigimos o formato do número."
+copy_review: iris 2026-11-14
 ---
 Moss Garden é um jogo idle (incremental) para iOS, e seu contador de orvalho parecia travado porque mostrava apenas números inteiros a partir de dez. Agora mostramos duas casas decimais abaixo de 1 e uma abaixo de 1.000, e arredondamos para baixo, para que o número nunca prometa mais do que você tem.
 

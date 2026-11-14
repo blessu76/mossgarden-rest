@@ -1,6 +1,7 @@
 ---
 title: "Warum wir den Spielstand zweimal speichern"
 description: "Einen selbst gezogenen Garten zu verlieren ist das Schlimmste, deshalb besteht der Spielstand aus einer Hauptdatei und einem Backup."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, ein Idle-Spiel für iOS, schützt Ihren Garten mit zwei Sicherungen: einer Prüfsumme, die einen beschädigten Spielstand erkennt, und einem separaten Backup, aus dem das Spiel mit einem Hinweis wiederherstellt. Auch das Zurückstellen der Geräteuhr, um Belohnungen abzuholen, wird erkannt, und dieser Zeitraum wird nicht abgerechnet.
 

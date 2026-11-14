@@ -1,6 +1,7 @@
 ---
 title: "Vì sao hiển thị sương với số thập phân"
 description: "Rêu lớn thêm 0,1 mỗi giây, vậy mà bộ đếm sương trông như đứng yên. Đây là cách chúng tôi sửa định dạng số."
+copy_review: iris 2026-11-14
 ---
 Moss Garden là một game idle (tăng dần) trên iOS, và bộ đếm sương từng trông như đứng yên vì chỉ hiển thị số nguyên từ mười trở lên. Giờ chúng tôi hiển thị hai chữ số thập phân khi dưới 1 và một chữ số thập phân khi dưới 1.000, đồng thời làm tròn xuống để con số không bao giờ hứa hẹn nhiều hơn những gì bạn đang có.
 

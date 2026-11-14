@@ -1,6 +1,7 @@
 ---
 title: "El día que redibujamos el jardín"
 description: "Tras oír que la app se veía bastante sosa, rehicimos la pantalla del jardín desde cero."
+copy_review: iris 2026-11-14
 ---
 Redibujamos la pantalla del jardín de Moss Garden, un juego idle para iOS, después de oír que el diseño resultaba soso. Ahora tiene una paleta de bosque más profunda y una gran escena de jardín con colinas, un estanque de lotos y luciérnagas; las decoraciones son solo para mirar y nunca cambian el ritmo del juego.
 

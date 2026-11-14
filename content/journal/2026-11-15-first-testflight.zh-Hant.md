@@ -1,6 +1,7 @@
 ---
 title: "第一個 TestFlight 版本是怎麼上傳的"
 description: "MVP 完成後上傳了第一個內部測試版本,過程中部署腳本曾攔下我們一次。"
+copy_review: iris 2026-11-14
 ---
 iOS 放置(idle)遊戲 Moss Garden 的第一個 MVP,在部署腳本攔下第一次嘗試後,以 1.0.0 (1) 上傳到 TestFlight 供內部測試。處理約花了三分鐘,這個版本沒有送審,也沒有開放給外部測試者。
 

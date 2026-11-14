@@ -1,6 +1,7 @@
 ---
 title: "Le jour où nous avons redessiné le jardin"
 description: "Après avoir entendu que l'appli paraissait plutôt terne, nous avons refait l'écran du jardin de zéro."
+copy_review: iris 2026-11-14
 ---
 Nous avons redessiné l'écran du jardin de Moss Garden, un jeu idle pour iOS, après avoir entendu que le design paraissait terne. Il offre désormais une palette de forêt plus profonde, une grande scène de jardin avec des collines, un étang de lotus et des lucioles, ainsi que des décorations à regarder seulement, qui ne changent jamais le rythme du jeu.
 

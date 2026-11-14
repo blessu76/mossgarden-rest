@@ -1,6 +1,7 @@
 ---
 title: "Der Tag, an dem wir den Garten neu gezeichnet haben"
 description: "Nachdem wir gehört hatten, die App wirke insgesamt eher lahm, haben wir den Gartenbildschirm von Grund auf überarbeitet."
+copy_review: iris 2026-11-14
 ---
 Wir haben den Gartenbildschirm von Moss Garden, einem Idle-Spiel für iOS, neu gezeichnet, nachdem wir gehört hatten, das Design wirke lahm. Er hat jetzt eine tiefere Waldpalette, eine große Gartenszene mit Hügeln, Lotusteich und Glühwürmchen sowie Dekorationen, die nur zum Anschauen da sind und das Tempo des Spiels nie verändern.
 

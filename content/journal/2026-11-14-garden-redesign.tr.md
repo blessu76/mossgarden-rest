@@ -1,6 +1,7 @@
 ---
 title: "Bahçeyi yeniden çizdiğimiz gün"
 description: "Uygulamanın genel olarak sönük göründüğünü duyunca bahçe ekranını baştan elden geçirdik."
+copy_review: iris 2026-11-14
 ---
 iOS için bir idle oyun olan Moss Garden'ın bahçe ekranını, tasarımın sönük durduğunu duyunca yeniden çizdik. Artık daha derin bir orman rengi paleti, tepeler, nilüfer gölü ve ateş böcekleriyle dolu büyük bir bahçe sahnesi var; süsler yalnızca bakmak için olduğundan oyunun temposunu değiştirmez.
 

@@ -1,8 +1,9 @@
 ---
 title: "Por qué guardamos dos copias de la partida"
 description: "Perder un jardín que has hecho crecer es lo peor, así que el guardado se divide en un archivo principal y una copia de seguridad."
+copy_review: iris 2026-11-14
 ---
-Moss Garden, un juego idle para iOS, protege tu jardín con dos salvaguardas: una suma de verificación que detecta un guardado dañado y una copia de seguridad aparte desde la que se restaura, con un aviso. También se detecta que atrases el reloj del dispositivo para cobrar recompensas, y ese tramo no se liquida.
+Moss Garden, un juego idle para iOS, protege tu jardín con dos salvaguardas: una suma de verificación que detecta un guardado dañado y una copia de seguridad aparte desde la que se restaura, con un aviso. También se detecta el truco de atrasar el reloj del dispositivo para cobrar recompensas, y ese tramo no se liquida.
 
 ## Dos salvaguardas para el guardado
 

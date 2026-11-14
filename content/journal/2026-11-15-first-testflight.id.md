@@ -1,6 +1,7 @@
 ---
 title: "Begini build TestFlight pertama naik"
 description: "Setelah MVP selesai, build internal pertama naik, tetapi skrip deploy sempat menghentikan kami satu kali."
+copy_review: iris 2026-11-14
 ---
 MVP pertama Moss Garden, game idle untuk iOS, naik ke TestFlight sebagai 1.0.0 (1) untuk pengujian internal setelah skrip deploy menghentikan percobaan pertama. Pemrosesan memakan waktu sekitar tiga menit, dan build ini tidak diajukan untuk ditinjau maupun dibuka untuk penguji eksternal.
 

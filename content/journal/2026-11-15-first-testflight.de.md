@@ -1,6 +1,7 @@
 ---
 title: "Wie der erste TestFlight-Build hochgeladen wurde"
 description: "Nach dem Abschluss des MVP ging der erste interne Build hoch, doch das Deploy-Skript hat uns unterwegs einmal gestoppt."
+copy_review: iris 2026-11-14
 ---
 Das erste MVP von Moss Garden, einem Idle-Spiel für iOS, wurde als 1.0.0 (1) für interne Tests zu TestFlight hochgeladen, nachdem ein Deploy-Skript den ersten Versuch gestoppt hatte. Die Verarbeitung dauerte etwa drei Minuten, und der Build wurde weder zur Prüfung eingereicht noch für externe Tester geöffnet.
 

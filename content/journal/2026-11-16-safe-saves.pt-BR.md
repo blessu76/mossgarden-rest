@@ -1,6 +1,7 @@
 ---
 title: "Por que guardamos duas cópias do salvamento"
 description: "Perder um jardim que você cultivou é o pior, então o salvamento é dividido em um arquivo principal e um backup."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, um jogo idle para iOS, protege seu jardim com duas salvaguardas: uma soma de verificação que detecta um salvamento danificado e um backup separado do qual ele restaura, com um aviso. Voltar o relógio do aparelho para coletar recompensas também é detectado, e esse intervalo não é contabilizado.
 

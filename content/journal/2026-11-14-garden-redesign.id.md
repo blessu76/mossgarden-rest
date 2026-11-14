@@ -1,6 +1,7 @@
 ---
 title: "Hari kami menggambar ulang taman"
 description: "Setelah mendengar tampilan aplikasi terasa agak membosankan, kami mengerjakan ulang layar taman dari awal."
+copy_review: iris 2026-11-14
 ---
 Kami menggambar ulang layar taman Moss Garden, game idle untuk iOS, setelah mendengar bahwa tampilannya terasa membosankan. Kini warnanya lebih hijau hutan yang pekat, ada pemandangan taman besar dengan bukit, kolam teratai, dan kunang-kunang, serta dekorasi yang hanya untuk dilihat sehingga tidak mengubah tempo permainan.
 
@@ -10,13 +11,13 @@ Masukan paling jujur soal layar taman adalah tampilannya terasa membosankan seca
 
 ## Pemandangan taman
 
-Separuh layar bagian atas kini berupa pemandangan taman yang besar: dua lapis bukit, kolam teratai, bintang dan bulan di malam hari, kunang-kunang saat senja, dan riak lembut ketika kamu menyiram. Panel membulat di bawahnya berpindah antara tanaman dan dekorasi.
+Separuh layar bagian atas kini berupa pemandangan taman yang besar: dua lapis bukit, kolam teratai, bintang dan bulan di malam hari, kunang-kunang saat senja, dan riak lembut ketika Anda menyiram. Panel membulat di bawahnya berpindah antara tanaman dan dekorasi.
 
 ## Dekorasi
 
 Dekorasi dimulai dari batu pijakan, pagar, bangku, dan lentera batu. Semuanya hanya untuk dilihat, jadi tidak berpengaruh pada tempo permainan. Begitu dibeli, dekorasi langsung ditempatkan di posisinya, dan memindahkannya bolak-balik tidak memerlukan biaya.
 
-Mempercantik sesuatu tidak ada habisnya, jadi kami berhenti di satu pertanyaan: apakah ini layar yang ingin kamu buka setiap hari?
+Mempercantik sesuatu tidak ada habisnya, jadi kami berhenti di satu pertanyaan: apakah ini layar yang ingin Anda buka setiap hari?
 
 ## FAQ
 

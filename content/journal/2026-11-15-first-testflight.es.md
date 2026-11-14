@@ -1,6 +1,7 @@
 ---
 title: "Cómo subimos la primera compilación a TestFlight"
 description: "Al terminar el MVP subimos la primera compilación interna, pero el script de despliegue nos frenó una vez por el camino."
+copy_review: iris 2026-11-14
 ---
 El primer MVP de Moss Garden, un juego idle para iOS, se subió a TestFlight como 1.0.0 (1) para pruebas internas después de que un script de despliegue frenara el primer intento. El procesamiento tardó unos tres minutos, y la compilación no se envió a revisión ni se abrió a testers externos.
 

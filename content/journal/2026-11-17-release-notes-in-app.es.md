@@ -1,6 +1,7 @@
 ---
 title: "Las notas de versión viven dentro de la app"
 description: "Cómo hicimos que las notas de actualización se puedan leer desde los ajustes de la app."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, un juego idle para iOS, muestra sus notas de actualización dentro de la app: los ajustes tienen un menú de notas de versión con la versión más reciente primero. Las notas aparecen en el idioma de tu dispositivo si existen y, si no, en inglés, y una compilación a la que le falten las notas en coreano o en inglés no sale.
 

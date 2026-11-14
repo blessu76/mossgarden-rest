@@ -1,6 +1,7 @@
 ---
 title: "O dia em que redesenhamos o jardim"
 description: "Depois de ouvir que o app parecia sem graça no geral, refizemos a tela do jardim do zero."
+copy_review: iris 2026-11-14
 ---
 Redesenhamos a tela do jardim de Moss Garden, um jogo idle para iOS, depois de ouvir que o visual parecia sem graça. Agora há uma paleta de floresta mais profunda, uma grande cena de jardim com colinas, lagoa de lótus e vaga-lumes, e decorações apenas para olhar, que nunca mudam o ritmo do jogo.
 

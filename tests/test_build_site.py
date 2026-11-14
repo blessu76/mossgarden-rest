@@ -291,7 +291,9 @@ class LayoutTests(unittest.TestCase):
             if key == "404.html":
                 continue
             header, _, _ = self.regions(html)
-            self.assertRegex(header, r'<select id="lang-select" class="lang-select" aria-label="[^"]+">', key)
+            self.assertRegex(header, r'<select class="ipe-lang__select" id="ipe-lang-select" aria-label="[^"]+"', key)
+            self.assertLess(header.index("ipe-lang-select"), header.index('<nav class="nav"') + 10**6, key)
+            self.assertNotIn("ipe-lang-select", re.search(r'<nav class="nav".*?</nav>', header, re.S).group(0), key)
             self.assertEqual(header.count("<select"), 1, key)
             values = re.findall(r'<option value="([^"]+)" lang="[^"]+"', header)
             self.assertEqual(len(values), len(bs.LANGS), key)
@@ -304,8 +306,7 @@ class LayoutTests(unittest.TestCase):
         for key, html in self.pages.items():
             _, footer, _ = self.regions(html)
             self.assertNotIn("<select", footer, key)
-            self.assertNotIn("lang-select", footer, key)
-            self.assertNotIn("lang-links", footer, key)
+            self.assertNotIn("ipe-lang", footer, key)
             self.assertNotIn("hreflang=", footer, key)
 
     def test_language_noscript_list_in_header(self):
@@ -313,15 +314,18 @@ class LayoutTests(unittest.TestCase):
             if key == "404.html":
                 continue
             header, _, _ = self.regions(html)
-            self.assertIn('<noscript><p class="lang-links"', header, key)
+            self.assertIn('<noscript><nav class="ipe-lang__links"', header, key)
 
-    def test_site_js_in_head_before_body(self):
+    def test_kit_lang_script_only_on_root_entry_pages(self):
+        langs = [l for l in bs.LANGS if l != "en"]
         for key, html in self.pages.items():
             head = re.search(r"<head>.*?</head>", html, re.S).group(0)
-            self.assertRegex(head, r'<script src="/assets/site\.js\?v=[^"]+"></script>', key)
+            tag = re.search(r'<script src="/assets/ipe-lang\.js\?v=[^"]+"( data-redirect)? defer></script>', head)
+            self.assertIsNotNone(tag, key)
+            root_entry = key != "404.html" and key.split("/")[0] not in langs
+            self.assertEqual(bool(tag.group(1)), root_entry, key)
 
-    def test_site_js_carries_detection_rules(self):
+    def test_site_js_has_no_duplicate_language_code(self):
         js = (REPO / "assets" / "site.js").read_text(encoding="utf-8")
-        for rule in ("'ipe_lang'", "navigator.languages", "location.replace", "zh-Hant", "pt-BR", "'id'",
-                     "bot|crawl|spider|slurp|lighthouse", "documentElement.lang==='en'", "location.href"):
-            self.assertIn(rule, js)
+        for dup in ("ipe_lang", "location.replace", "navigator.languages"):
+            self.assertNotIn(dup, js)

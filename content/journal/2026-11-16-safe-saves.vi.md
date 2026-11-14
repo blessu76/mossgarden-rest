@@ -1,6 +1,7 @@
 ---
 title: "Vì sao chúng tôi giữ hai bản sao của dữ liệu lưu"
 description: "Mất khu vườn đã chăm bao lâu là điều tệ nhất, nên dữ liệu lưu được tách thành tệp chính và bản dự phòng."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, một game idle trên iOS, bảo vệ khu vườn của bạn bằng hai lớp an toàn: checksum phát hiện dữ liệu lưu bị hỏng và một bản dự phòng riêng để khôi phục, kèm thông báo. Việc chỉnh lùi đồng hồ thiết bị để nhận thưởng cũng bị phát hiện, và khoảng thời gian đó không được tính.
 

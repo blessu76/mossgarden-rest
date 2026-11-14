@@ -37,6 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "vendor"))
 from ipe_web_kit import seo as kit  # noqa: E402  (esc · org_jsonld · jsonld_script · meta_desc · alternate_links)
+from ipe_web_kit import langswitch as kls  # noqa: E402  (header language <select> + ipe-lang.js detection, kit v0.7.2)
 from ipe_web_kit import languages as kl  # noqa: E402  (SUPPORTED · NAMES · hreflang — kit-0029 공통 12개 목록)
 
 GAMES_FILE = "games.json"
@@ -64,6 +65,7 @@ GAME = load_game(ROOT)
 NAME = GAME["name"]
 DOMAIN = GAME["domain"]
 SITE = "https://" + DOMAIN
+KIT_LANG_HREFS = {"js": "/assets/ipe-lang.js?v=%s" % kls.asset_version()}
 ASSET_V = GAME["asset_version"]  # bump (games.json) when assets/site.css or site.js change — cache busting ?v=
 PAGES_UPDATED = GAME["pages_updated"]  # sitemap lastmod of the pages — bump by hand (games.json) when their text changes
 OPERATOR = GAME["operator"]
@@ -403,26 +405,20 @@ def render(ctx, lang, *, path, title, desc, body, graph, alt, og_type="website",
              '<link rel="apple-touch-icon" href="/assets/icon-180.png?v=%s">' % ASSET_V,
              '<link rel="stylesheet" href="/assets/site.css?v=%s">' % ASSET_V, theme_script(),
              '<script src="/assets/site.js?v=%s"></script>' % ASSET_V,
+             kls.script(KIT_LANG_HREFS, redirect=(lang == "en" and len(alt) > 1)),  # x-default (root, en) entry only redirects
              kit.jsonld_script({"@context": "https://schema.org", "@graph": graph})]
     navlinks = ([(path_home(lang), t("nav_home"), "home"), (path_journal(lang), t("nav_journal"), "journal")]
                 + [(path_page(lang, s), t("nav_" + s), s) for s in PAGE_SLUGS if s != "privacy"])  # legal pages: footer only
     nav_html = "".join('<a href="%s"%s>%s</a>' % (esc(h), ' aria-current="page"' if nav == k else "", esc(label)) for h, label, k in navlinks)
     bn = brand_name(lang)
-    lang_select, lang_noscript = "", ""
-    if len(alt) > 1:
-        options = "".join('<option value="%s" lang="%s"%s>%s</option>' % (
-            esc(pth), l, " selected" if l == lang else "", esc(LANGS[l][0])) for l, pth in alt.items())
-        lang_select = '<select id="lang-select" class="lang-select" aria-label="%s">%s</select>' % (esc(t("lang_label")), options)
-        noscript_links = " ".join('<a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (
-            esc(pth), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l][0])) for l, pth in alt.items())
-        lang_noscript = '<noscript><p class="lang-links" aria-label="%s">%s</p></noscript>' % (esc(t("lang_label")), noscript_links)
+    lang_select = kls.select_html(lang, lambda l: alt[l], langs=list(alt)) if len(alt) > 1 else ""  # in the header, outside the hamburger
     header = ('<header class="site-header"><div class="wrap bar"><a class="brand" href="%s" aria-label="%s">'
               '<img src="/assets/logo.svg?v=%s" alt="" width="28" height="28"><span>%s</span></a>'
               '<nav class="nav" aria-label="main">%s</nav><div class="tools">%s'
               '<a class="ipe-link" href="https://ipe.rest/">ipe.rest<span aria-hidden="true"> ↗</span></a>'
               '<button class="theme" type="button" aria-label="%s" data-dark="%s" data-light="%s"><span aria-hidden="true">◐</span></button>'
-              '</div></div>%s</header>') % (esc(path_home(lang)), esc(bn), ASSET_V, esc(bn), nav_html, lang_select,
-                                           esc(t("theme_dark")), esc(t("theme_dark")), esc(t("theme_light")), lang_noscript)
+              '</div></div></header>') % (esc(path_home(lang)), esc(bn), ASSET_V, esc(bn), nav_html, lang_select,
+                                    esc(t("theme_dark")), esc(t("theme_dark")), esc(t("theme_light")))
     # privacy is a page now (a clearly marked draft placeholder — legal review still pending)
     foot_page_links = '<a href="%s">%s</a>' % (esc(path_journal(lang)), esc(t("nav_journal")))
     foot_page_links += "".join('<a href="%s">%s</a>' % (esc(path_page(lang, s)), esc(t("nav_" + s))) for s in PAGE_SLUGS)
@@ -737,6 +733,7 @@ def main(argv=None):
         f = root / rel
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text(text, encoding="utf-8")
+    kls.copy_assets(root / "assets")  # ipe-lang.js from the pinned kit
     print("build_site: wrote %d file(s) — %d language(s)" % (len(files), len(ctx.langs)))
     return 0
 

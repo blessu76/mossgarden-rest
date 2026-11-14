@@ -1,6 +1,7 @@
 ---
 title: "Bản build TestFlight đầu tiên đã lên như thế nào"
 description: "Sau khi xong MVP, bản build nội bộ đầu tiên đã lên, nhưng script triển khai từng chặn chúng tôi một lần."
+copy_review: iris 2026-11-14
 ---
 MVP đầu tiên của Moss Garden, một game idle trên iOS, đã lên TestFlight với phiên bản 1.0.0 (1) để thử nghiệm nội bộ sau khi script triển khai chặn lần thử đầu tiên. Quá trình xử lý mất khoảng ba phút, và bản build này không được gửi duyệt cũng như không mở cho người thử nghiệm bên ngoài.
 
