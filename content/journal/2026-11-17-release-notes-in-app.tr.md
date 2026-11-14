@@ -21,7 +21,7 @@ Sürüm notları ayarlarda sessizce durur; yalnızca okumak için.
 ## SSS
 
 ### Moss Garden güncelleme notlarını nerede okuyabilirim?
-Uygulamanın içinde, ayarlar menüsünde; en yeni sürüm sürümü, yapı numarası ve tarihiyle birlikte en üstte yer alır.
+Uygulamanın içinde, ayarlar menüsünde; en yeni sürüm; sürüm numarası, yapı numarası ve tarihiyle birlikte en üstte yer alır.
 
 ### Notlar hangi dilde gösterilir?
 Notu varsa cihazınızın dilinde, yoksa İngilizce.
