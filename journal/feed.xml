@@ -4,10 +4,31 @@
 <id>https://mossgarden.ipe.rest/journal/</id>
 <title>Production journal — Moss Garden</title>
 <subtitle>One short story a day about how Moss Garden is made.</subtitle>
-<updated>2026-11-13T00:00:00+09:00</updated>
+<updated>2026-11-14T00:00:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/"/>
 <author><name>ipe()</name></author>
+<entry>
+<id>https://mossgarden.ipe.rest/journal/garden-redesign/</id>
+<title>The day we redrew the garden</title>
+<link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/garden-redesign/"/>
+<published>2026-11-14T00:00:00+09:00</published>
+<updated>2026-11-14T00:00:00+09:00</updated>
+<summary>After hearing the app looked rather dull overall, we reworked the garden screen from scratch.</summary>
+<content type="html">&lt;p&gt;We redrew the garden screen of Moss Garden, an idle game for iOS, after hearing that the design felt dull. It now has a deeper forest palette, a large garden scene with hills, a lotus pond and fireflies, and view-only decorations that never change the pace of the game.&lt;/p&gt;
+&lt;h2&gt;Starting with color&lt;/h2&gt;
+&lt;p&gt;The most honest feedback on the garden screen was that the design felt dull overall. So we started with color: a deeper forest background, with the moss and dew greens toned down so the screen stays easy on the eyes.&lt;/p&gt;
+&lt;h2&gt;The garden scene&lt;/h2&gt;
+&lt;p&gt;The top half of the screen is now a large garden scene: two layers of hills, a lotus pond, stars and a moon at night, fireflies at dusk, and a soft ripple when you water. A rounded panel below switches between plants and decorations.&lt;/p&gt;
+&lt;h2&gt;Decorations&lt;/h2&gt;
+&lt;p&gt;Decorations began with stepping stones, a fence, a bench and a stone lantern. They are for looking at only, so they have no effect on the pace of the game. Buying one places it in its spot right away, and moving it back and forth costs nothing.&lt;/p&gt;
+&lt;p&gt;Making things pretty never ends, so we stopped at one question: is this a screen you&amp;#x27;d want to open every day?&lt;/p&gt;
+&lt;h2&gt;FAQ&lt;/h2&gt;
+&lt;h3&gt;What changed on the Moss Garden garden screen?&lt;/h3&gt;
+&lt;p&gt;The color palette, a large garden scene with hills, a lotus pond, stars, a moon and fireflies, and a panel that switches between plants and decorations.&lt;/p&gt;
+&lt;h3&gt;Do decorations affect how the game plays?&lt;/h3&gt;
+&lt;p&gt;No. Decorations are for looking at only, so they never change the pace of the idle game.&lt;/p&gt;</content>
+</entry>
 <entry>
 <id>https://mossgarden.ipe.rest/journal/dew-decimals/</id>
 <title>Why show dew with decimals</title>

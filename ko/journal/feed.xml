@@ -4,10 +4,31 @@
 <id>https://mossgarden.ipe.rest/ko/journal/</id>
 <title>제작 저널 — 이끼정원 (Moss Garden)</title>
 <subtitle>이끼정원을 만드는 이야기를 하루에 한 편씩 올립니다.</subtitle>
-<updated>2026-11-13T00:00:00+09:00</updated>
+<updated>2026-11-14T00:00:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/ko/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/"/>
 <author><name>ipe()</name></author>
+<entry>
+<id>https://mossgarden.ipe.rest/ko/journal/garden-redesign/</id>
+<title>정원 화면을 다시 그린 날</title>
+<link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/garden-redesign/"/>
+<published>2026-11-14T00:00:00+09:00</published>
+<updated>2026-11-14T00:00:00+09:00</updated>
+<summary>「앱 디자인이 전반적으로 구리다」는 말을 듣고 정원 화면을 처음부터 다시 정리했습니다.</summary>
+<content type="html">&lt;p&gt;iOS용 방치형 게임 이끼정원의 정원 화면을 「전반적으로 구리다」는 말을 듣고 다시 그렸습니다. 더 깊은 숲색 바탕에, 언덕과 연꽃 연못과 반딧불이 있는 큰 정원 장면을 두었고, 꾸미기는 보기만 하는 장식이라 게임의 속도에는 영향을 주지 않습니다.&lt;/p&gt;
+&lt;h2&gt;색부터 다시&lt;/h2&gt;
+&lt;p&gt;정원 화면에 대한 가장 솔직한 한마디는 「전반적으로 구리다」였습니다. 그래서 색부터 다시 잡았습니다. 더 깊은 숲색 바탕에 이끼색과 이슬색은 채도를 낮춰, 오래 봐도 눈이 편하게 했습니다.&lt;/p&gt;
+&lt;h2&gt;정원 장면&lt;/h2&gt;
+&lt;p&gt;화면 위쪽 절반에는 정원 장면을 크게 두었습니다. 두 겹의 언덕, 연꽃이 있는 연못, 밤하늘의 별과 달, 해질녘의 반딧불을 그렸고 물을 줄 때는 잔잔한 물결이 퍼집니다. 아래의 둥근 판에서는 식물과 꾸미기를 오갑니다.&lt;/p&gt;
+&lt;h2&gt;꾸미기&lt;/h2&gt;
+&lt;p&gt;꾸미기는 디딤돌·울타리·벤치·석등으로 시작했습니다. 보기만 하는 장식이라 게임의 속도에는 영향이 없습니다. 사면 정해진 자리에 바로 놓이고, 치웠다가 다시 놓는 데 값이 들지 않습니다.&lt;/p&gt;
+&lt;p&gt;예쁘게 만드는 일은 끝이 없어서, 우선 「매일 열어 보고 싶은 화면」을 기준으로 멈췄습니다.&lt;/p&gt;
+&lt;h2&gt;자주 묻는 질문&lt;/h2&gt;
+&lt;h3&gt;이끼정원의 정원 화면은 무엇이 바뀌었나요?&lt;/h3&gt;
+&lt;p&gt;색 구성, 언덕·연꽃 연못·별과 달·반딧불이 있는 큰 정원 장면, 그리고 식물과 꾸미기를 오가는 판입니다.&lt;/p&gt;
+&lt;h3&gt;꾸미기가 게임 진행에 영향을 주나요?&lt;/h3&gt;
+&lt;p&gt;아니요. 꾸미기는 보기만 하는 장식이라 방치형 게임의 속도에는 영향을 주지 않습니다.&lt;/p&gt;</content>
+</entry>
 <entry>
 <id>https://mossgarden.ipe.rest/ko/journal/dew-decimals/</id>
 <title>이슬은 왜 소수점으로 보여 줄까</title>
