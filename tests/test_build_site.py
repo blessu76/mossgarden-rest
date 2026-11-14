@@ -156,8 +156,8 @@ class JournalTests(unittest.TestCase):
         files = self.build("2026-11-13")
         self.assertIn('<html lang="ko"', files["ko/journal/dew-decimals/index.html"])
         self.assertIn('<div lang="ko">', files["ko/journal/dew-decimals/index.html"])
-        self.assertIn('<div lang="en">', files["ja/journal/dew-decimals/index.html"])
-        self.assertIn('class="note"', files["ja/journal/dew-decimals/index.html"])
+        self.assertIn('<div lang="ja">', files["ja/journal/dew-decimals/index.html"])
+        self.assertNotIn('class="note"', files["ja/journal/dew-decimals/index.html"])
 
     def test_nav_footer_sitemap_hreflang(self):
         files = self.build("2026-11-13")
@@ -166,10 +166,10 @@ class JournalTests(unittest.TestCase):
             self.assertIn('href="%s"' % bs.path_journal(l), home, l)
             self.assertIn("<loc>%s</loc>" % bs.url(bs.path_journal(l)), files["sitemap.xml"])
             page = files[bs.path_post(l, "dew-decimals").strip("/") + "/index.html"]
-            self.assertIn('<link rel="canonical" href="%s">' % bs.url(bs.path_post(l if l in ("en", "ko") else "en", "dew-decimals")), page, l)
-            # hreflang only between the two real texts; fallback pages carry none
-            self.assertEqual(page.count('rel="alternate" hreflang='), 3 if l in ("en", "ko") else 0, l)
-            self.assertEqual("<loc>%s</loc>" % bs.url(bs.path_post(l, "dew-decimals")) in files["sitemap.xml"], l in ("en", "ko"), l)
+            self.assertIn('<link rel="canonical" href="%s">' % bs.url(bs.path_post(l, "dew-decimals")), page, l)
+            # all 12 texts exist: every page carries 12 hreflang + x-default and is in the sitemap
+            self.assertEqual(page.count('rel="alternate" hreflang='), 13, l)
+            self.assertIn("<loc>%s</loc>" % bs.url(bs.path_post(l, "dew-decimals")), files["sitemap.xml"], l)
         self.assertNotIn("release-notes", files["sitemap.xml"])
 
     def test_geo_jsonld_and_feed(self):
@@ -231,7 +231,10 @@ class JournalTests(unittest.TestCase):
         en = (journal / "2026-11-14-garden-redesign.en.md").read_text(encoding="utf-8")
         en = re.sub(r"^copy_review:.*\n", "", en, flags=re.M).replace("\n---\n", "\ncopy_review: iris 2026-11-14\n---\n", 1)
         for l in bs.LANGS:
-            if l in ("ko", "en") or l in skip:
+            if l in skip:
+                (journal / ("2026-11-14-garden-redesign.%s.md" % l)).unlink(missing_ok=True)
+                continue
+            if l in ("ko", "en"):
                 continue
             (journal / ("2026-11-14-garden-redesign.%s.md" % l)).write_text(en, encoding="utf-8")
         return tmp
