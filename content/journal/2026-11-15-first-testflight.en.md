@@ -1,6 +1,7 @@
 ---
 title: "How the first TestFlight build went up"
 description: "After finishing the MVP, the first internal build went up, but the deploy script stopped us once along the way."
+copy_review: iris 2026-11-14
 ---
 The first MVP of Moss Garden, an idle game for iOS, went up to TestFlight as 1.0.0 (1) for internal testing after a deploy script stopped the first attempt. Processing took about three minutes, and the build was not submitted for review or opened to external testers.
 

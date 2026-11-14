@@ -1,6 +1,7 @@
 ---
 title: "Why we keep two copies of the save"
 description: "Losing a garden you've grown is the worst, so saves are split into a main file and a backup."
+copy_review: iris 2026-11-14
 ---
 Moss Garden, an idle game for iOS, protects your garden with two safeguards: a checksum that detects a damaged save and a separate backup it restores from, with a notice. Turning the device clock back to collect rewards is also caught, and that stretch is not settled.
 

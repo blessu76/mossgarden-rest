@@ -1,6 +1,7 @@
 ---
 title: "Why show dew with decimals"
 description: "The moss grows 0.1 per second, yet the dew counter looked frozen. This is how we fixed the number format."
+copy_review: iris 2026-11-14
 ---
 Moss Garden is an idle (incremental) game for iOS, and its dew counter used to look frozen because it showed only whole numbers from ten upward. We now show two decimals below 1 and one decimal below 1,000, and we round down so the number never promises more than you have.
 
