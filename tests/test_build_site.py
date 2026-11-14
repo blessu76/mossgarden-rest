@@ -10,6 +10,10 @@ import build_site as bs
 import check_sitemap as cs
 
 
+def is_redirect_stub(path):
+    return bool({"release-notes", "releases"} & set(path.split("/")))
+
+
 class SiteTests(unittest.TestCase):
     def test_games_json_drives_names(self):
         g = json.loads((REPO / "games.json").read_text(encoding="utf-8"))
@@ -39,7 +43,10 @@ class SiteTests(unittest.TestCase):
             self.assertIn(want, files)
         for slug in bs.PAGE_SLUGS:
             self.assertTrue(any(k.endswith("%s/index.html" % slug) for k in files), slug)
-        self.assertFalse(any("release-notes" in k for k in files))
+        redirects = [k for k in files if is_redirect_stub(k)]
+        self.assertEqual(len(redirects), 2 * len(bs.LANGS))
+        for k in redirects:
+            self.assertIn('content="0; url=/"', files[k], k)
 
     def test_sitemap_is_consistent(self):
         errs, urls = cs.check(REPO)
@@ -85,7 +92,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn("<title>Contact — %s</title>" % bs.NAME, files["contact/index.html"])
 
     def test_no_store_or_price_claims_in_copy(self):
-        files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
+        files = bs.build_all(bs.make_ctx(REPO, require_all=True, today="2026-11-14")[0])
         blob = "\n".join(files.values()).lower()
         for bad in ("android", "admob", "download", "app store", "google play", "free to play", "in-app purchase"):
             self.assertNotIn(bad, blob, bad)
@@ -178,7 +185,7 @@ class JournalTests(unittest.TestCase):
         import xml.dom.minidom as md
         files = self.build("2026-11-17")
         for path, html in files.items():
-            if not path.endswith(".html"):
+            if not path.endswith(".html") or is_redirect_stub(path):
                 continue
             blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
             self.assertTrue(blocks, path)
@@ -263,7 +270,7 @@ class LayoutTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.files = bs.build_all(bs.make_ctx(REPO, require_all=True)[0])
-        cls.pages = {k: v for k, v in cls.files.items() if k.endswith("index.html") or k == "404.html"}
+        cls.pages = {k: v for k, v in cls.files.items() if (k.endswith("index.html") or k == "404.html") and not is_redirect_stub(k)}
 
     def regions(self, html):
         header = re.search(r"<header.*?</header>", html, re.S).group(0)

@@ -587,6 +587,18 @@ def build_404(ctx):
 
 
 # ---------------------------------------------------------------- site files
+def build_release_redirects():
+    """Removed release-notes URLs (decision 0143) -> site root, so old links do not 404. Not in the sitemap."""
+    files = {}
+    for l in LANGS:
+        for name in ("release-notes", "releases"):
+            rel = "%s/%s/index.html" % (l, name) if l != "en" else "%s/index.html" % name
+            files[rel] = ('<!doctype html><html lang="%s"><meta charset="utf-8"><meta name="robots" content="noindex">'
+                          '<link rel="canonical" href="%s"><meta http-equiv="refresh" content="0; url=/">'
+                          '<title>%s</title><a href="/">%s</a></html>\n') % (l, url("/"), esc(NAME), esc(NAME))
+    return files
+
+
 def sitemap_entries(ctx):
     """[(path, lastmod, {lang: path})]"""
     ents = []
@@ -682,6 +694,7 @@ def build_all(ctx):
         for p in ctx.posts:
             put(*build_post(ctx, l, p))
     files["404.html"] = build_404(ctx)
+    files.update(build_release_redirects())
     files["sitemap.xml"] = build_sitemap(ctx)
     files["robots.txt"] = build_robots()
     files["llms.txt"] = build_llms(ctx)
@@ -690,7 +703,7 @@ def build_all(ctx):
 
 def clean(root):
     root = Path(root)
-    for name in list(PAGE_SLUGS) + ["journal"] + [l for l in LANGS if l != "en"]:
+    for name in list(PAGE_SLUGS) + ["journal", "release-notes", "releases"] + [l for l in LANGS if l != "en"]:
         d = root / name
         if d.is_dir():
             shutil.rmtree(d)
