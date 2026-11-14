@@ -1,6 +1,7 @@
 ---
 title: "The day we redrew the garden"
 description: "After hearing the app looked rather dull overall, we reworked the garden screen from scratch."
+copy_review: iris 2026-11-14
 ---
 We redrew the garden screen of Moss Garden, an idle game for iOS, after hearing that the design felt dull. It now has a deeper forest palette, a large garden scene with hills, a lotus pond and fireflies, and view-only decorations that never change the pace of the game.
 
@@ -14,7 +15,7 @@ The top half of the screen is now a large garden scene: two layers of hills, a l
 
 ## Decorations
 
-Decorations began with stepping stones, a fence, a bench and a stone lantern. They are for looking at only, so they never change the pace of the game. Buying one places it in its spot right away, and moving it back and forth costs nothing.
+Decorations began with stepping stones, a fence, a bench and a stone lantern. They are for looking at only, so they have no effect on progress. Buying one places it in its spot right away, and moving it back and forth costs nothing.
 
 Making things pretty never ends, so we stopped at one question: is this a screen you'd want to open every day?
 
