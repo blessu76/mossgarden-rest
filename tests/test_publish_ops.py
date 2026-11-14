@@ -1,5 +1,6 @@
 """ops/install_launchd.sh and ops/publish_daily.sh: install checks (KST, publish clone) and the publish path against a throw-away bare origin (no network, no real push)."""
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -110,7 +111,23 @@ class PublishDaily(unittest.TestCase):
     def head(self, repo):
         return git("rev-parse", "HEAD" if repo == self.clone else "main", cwd=repo)
 
+    def mark_reviewed(self, value=None, en=True):
+        """Put a copy_review line into today's post(s) in the clone and push that to origin (the copy review happened before publish)."""
+        value = value or "iris %s" % self.TODAY
+        for f in sorted((self.clone / "content" / "journal").glob("%s-*.md" % self.TODAY)):
+            if not en and f.name.endswith(".en.md"):
+                continue
+            text = f.read_text(encoding="utf-8")
+            f.write_text(text.replace("\n---\n", "\ncopy_review: %s\n---\n" % value, 1), encoding="utf-8")
+        git("add", "content/journal", cwd=self.clone)
+        git("commit", "-q", "-m", "test: copy review", cwd=self.clone)
+        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+
+    def pending_count(self, r):
+        return int(re.search(r"COPY_REVIEW_PENDING (\d+)", r.stdout).group(1))
+
     def test_publishes_todays_post_and_pushes_to_origin(self):
+        self.mark_reviewed()
         before = self.head(self.origin)
         r = self.run_publish()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
@@ -126,6 +143,41 @@ class PublishDaily(unittest.TestCase):
         self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
         self.assertIn("nothing to publish", r2.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), after)
+
+    def test_post_without_copy_review_is_skipped(self):
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("NO_COPY_REVIEW — content/journal/%s-" % self.TODAY, r.stdout)
+        self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
+        self.assertEqual(self.head(self.origin), before)
+        self.assertEqual(git("status", "--porcelain", cwd=self.clone), "")
+
+    def test_english_version_without_copy_review_is_skipped(self):
+        self.mark_reviewed(en=False)
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertIn("NO_COPY_REVIEW — content/journal/%s-" % self.TODAY, r.stdout)
+        self.assertIn(".en.md", r.stdout)
+        self.assertEqual(self.head(self.origin), before)
+
+    def test_malformed_copy_review_does_not_count(self):
+        self.mark_reviewed(value="iris 2026/11/14")
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertIn("NO_COPY_REVIEW", r.stdout)
+        self.assertEqual(self.head(self.origin), before)
+
+    def test_counts_unreviewed_future_posts(self):
+        n = self.pending_count(self.run_publish())
+        journal = self.clone / "content" / "journal"
+        for src in sorted(journal.glob("%s-*.md" % self.TODAY)):
+            suffix = ".en.md" if src.name.endswith(".en.md") else ".md"
+            shutil.copy(src, journal / ("2099-01-01-pending-check" + suffix))
+        git("add", "content/journal", cwd=self.clone)
+        git("commit", "-q", "-m", "test: future post", cwd=self.clone)
+        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        self.assertEqual(self.pending_count(self.run_publish()), n + 1)
 
     def test_no_post_today_is_nothing_to_publish(self):
         r = self.run_publish(MOSSGARDEN_TODAY="2030-01-01")
@@ -150,6 +202,7 @@ class PublishDaily(unittest.TestCase):
         self.assertIn("not main", self.run_publish().stdout)
 
     def test_failed_green_gate_rolls_back_and_pushes_nothing(self):
+        self.mark_reviewed()
         before, base = self.head(self.origin), self.head(self.clone)
         r = self.run_publish(MOSSGARDEN_CHECK_CMD="false")
         self.assertNotEqual(r.returncode, 0)

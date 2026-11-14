@@ -207,6 +207,16 @@ class JournalTests(unittest.TestCase):
         self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T"}, good.replace("### Q2?\na2\n", "")))
         self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T" * 80}, good))
 
+    def test_copy_review_is_optional_but_well_formed_when_present(self):
+        good = "Moss Garden is an idle game for iOS. It shows things.\n\n## A\n\ntext\n\n## FAQ\n\n### Q1?\na1\n\n### Q2?\na2\n"
+        self.assertEqual(bs.lint_post("x.en.md", "en", {"title": "T", "copy_review": "iris 2026-11-14"}, good), [])
+        for bad in ("iris 2026/11/14", "iris 2026-11-14 extra", "2026-11-14", "iris"):
+            self.assertTrue(bs.lint_post("x.en.md", "en", {"title": "T", "copy_review": bad}, good), bad)
+
+    def test_copy_review_survives_front_matter_parsing(self):
+        meta, _ = bs.parse_front('---\ntitle: "T"\ncopy_review: iris 2026-11-14\n---\n\nbody\n')
+        self.assertEqual(meta["copy_review"], "iris 2026-11-14")
+
 
 class LayoutTests(unittest.TestCase):
     @classmethod
