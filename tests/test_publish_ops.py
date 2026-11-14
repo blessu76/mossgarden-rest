@@ -94,6 +94,7 @@ class PublishDaily(unittest.TestCase):
         git("clone", "-q", str(self.origin), str(self.clone), cwd=self.tmp)
         shutil.copytree(REPO / "vendor", self.clone / "vendor", dirs_exist_ok=True)
         git("config", "--local", "ipe.publishClone", "true", cwd=self.clone)
+        self.set_review(None)
 
     def run_publish(self, **extra):
         opts = {"MOSSGARDEN_PUBLISH_DIR": str(self.clone), "MOSSGARDEN_SKIP_NET": "1", "MOSSGARDEN_CHECK_CMD": "true",
@@ -104,17 +105,22 @@ class PublishDaily(unittest.TestCase):
     def head(self, repo):
         return git("rev-parse", "HEAD" if repo == self.clone else "main", cwd=repo)
 
-    def mark_reviewed(self, value=None, en=True):
-        """Put a copy_review line into today's post(s) in the clone and push that to origin (the copy review happened before publish)."""
-        value = value or "iris %s" % self.TODAY
+    def set_review(self, value, en=True):
+        """Set (or with value=None clear) today's copy_review line in the clone and push that to origin: the review state is part of the published main."""
         for f in sorted((self.clone / "content" / "journal").glob("%s-*.md" % self.TODAY)):
             if not en and f.name.endswith(".en.md"):
                 continue
-            text = f.read_text(encoding="utf-8")
-            f.write_text(text.replace("\n---\n", "\ncopy_review: %s\n---\n" % value, 1), encoding="utf-8")
+            text = re.sub(r"^copy_review:.*\n", "", f.read_text(encoding="utf-8"), flags=re.M)
+            if value:
+                text = text.replace("\n---\n", "\ncopy_review: %s\n---\n" % value, 1)
+            f.write_text(text, encoding="utf-8")
         git("add", "content/journal", cwd=self.clone)
-        git("commit", "-q", "-m", "test: copy review", cwd=self.clone)
-        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        if sh(["git", "diff", "--cached", "--quiet"], cwd=self.clone).returncode:
+            git("commit", "-q", "-m", "test: copy review", cwd=self.clone)
+            git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+
+    def mark_reviewed(self, value=None, en=True):
+        self.set_review(value or "iris %s" % self.TODAY, en=en)
 
     def pending_count(self, r):
         return int(re.search(r"COPY_REVIEW_PENDING (\d+)", r.stdout).group(1))
