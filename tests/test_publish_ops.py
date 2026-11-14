@@ -91,7 +91,14 @@ class PublishDaily(unittest.TestCase):
         self.origin = self.tmp / "origin.git"
         git("init", "-q", "--bare", "-b", "main", str(self.origin), cwd=self.tmp)
         # the committed state of this checkout is the "published" main
-        git("push", "-q", str(self.origin), "HEAD:refs/heads/main", cwd=REPO)
+        # (seeded from a fresh single-commit repo of HEAD's tree: pushing from a shallow CI checkout is rejected)
+        seed = self.tmp / "seed"
+        seed.mkdir()
+        subprocess.run(f"git archive HEAD | tar -x -C {seed}", shell=True, cwd=REPO, check=True)
+        git("init", "-q", "-b", "main", cwd=seed)
+        git("add", "-A", cwd=seed)
+        git("commit", "-q", "-m", "seed", cwd=seed)
+        git("push", "-q", str(self.origin), "HEAD:refs/heads/main", cwd=seed)
         self.clone = self.tmp / "ipe-publish" / "mossgarden-rest"
         git("clone", "-q", str(self.origin), str(self.clone), cwd=self.tmp)
         shutil.copytree(REPO / "vendor", self.clone / "vendor", dirs_exist_ok=True)
