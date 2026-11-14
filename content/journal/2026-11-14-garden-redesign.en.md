@@ -15,7 +15,7 @@ The top half of the screen is now a large garden scene: two layers of hills, a l
 
 ## Decorations
 
-Decorations began with stepping stones, a fence, a bench and a stone lantern. They are for looking at only, so they have no effect on progress. Buying one places it in its spot right away, and moving it back and forth costs nothing.
+Decorations began with stepping stones, a fence, a bench and a stone lantern. They are for looking at only, so they have no effect on the pace of the game. Buying one places it in its spot right away, and moving it back and forth costs nothing.
 
 Making things pretty never ends, so we stopped at one question: is this a screen you'd want to open every day?
 
