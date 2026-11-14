@@ -174,6 +174,53 @@ class PublishDaily(unittest.TestCase):
         self.assertIn("NO_COPY_REVIEW", r.stdout)
         self.assertEqual(self.head(self.origin), before)
 
+    def add_posts_to_origin(self, files):
+        for name, text in files.items():
+            (self.clone / "content" / "journal" / name).write_text(text, encoding="utf-8")
+        git("add", "content/journal", cwd=self.clone)
+        git("commit", "-q", "-m", "test: journal posts", cwd=self.clone)
+        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+
+    def unreviewed_copy_of(self, src, dst_name):
+        text = re.sub(r"^copy_review:.*\n", "", src.read_text(encoding="utf-8"), flags=re.M)
+        return {dst_name: text}
+
+    def test_yesterdays_unreviewed_post_blocks_todays_reviewed_post(self):
+        files = {}
+        for src in sorted((self.clone / "content" / "journal").glob("2026-11-13-*.md")):
+            files.update(self.unreviewed_copy_of(src, src.name.replace("2026-11-13-", "2026-11-13-unreviewed-")))
+        self.add_posts_to_origin(files)
+        self.mark_reviewed()
+        before = self.head(self.origin)
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("NO_COPY_REVIEW — content/journal/2026-11-13-unreviewed-", r.stdout)
+        self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
+        self.assertEqual(self.head(self.origin), before)
+
+    def test_future_unreviewed_post_does_not_block(self):
+        files = {}
+        for src in sorted((self.clone / "content" / "journal").glob("%s-*.md" % self.TODAY)):
+            files.update(self.unreviewed_copy_of(src, "2099-01-01-future-" + src.name[len(self.TODAY) + 1:]))
+        self.add_posts_to_origin(files)
+        self.mark_reviewed()
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn("NO_COPY_REVIEW", r.stdout)
+        self.assertIn("publish_daily: pushed ", r.stdout.strip().splitlines()[-1])
+
+    def test_copy_review_line_with_cr_and_trailing_space_counts(self):
+        for f in sorted((self.clone / "content" / "journal").glob("%s-*.md" % self.TODAY)):
+            text = f.read_text(encoding="utf-8").replace("\n---\n", "\ncopy_review: iris %s \r\n---\n" % self.TODAY, 1)
+            f.write_bytes(text.encode("utf-8"))
+        git("add", "content/journal", cwd=self.clone)
+        git("commit", "-q", "-m", "test: CRLF review line", cwd=self.clone)
+        git("push", "-q", "origin", "HEAD:main", cwd=self.clone)
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn("NO_COPY_REVIEW", r.stdout)
+        self.assertIn("publish_daily: pushed ", r.stdout.strip().splitlines()[-1])
+
     def test_counts_unreviewed_future_posts(self):
         n = self.pending_count(self.run_publish())
         journal = self.clone / "content" / "journal"
