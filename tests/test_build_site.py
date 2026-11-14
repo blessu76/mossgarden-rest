@@ -276,7 +276,8 @@ class LayoutTests(unittest.TestCase):
     def test_legal_links_only_in_footer(self):
         for key, html in self.pages.items():
             header, _, _ = self.regions(html)
-            self.assertIsNone(re.search(r'href="[^"]*privacy/"', header), key)
+            nav = re.search(r'<nav class="nav".*?</nav>', header, re.S).group(0)
+            self.assertIsNone(re.search(r'href="[^"]*privacy/"', nav), key)
             self.assertNotIn("terms", header, key)
             self.assertNotIn("<details", header, key)
 
@@ -285,29 +286,42 @@ class LayoutTests(unittest.TestCase):
             _, footer, _ = self.regions(html)
             self.assertRegex(footer, r'href="(?:/[a-zA-Z-]+)?/privacy/"', key)
 
-    def test_language_select_with_label_and_targets(self):
+    def test_language_select_in_header_with_label_and_targets(self):
         for key, html in self.pages.items():
             if key == "404.html":
                 continue
-            _, _, footer = self.regions(html)
-            self.assertRegex(footer, r'<label for="lang-select">[^<]+</label>', key)
-            self.assertEqual(footer.count('<select id="lang-select"'), 1, key)
-            values = re.findall(r'<option value="([^"]+)" lang="[^"]+"', footer)
+            header, _, _ = self.regions(html)
+            self.assertRegex(header, r'<select id="lang-select" class="lang-select" aria-label="[^"]+">', key)
+            self.assertEqual(header.count("<select"), 1, key)
+            values = re.findall(r'<option value="([^"]+)" lang="[^"]+"', header)
             self.assertEqual(len(values), len(bs.LANGS), key)
             for v in values:
                 target = v.lstrip("/") + ("index.html" if v.endswith("/") else "")
                 self.assertIn(target, self.files, (key, v))
-            self.assertEqual(len(re.findall(r"<option [^>]*selected", footer)), 1, key)
+            self.assertEqual(len(re.findall(r"<option [^>]*selected", header)), 1, key)
 
-    def test_no_one_line_language_list_outside_noscript(self):
+    def test_no_language_select_or_list_in_footer(self):
         for key, html in self.pages.items():
-            _, _, footer = self.regions(html)
-            self.assertNotIn('class="foot-langs"', footer, key)
+            _, footer, _ = self.regions(html)
+            self.assertNotIn("<select", footer, key)
+            self.assertNotIn("lang-select", footer, key)
+            self.assertNotIn("lang-links", footer, key)
             self.assertNotIn("hreflang=", footer, key)
-            if key != "404.html":
-                self.assertIn('<noscript><p class="foot-langs"', html, key)
 
-    def test_select_script_is_shipped(self):
+    def test_language_noscript_list_in_header(self):
+        for key, html in self.pages.items():
+            if key == "404.html":
+                continue
+            header, _, _ = self.regions(html)
+            self.assertIn('<noscript><p class="lang-links"', header, key)
+
+    def test_site_js_in_head_before_body(self):
+        for key, html in self.pages.items():
+            head = re.search(r"<head>.*?</head>", html, re.S).group(0)
+            self.assertRegex(head, r'<script src="/assets/site\.js\?v=[^"]+"></script>', key)
+
+    def test_site_js_carries_detection_rules(self):
         js = (REPO / "assets" / "site.js").read_text(encoding="utf-8")
-        self.assertIn("lang-select", js)
-        self.assertIn("location.href", js)
+        for rule in ("'ipe_lang'", "navigator.languages", "location.replace", "zh-Hant", "pt-BR", "'id'",
+                     "bot|crawl|spider|slurp|lighthouse", "documentElement.lang==='en'", "location.href"):
+            self.assertIn(rule, js)
