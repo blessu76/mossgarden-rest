@@ -88,7 +88,7 @@ POST_EN = '---\ntitle: "How the first TestFlight build went up"\ndescription: "A
 
 @unittest.skipUnless((REPO / "vendor" / "ipe_web_kit").is_dir(), "vendor/ipe_web_kit not installed")
 class PublishDaily(unittest.TestCase):
-    # A synthetic post dated this day is planted in the seed (see seed_unbuilt_today): the tests must not depend on
+    # A synthetic post (slug "synthetic-post", never a real journal slug) dated this day is planted in the seed (see seed_unbuilt_today): the tests must not depend on
     # which real posts the daily bot has already published, or on the wall clock (MOSSGARDEN_TODAY pins "today").
     TODAY = "2040-06-15"
 
@@ -126,15 +126,15 @@ class PublishDaily(unittest.TestCase):
                     f.unlink()
                 ko.unlink(missing_ok=True)
         for suffix, text in (("", POST_KO), (".en", POST_EN)):
-            (journal / ("%s-first-testflight%s.md" % (self.TODAY, suffix))).write_text(text, encoding="utf-8")
+            (journal / ("%s-synthetic-post%s.md" % (self.TODAY, suffix))).write_text(text, encoding="utf-8")
 
     def add_translations_for_today(self):
         journal = self.clone / "content" / "journal"
-        en = (journal / ("%s-first-testflight.en.md" % self.TODAY)).read_text(encoding="utf-8")
+        en = (journal / ("%s-synthetic-post.en.md" % self.TODAY)).read_text(encoding="utf-8")
         for lang in JOURNAL_LANGS:
             if lang in ("ko", "en"):
                 continue
-            (journal / ("%s-first-testflight.%s.md" % (self.TODAY, lang))).write_text(en, encoding="utf-8")
+            (journal / ("%s-synthetic-post.%s.md" % (self.TODAY, lang))).write_text(en, encoding="utf-8")
 
     def push_journal(self, msg):
         git("add", "content/journal", cwd=self.clone)
@@ -220,31 +220,31 @@ class PublishDaily(unittest.TestCase):
 
     def test_missing_language_file_skips(self):
         self.mark_reviewed()
-        (self.clone / "content" / "journal" / ("%s-first-testflight.ja.md" % self.TODAY)).unlink()
+        (self.clone / "content" / "journal" / ("%s-synthetic-post.ja.md" % self.TODAY)).unlink()
         self.push_journal("test: drop ja")
         before = self.head(self.origin)
         r = self.run_publish()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("LANG_MISSING content/journal/%s-first-testflight.ja.md" % self.TODAY, r.stdout)
+        self.assertIn("LANG_MISSING content/journal/%s-synthetic-post.ja.md" % self.TODAY, r.stdout)
         self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), before)
 
     def test_one_language_without_copy_review_skips(self):
         self.mark_reviewed()
-        ja = self.clone / "content" / "journal" / ("%s-first-testflight.ja.md" % self.TODAY)
+        ja = self.clone / "content" / "journal" / ("%s-synthetic-post.ja.md" % self.TODAY)
         ja.write_text(re.sub(r"^copy_review:.*\n", "", ja.read_text(encoding="utf-8"), flags=re.M), encoding="utf-8")
         self.push_journal("test: ja not reviewed")
         before = self.head(self.origin)
         r = self.run_publish()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("NO_COPY_REVIEW content/journal/%s-first-testflight.ja.md" % self.TODAY, r.stdout)
+        self.assertIn("NO_COPY_REVIEW content/journal/%s-synthetic-post.ja.md" % self.TODAY, r.stdout)
         self.assertIn("nothing to publish", r.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), before)
 
     def test_already_published_post_is_not_blocked_by_missing_languages(self):
         journal = self.clone / "content" / "journal"
-        self.assertTrue((journal / ("%s-first-testflight.md" % self.TODAY)).exists())
-        files = {"2026-11-12-old-post%s.md" % suffix: (journal / ("%s-first-testflight%s.md" % (self.TODAY, suffix))).read_text(encoding="utf-8")
+        self.assertTrue((journal / ("%s-synthetic-post.md" % self.TODAY)).exists())
+        files = {"2026-11-12-old-post%s.md" % suffix: (journal / ("%s-synthetic-post%s.md" % (self.TODAY, suffix))).read_text(encoding="utf-8")
                  for suffix in ("", ".en")}
         self.add_posts_to_origin(files)
         (self.clone / "journal" / "old-post").mkdir(parents=True)
@@ -306,7 +306,7 @@ class PublishDaily(unittest.TestCase):
     def test_counts_unreviewed_future_posts(self):
         n = self.pending_count(self.run_publish())
         journal = self.clone / "content" / "journal"
-        shutil.copy(journal / ("%s-first-testflight.md" % self.TODAY), journal / "2099-01-01-pending-check.md")
+        shutil.copy(journal / ("%s-synthetic-post.md" % self.TODAY), journal / "2099-01-01-pending-check.md")
         self.push_journal("test: future post")
         self.assertEqual(self.pending_count(self.run_publish()), n + 1)
 
