@@ -3,7 +3,7 @@ title: "Les notes de version vivent dans l'appli"
 description: "Comment nous avons rendu les notes de mise à jour lisibles directement depuis les réglages de l'appli."
 copy_review: iris 2026-11-14
 ---
-Moss Garden, un jeu idle pour iOS, affiche ses notes de mise à jour dans l'appli : les réglages comportent un menu de notes de version avec la plus récente en premier. Les notes apparaissent dans la langue de votre appareil lorsqu'elles existent, sinon en anglais, et un build dépourvu des notes en coréen ou en anglais n'est pas publié.
+Moss Garden, un jeu idle pour iOS, affiche ses notes de mise à jour dans l'appli : les réglages comportent un menu de notes de version avec la plus récente en premier. Les notes apparaissent dans la langue de votre appareil lorsqu'elles existent, sinon en anglais, et un build dont la version n'a pas de notes dans l'appli n'est pas publié.
 
 ## Où lire les mises à jour
 
@@ -15,7 +15,7 @@ Les notes de la version la plus récente viennent en premier, avec la version, l
 
 ## Une vérification avant chaque publication
 
-Avant chaque publication, une vérification confirme que les notes de ce build existent en coréen et en anglais. Un build sans notes n'est pas publié.
+Avant chaque publication, une vérification confirme que la version de ce build a des notes dans l'appli. Un build sans notes n'est pas publié.
 
 Les notes de version restent discrètement dans les réglages, simplement à lire.
 

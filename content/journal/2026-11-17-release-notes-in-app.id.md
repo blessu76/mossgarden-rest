@@ -3,7 +3,7 @@ title: "Catatan rilis kini ada di dalam aplikasi"
 description: "Cara kami membuat catatan pembaruan bisa dibaca langsung dari pengaturan aplikasi."
 copy_review: iris 2026-11-14
 ---
-Moss Garden, game idle untuk iOS, menampilkan catatan pembaruannya di dalam aplikasi: di pengaturan ada menu catatan rilis dengan versi terbaru di urutan teratas. Catatan tampil dalam bahasa perangkat Anda jika tersedia, jika tidak dalam bahasa Inggris, dan build yang tidak memiliki catatan bahasa Korea atau Inggris tidak akan dirilis.
+Moss Garden, game idle untuk iOS, menampilkan catatan pembaruannya di dalam aplikasi: di pengaturan ada menu catatan rilis dengan versi terbaru di urutan teratas. Catatan tampil dalam bahasa perangkat Anda jika tersedia, jika tidak dalam bahasa Inggris, dan build yang versinya tidak memiliki catatan di dalam aplikasi tidak akan dirilis.
 
 ## Tempat membaca pembaruan
 
@@ -15,7 +15,7 @@ Catatan versi terbaru muncul lebih dulu, lengkap dengan versi, nomor build, dan 
 
 ## Pemeriksaan sebelum setiap rilis
 
-Sebelum setiap rilis, sebuah pemeriksaan memastikan catatan untuk build ini ada dalam bahasa Korea dan Inggris. Build tanpa catatan tidak akan dirilis.
+Sebelum setiap rilis, sebuah pemeriksaan memastikan versi build ini memiliki catatan di dalam aplikasi. Build tanpa catatan tidak akan dirilis.
 
 Catatan rilis tetap berada diam-diam di pengaturan, sekadar untuk dibaca.
 

@@ -3,7 +3,7 @@ title: "Sürüm notları artık uygulamanın içinde"
 description: "Güncelleme notlarını doğrudan uygulamanın ayarlarından okunabilir hale nasıl getirdik."
 copy_review: iris 2026-11-14
 ---
-iOS için bir idle oyun olan Moss Garden, güncelleme notlarını uygulamanın içinde gösterir: ayarlarda en yeni sürüm en üstte olacak şekilde bir sürüm notları menüsü vardır. Notlar varsa cihazınızın dilinde, yoksa İngilizce görünür; Korece veya İngilizce notu eksik olan bir sürüm yayınlanmaz.
+iOS için bir idle oyun olan Moss Garden, güncelleme notlarını uygulamanın içinde gösterir: ayarlarda en yeni sürüm en üstte olacak şekilde bir sürüm notları menüsü vardır. Notlar varsa cihazınızın dilinde, yoksa İngilizce görünür; Sürümünün uygulama içinde notu bulunmayan bir sürüm yayınlanmaz.
 
 ## Güncellemeler nerede okunur
 
@@ -15,7 +15,7 @@ En yeni sürümün notları, sürüm, yapı numarası ve tarihle birlikte en üs
 
 ## Her yayından önce bir kontrol
 
-Her yayından önce bir kontrol, bu sürümün notlarının hem Korece hem İngilizce olarak bulunduğunu doğrular. Notu olmayan bir sürüm yayınlanmaz.
+Her yayından önce bir kontrol, bu sürümün notunun uygulama içinde bulunduğunu doğrular. Notu olmayan bir sürüm yayınlanmaz.
 
 Sürüm notları ayarlarda sessizce durur; yalnızca okumak için.
 

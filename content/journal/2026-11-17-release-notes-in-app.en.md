@@ -3,7 +3,7 @@ title: "Release notes live inside the app"
 description: "How we made update notes readable right from the app's settings."
 copy_review: iris 2026-11-14
 ---
-Moss Garden, an idle game for iOS, shows its update notes inside the app: settings has a release notes menu with the newest version first. Notes appear in your device language when available, otherwise English, and a build missing either the Korean or the English notes doesn't go out.
+Moss Garden, an idle game for iOS, shows its update notes inside the app: settings has a release notes menu with the newest version first. Notes appear in your device language when available, otherwise English, A build whose version has no notes inside the app doesn't go out.
 
 ## Where updates are read
 
@@ -15,7 +15,7 @@ The newest version's notes come first, with the version, build number and date. 
 
 ## A check before every release
 
-Before each release, a check confirms that this build's notes exist in both Korean and English. A build without notes doesn't go out.
+Before each release, a check confirms that this build's version has an entry in the in-app notes. A build without notes doesn't go out.
 
 The release notes stay quietly in settings, just something to read.
 
