@@ -1,6 +1,7 @@
 ---
 title: "Bahçeye uğrayan konukları koleksiyon defterine kaydediyoruz"
 description: "Bahçeden geçen küçük konuklara, onları kaydeden koleksiyon defterine ve toplayabileceğiniz nadir konuklara bir bakış."
+copy_review: iris 2026-11-15
 ---
 iOS için bir idle oyun olan Moss Garden'a bahçeyi ziyaret eden küçük konuklar geliyor; koleksiyon defterinde de bitkilerin yanında kimlerin uğradığını yazdığımız bir konuklar etiketi var. Ara sıra altın ya da beyaz tonlu özel bir konuk gelir ve konuklar çoğaldıkça bahçeyi süsleyen dekorlar açılır. Bunların hepsi yalnızca bahçenin görünüşüne dokunur: çiy, hesaplama ve üretim değişmez.
 

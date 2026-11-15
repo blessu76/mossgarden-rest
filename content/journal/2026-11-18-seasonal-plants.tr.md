@@ -1,6 +1,7 @@
 ---
 title: "Mevsim değişince bahçedeki bitkiler de değişiyor"
 description: "Yaz bahçesinde duran bir kiraz ağacı yanlış görünüyordu; biz de her mevsimin bahçeyi kendi bitkileriyle doldurmasını sağladık."
+copy_review: iris 2026-11-15
 ---
 iOS için bir idle oyun olan Moss Garden'da yetiştirebileceğiniz bitkiler mevsimle birlikte değişir. Bahçede hâlâ sekiz bitki yuvası var: dördü bütün yıl aynı kalır, diğer dördü o mevsimde çiçek açan bitkilerle dolar. Her yuvanın fiyatı ve saniye başına üretimi aynı kalır, dolayısıyla oyunun dengesi değişmez.
 

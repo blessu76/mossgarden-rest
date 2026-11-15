@@ -1,6 +1,7 @@
 ---
 title: "Anotamos en el libro de colección a los visitantes del jardín"
 description: "Un vistazo a los pequeños visitantes que pasan por el jardín, al libro de colección que los registra y a los poco comunes que puedes coleccionar."
+copy_review: iris 2026-11-15
 ---
 Moss Garden, un juego idle para iOS, tiene pequeños visitantes que pasan por el jardín, y el libro de colección tiene un chip de visitantes donde anotamos quién ha pasado. De vez en cuando llega un visitante especial con un tono dorado o blanco, y a medida que se acumulan visitantes se desbloquean decoraciones que adornan el jardín. Todo esto solo afecta al aspecto del jardín: el rocío, la liquidación y la producción no cambian.
 

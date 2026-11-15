@@ -1,6 +1,7 @@
 ---
 title: "Quand la saison change, les plantes du jardin changent aussi"
 description: "Un cerisier dans un jardin d'été fait tache, alors chaque saison remplit désormais le jardin de ses propres plantes."
+copy_review: iris 2026-11-15
 ---
 Dans Moss Garden, un jeu idle pour iOS, les plantes que vous pouvez faire pousser changent avec la saison. Le jardin compte toujours huit emplacements de plantes : quatre restent les mêmes toute l'année, et les quatre autres accueillent des plantes qui fleurissent à la saison en cours. Chaque emplacement garde le même prix et la même production par seconde, si bien que l'équilibre du jeu ne change pas.
 

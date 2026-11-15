@@ -1,6 +1,7 @@
 ---
 title: "Saat musim berganti, tanaman di taman ikut berganti"
 description: "Pohon sakura di taman musim panas terlihat janggal, jadi kami membuat setiap musim mengisi taman dengan tanamannya sendiri."
+copy_review: iris 2026-11-15
 ---
 Di Moss Garden, game idle untuk iOS, tanaman yang bisa Anda tanam berubah mengikuti musim. Taman tetap punya delapan slot tanaman: empat slot sama sepanjang tahun, dan empat lainnya diisi tanaman yang mekar pada musim itu. Setiap slot mempertahankan harga dan produksi per detik yang sama, sehingga keseimbangan permainan tidak berubah.
 

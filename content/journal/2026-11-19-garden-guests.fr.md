@@ -1,6 +1,7 @@
 ---
 title: "Consigner dans le livre de collection les visiteurs du jardin"
 description: "Un regard sur les petits visiteurs qui passent par le jardin, le livre de collection qui les consigne et les rares que vous pouvez collectionner."
+copy_review: iris 2026-11-15
 ---
 Moss Garden, un jeu idle pour iOS, a de petits visiteurs qui passent par le jardin, et le livre de collection a une puce des visiteurs où nous notons qui est passé. De temps en temps, un visiteur spécial arrive avec une teinte dorée ou blanche et, à mesure que les visiteurs s'accumulent, des décorations se débloquent. Tout cela ne touche qu'à l'apparence du jardin : la rosée, le calcul et la production ne changent pas.
 

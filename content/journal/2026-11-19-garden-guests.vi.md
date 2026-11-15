@@ -1,6 +1,7 @@
 ---
 title: "Ghi lại những vị khách ghé thăm khu vườn vào sổ sưu tầm"
 description: "Làm quen với những vị khách nhỏ ghé qua khu vườn, cuốn sổ sưu tầm ghi chép về họ và những vị khách hiếm bạn có thể sưu tầm."
+copy_review: iris 2026-11-15
 ---
 Moss Garden, một game idle trên iOS, có những vị khách nhỏ ghé thăm khu vườn, và sổ sưu tầm có nhãn khách bên cạnh cây để ghi lại ai đã ghé qua. Thỉnh thoảng một vị khách đặc biệt mang sắc vàng hoặc trắng xuất hiện, và khi số khách tăng lên, những món đồ trang trí tô điểm cho khu vườn sẽ được mở khóa. Tất cả chỉ ảnh hưởng đến diện mạo khu vườn: sương, tính toán và sản lượng không thay đổi.
 

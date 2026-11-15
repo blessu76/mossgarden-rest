@@ -1,6 +1,7 @@
 ---
 title: "Logging the guests who visit the garden in the codex"
 description: "A look at the small visitors who pass through the garden, the codex that records them, and the rare ones you can collect."
+copy_review: iris 2026-11-15
 ---
 Moss Garden, an idle game for iOS, has small guests who visit the garden, and the codex has a guests chip next to the plants where we write down who has stopped by. Now and then a special guest arrives with a golden or white tint, and as guests add up, decorations that dress the garden unlock. All of this only touches how the garden looks: dew, settlement and production don't change.
 

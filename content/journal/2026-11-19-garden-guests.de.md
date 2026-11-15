@@ -1,6 +1,7 @@
 ---
 title: "Die Gäste des Gartens im Sammelbuch festhalten"
 description: "Ein Blick auf die kleinen Besucher, die durch den Garten kommen, auf das Sammelbuch, das sie festhält, und auf die seltenen, die Sie sammeln können."
+copy_review: iris 2026-11-15
 ---
 In Moss Garden, einem Idle-Spiel für iOS, kommen kleine Gäste in den Garten, und das Sammelbuch hat neben den Pflanzen einen Gäste-Chip, in dem wir festhalten, wer vorbeigeschaut hat. Ab und zu erscheint ein besonderer Gast mit goldenem oder weißem Schimmer, und wenn sich Gäste ansammeln, werden Dekorationen freigeschaltet, die den Garten schmücken. All das betrifft nur das Aussehen des Gartens: Tau, Abrechnung und Produktion ändern sich nicht.
 

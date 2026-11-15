@@ -1,6 +1,7 @@
 ---
 title: "Mencatat tamu yang berkunjung ke taman di buku koleksi"
 description: "Mengenal tamu-tamu kecil yang singgah di taman, buku koleksi yang mencatat mereka, dan tamu langka yang bisa Anda kumpulkan."
+copy_review: iris 2026-11-15
 ---
 Moss Garden, game idle untuk iOS, kedatangan tamu-tamu kecil yang berkunjung ke taman, dan buku koleksi punya chip tamu di samping tanaman untuk mencatat siapa saja yang sudah singgah. Sesekali datang tamu istimewa dengan warna keemasan atau putih, dan seiring bertambahnya tamu, dekorasi yang mempercantik taman pun terbuka. Semua ini hanya menyentuh tampilan taman: embun, penghitungan, dan produksi tidak berubah.
 

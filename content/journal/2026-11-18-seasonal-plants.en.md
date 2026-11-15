@@ -1,6 +1,7 @@
 ---
 title: "When the season changes, the plants in the garden change too"
 description: "A cherry tree standing in a summer garden looks wrong, so we made each season fill the garden with its own plants."
+copy_review: iris 2026-11-15
 ---
 In Moss Garden, an idle game for iOS, the plants you can grow change along with the season. The garden still has eight plant slots: four stay the same all year round, and the other four are filled by plants that bloom in the current season. Each slot keeps the same price and production per second, so the balance of the game doesn't change.
 

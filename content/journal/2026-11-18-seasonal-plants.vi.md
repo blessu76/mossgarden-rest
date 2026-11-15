@@ -1,6 +1,7 @@
 ---
 title: "Khi mùa đổi, cây trong khu vườn cũng đổi theo"
 description: "Một cây anh đào đứng giữa khu vườn mùa hè trông thật lạc quẻ, nên chúng tôi để mỗi mùa lấp đầy khu vườn bằng những loại cây riêng của mình."
+copy_review: iris 2026-11-15
 ---
 Trong Moss Garden, một game idle trên iOS, những loại cây bạn có thể trồng thay đổi theo mùa. Khu vườn vẫn có tám ô cây: bốn ô giữ nguyên quanh năm, bốn ô còn lại được lấp bằng những loại cây nở hoa trong mùa hiện tại. Mỗi ô giữ nguyên giá và sản lượng mỗi giây, nên cân bằng của game không thay đổi.
 

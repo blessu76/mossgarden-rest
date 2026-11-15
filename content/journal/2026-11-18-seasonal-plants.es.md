@@ -1,6 +1,7 @@
 ---
 title: "Cuando cambia la estación, también cambian las plantas del jardín"
 description: "Un cerezo en un jardín de verano queda raro, así que hicimos que cada estación llene el jardín con sus propias plantas."
+copy_review: iris 2026-11-15
 ---
 En Moss Garden, un juego idle para iOS, las plantas que puedes cultivar cambian con la estación. El jardín sigue teniendo ocho casillas de plantas: cuatro son las mismas todo el año y las otras cuatro las ocupan plantas que florecen en la estación actual. Cada casilla mantiene su mismo precio y su misma producción por segundo, así que el equilibrio del juego no cambia.
 

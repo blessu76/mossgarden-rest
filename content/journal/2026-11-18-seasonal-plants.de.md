@@ -1,6 +1,7 @@
 ---
 title: "Wenn die Jahreszeit wechselt, wechseln auch die Pflanzen im Garten"
 description: "Ein Kirschbaum in einem Sommergarten wirkt fehl am Platz, deshalb füllt jetzt jede Jahreszeit den Garten mit ihren eigenen Pflanzen."
+copy_review: iris 2026-11-15
 ---
 In Moss Garden, einem Idle-Spiel für iOS, ändern sich die Pflanzen, die Sie anbauen können, mit der Jahreszeit. Der Garten hat weiterhin acht Pflanzenplätze: Vier bleiben das ganze Jahr über gleich, die anderen vier werden von Pflanzen belegt, die in der aktuellen Jahreszeit blühen. Jeder Platz behält denselben Preis und dieselbe Produktion pro Sekunde, deshalb bleibt die Balance des Spiels unverändert.
 
