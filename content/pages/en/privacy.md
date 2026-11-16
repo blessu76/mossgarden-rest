@@ -10,6 +10,7 @@ When the game ships, personal information will be handled as follows.
 
 ## What, and how
 - **Accounts** — only what is needed for a game account.
+- **Continue on your other devices** — to continue your game progress (garden, settings, records) across devices that use the same Apple ID, the data is stored in your own iCloud (key-value storage). This data is not sent to our company servers, and if you turn off iCloud, it stays only on your device.
 - **Advertising** — ad-supported versions follow the ad provider's own policy.
 - **Contact** — a message you send us is used to reply to you, nothing else.
 
