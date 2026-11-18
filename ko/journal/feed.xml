@@ -4,10 +4,32 @@
 <id>https://mossgarden.ipe.rest/ko/journal/</id>
 <title>제작 저널 — 이끼정원 (Moss Garden)</title>
 <subtitle>이끼정원을 만드는 이야기를 하루에 한 편씩 올립니다.</subtitle>
-<updated>2026-11-17T00:00:00+09:00</updated>
+<updated>2026-11-18T00:00:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/ko/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/"/>
 <author><name>ipe()</name></author>
+<entry>
+<id>https://mossgarden.ipe.rest/ko/journal/seasonal-plants/</id>
+<title>계절이 바뀌면 정원에 피는 식물도 바뀝니다</title>
+<link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/seasonal-plants/"/>
+<published>2026-11-18T00:00:00+09:00</published>
+<updated>2026-11-18T00:00:00+09:00</updated>
+<summary>여름 정원에 벚나무가 서 있으면 어색하니, 계절마다 그 철에 피는 식물이 자리를 채우도록 바꾼 이야기입니다.</summary>
+<content type="html">&lt;p&gt;iOS용 방치형 게임 이끼정원은 계절이 바뀔 때마다 정원에 심을 수 있는 식물도 함께 바뀝니다. 식물 자리는 여덟 칸 그대로인데, 그중 네 칸은 사계절 내내 같은 식물이 서고 나머지 네 칸은 그 계절에 피는 식물이 채웁니다. 값과 초당 생산량은 칸마다 그대로라서 게임의 균형은 달라지지 않습니다.&lt;/p&gt;
+&lt;h2&gt;여름에 벚나무가 있으면 이상합니다&lt;/h2&gt;
+&lt;p&gt;예전에는 계절이 바뀌어도 식물 목록이 같았습니다. 그래서 여름 정원에 봄에 피는 벚나무와 가을에 물드는 은행나무가 함께 서는 장면이 생겼습니다. 계절을 앞세운 게임인데 계절이 어긋나 보이는 것이 마음에 걸렸습니다.&lt;/p&gt;
+&lt;h2&gt;칸은 그대로, 칸을 채우는 식물이 바뀝니다&lt;/h2&gt;
+&lt;p&gt;식물이 놓이는 여덟 칸의 순서와 값, 생산량은 그대로 두고, 칸에 앉는 식물만 계절에 맞췄습니다. 이끼, 고사리, 버섯, 대나무는 이끼정원의 바탕이라 계절을 타지 않게 두었습니다. 풀꽃, 물가의 식물, 꽃나무, 큰 나무 네 칸은 봄·여름·가을·겨울마다 그 철에 맞는 식물이 섭니다.&lt;/p&gt;
+&lt;h2&gt;지난 계절의 식물은 같은 칸의 제철 식물로 옮겨 심습니다&lt;/h2&gt;
+&lt;p&gt;계절이 지났는데 철이 지난 식물을 가지고 있는 경우에는, 같은 칸에서 지금 철에 맞는 식물로 그루 수 그대로 옮겨 심습니다. 칸의 값과 생산량이 같으니 초당 수입이 줄지 않고, 다음 한 그루의 값도 그대로입니다. 잃는 것이 없도록 하는 것이 이 방식의 조건이었습니다.&lt;/p&gt;
+&lt;h2&gt;도감에서 계절별로 볼 수 있습니다&lt;/h2&gt;
+&lt;p&gt;도감 맨 위에는 봄·여름·가을·겨울 칩이 있어서 계절별로 식물을 골라 볼 수 있습니다. 다른 계절에만 피는 식물은 흐리게 보이고, 그 계절이 오면 심을 수 있다는 안내가 함께 나옵니다. 사계절 내내 서는 식물에는 사계절 표시가 붙습니다. 계절 탭에서는 계절을 바꾸기 전에 다음 계절에 새 식물이 피는 것을 미리 알려 드립니다.&lt;/p&gt;
+&lt;h2&gt;자주 묻는 질문&lt;/h2&gt;
+&lt;h3&gt;계절이 바뀌면 식물이 사라지나요?&lt;/h3&gt;
+&lt;p&gt;사라지지 않습니다. 철이 지난 식물은 같은 칸의 제철 식물로 그루 수 그대로 옮겨 심으니 초당 수입도 그대로입니다.&lt;/p&gt;
+&lt;h3&gt;계절마다 식물의 값이 달라지나요?&lt;/h3&gt;
+&lt;p&gt;아니요. 식물이 놓이는 칸의 값과 생산량은 계절과 상관없이 그대로입니다.&lt;/p&gt;</content>
+</entry>
 <entry>
 <id>https://mossgarden.ipe.rest/ko/journal/offline-garden/</id>
 <title>앱을 닫아도 정원은 자랍니다</title>
