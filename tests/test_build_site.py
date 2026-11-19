@@ -339,3 +339,51 @@ class LayoutTests(unittest.TestCase):
         js = (REPO / "assets" / "site.js").read_text(encoding="utf-8")
         for dup in ("ipe_lang", "location.replace", "navigator.languages"):
             self.assertNotIn(dup, js)
+
+
+class PublishedTimeTests(unittest.TestCase):
+    """The real publish time (content/journal/published_at.json, KST) reaches JSON-LD, article meta and the Atom feed; unknown times stay date-only."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.files = bs.build_all(bs.make_ctx(REPO, require_all=True, today="2026-11-19")[0])
+
+    def test_publish_time_in_jsonld_meta_and_feed_for_all_languages(self):
+        for l in bs.LANGS:
+            html = self.files[bs.path_post(l, "garden-guests").strip("/") + "/index.html"]
+            self.assertIn('<meta property="article:published_time" content="2026-11-19T12:45:00+09:00">', html, l)
+            nodes = [n for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S) for n in json.loads(b).get("@graph", [])]
+            post = next(n for n in nodes if n["@type"] == "BlogPosting")
+            self.assertEqual(post["datePublished"], "2026-11-19T12:45:00+09:00", l)
+            self.assertEqual(post["dateModified"], "2026-11-19T12:45:00+09:00", l)
+        for f in ("journal/feed.xml", "ko/journal/feed.xml"):
+            self.assertIn("<published>2026-11-19T12:45:00+09:00</published>", self.files[f], f)
+
+    def test_post_without_known_time_stays_date_only(self):
+        html = self.files[bs.path_post("en", "dew-decimals").strip("/") + "/index.html"]
+        self.assertNotIn("article:published_time", html)
+        nodes = [n for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S) for n in json.loads(b).get("@graph", [])]
+        post = next(n for n in nodes if n["@type"] == "BlogPosting")
+        self.assertEqual(post["datePublished"], "2026-11-13")
+
+    def test_record_published_round_trip_and_validation(self):
+        root = Path(tempfile.mkdtemp())
+        try:
+            bs.record_published(root, "garden-guests", "2026-11-19T12:45")
+            bs.record_published(root, "garden-guests", "2026-11-19T12:50")  # a re-run overwrites
+            bs.record_published(root, "seasonal-plants", "2026-11-18T13:15")
+            self.assertEqual(bs.load_published(root), ({"garden-guests": "2026-11-19T12:50", "seasonal-plants": "2026-11-18T13:15"}, []))
+            with self.assertRaises(ValueError):
+                bs.record_published(root, "garden-guests", "2026-11-19 12:45")  # wrong shape
+            with self.assertRaises(ValueError):
+                bs.record_published(root, "garden-guests", "2026-13-01T12:45")  # no such month
+            with self.assertRaises(ValueError):
+                bs.record_published(root, "Garden Guests", "2026-11-19T12:45")  # bad slug
+            self.assertEqual(bs.published_iso({"published_at": "2026-11-19T12:50"}), "2026-11-19T12:50:00+09:00")
+            self.assertIsNone(bs.published_iso({"published_at": None}))
+        finally:
+            shutil.rmtree(root)
+
+    def test_published_entry_without_a_post_is_an_error(self):
+        _, errs = bs.load_journal(REPO, "2026-11-19", {"no-such-post": "2026-11-19T12:00"})
+        self.assertTrue(any("no-such-post" in e and "has no post" in e for e in errs), errs)

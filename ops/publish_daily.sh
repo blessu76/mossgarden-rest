@@ -159,6 +159,11 @@ on_exit() { local rc=$?; rm -rf "$lock"; if [ "$rc" -ne 0 ] && [ "$stage" = prep
 trap on_exit EXIT
 trap 'log "signal received"; exit 143' INT TERM
 
+# This run's publish time (KST) goes to content/journal/published_at.json: the build puts it in the post's JSON-LD, article meta and feed.
+published_at="$(date '+%Y-%m-%dT%H:%M')"
+if ! rec="$(python3 scripts/build_site.py --root . --record-published "$slug" "$published_at" 2>&1)"; then
+  echo "$rec"; rollback; log "FAIL — record publish time"; exit 1
+fi
 if ! out="$(python3 scripts/build_site.py --today "$TODAY" 2>&1)"; then
   echo "$out"; rollback; log "FAIL — build_site"; exit 1
 fi
@@ -168,7 +173,7 @@ if [ -z "$(git status --porcelain)" ]; then log "nothing to publish"; exit 0; fi
 if ! bash -c "$CHECK_CMD"; then rollback; log "FAIL — green gate"; exit 1; fi
 
 add=""
-for p in $PUBLISH_PATHS; do [ -e "$p" ] && add="$add $p"; done
+for p in $PUBLISH_PATHS content/journal/published_at.json; do [ -e "$p" ] && add="$add $p"; done
 # shellcheck disable=SC2086
 git add -A -- $add
 if [ -n "$(git status --porcelain | grep -v '^[MADR] ')" ]; then

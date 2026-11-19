@@ -4,7 +4,7 @@
 <id>https://mossgarden.ipe.rest/journal/</id>
 <title>Production journal — Moss Garden</title>
 <subtitle>One short story a day about how Moss Garden is made.</subtitle>
-<updated>2026-11-19T00:00:00+09:00</updated>
+<updated>2026-11-19T12:45:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/"/>
 <author><name>ipe()</name></author>
@@ -12,8 +12,8 @@
 <id>https://mossgarden.ipe.rest/journal/garden-guests/</id>
 <title>Logging the guests who visit the garden in the codex</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/garden-guests/"/>
-<published>2026-11-19T00:00:00+09:00</published>
-<updated>2026-11-19T00:00:00+09:00</updated>
+<published>2026-11-19T12:45:00+09:00</published>
+<updated>2026-11-19T12:45:00+09:00</updated>
 <summary>A look at the small visitors who pass through the garden, the codex that records them, and the rare ones you can collect.</summary>
 <content type="html">&lt;p&gt;Moss Garden, an idle game for iOS, has small guests who visit the garden, and the codex has a guests chip next to the plants where we write down who has stopped by. Now and then a special guest arrives with a golden or white tint, and as guests add up, decorations that dress the garden unlock. All of this only touches how the garden looks: dew, settlement and production don&amp;#x27;t change.&lt;/p&gt;
 &lt;h2&gt;Guests stay in the codex&lt;/h2&gt;
@@ -32,8 +32,8 @@
 <id>https://mossgarden.ipe.rest/journal/seasonal-plants/</id>
 <title>When the season changes, the plants in the garden change too</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/seasonal-plants/"/>
-<published>2026-11-18T00:00:00+09:00</published>
-<updated>2026-11-18T00:00:00+09:00</updated>
+<published>2026-11-18T13:15:00+09:00</published>
+<updated>2026-11-18T13:15:00+09:00</updated>
 <summary>A cherry tree standing in a summer garden looks wrong, so we made each season fill the garden with its own plants.</summary>
 <content type="html">&lt;p&gt;In Moss Garden, an idle game for iOS, the plants you can grow change along with the season. The garden still has eight plant slots: four stay the same all year round, and the other four are filled by plants that bloom in the current season. Each slot keeps the same price and production per second, so the balance of the game doesn&amp;#x27;t change.&lt;/p&gt;
 &lt;h2&gt;A cherry tree in summer looks wrong&lt;/h2&gt;
@@ -54,8 +54,8 @@
 <id>https://mossgarden.ipe.rest/journal/offline-garden/</id>
 <title>The garden keeps growing when the app is closed</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/offline-garden/"/>
-<published>2026-11-17T00:00:00+09:00</published>
-<updated>2026-11-17T00:00:00+09:00</updated>
+<published>2026-11-17T12:30:00+09:00</published>
+<updated>2026-11-17T12:30:00+09:00</updated>
 <summary>Moss Garden keeps collecting dew while the app is closed, and shows you what it earned when you return.</summary>
 <content type="html">&lt;p&gt;Moss Garden is a garden you look in on a few times a day. So it keeps growing even while the app is closed. When you come back, the welcome-back window shows the dew gathered in the meantime.&lt;/p&gt;
 &lt;h2&gt;Time away is garden time too&lt;/h2&gt;
@@ -74,8 +74,8 @@
 <id>https://mossgarden.ipe.rest/journal/safe-saves/</id>
 <title>Why we keep two copies of the save</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/safe-saves/"/>
-<published>2026-11-16T00:00:00+09:00</published>
-<updated>2026-11-16T00:00:00+09:00</updated>
+<published>2026-11-16T13:15:00+09:00</published>
+<updated>2026-11-16T13:15:00+09:00</updated>
 <summary>Losing a garden you&#x27;ve grown is the worst, so saves are split into a main file and a backup.</summary>
 <content type="html">&lt;p&gt;Moss Garden, an idle game for iOS, protects your garden with two safeguards: a checksum that detects a damaged save and a separate backup it restores from, with a notice. Turning the device clock back to collect rewards is also caught, and that stretch is not settled.&lt;/p&gt;
 &lt;h2&gt;Two safeguards for the save&lt;/h2&gt;
@@ -95,8 +95,8 @@
 <id>https://mossgarden.ipe.rest/journal/first-testflight/</id>
 <title>How the first TestFlight build went up</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/first-testflight/"/>
-<published>2026-11-15T00:00:00+09:00</published>
-<updated>2026-11-15T00:00:00+09:00</updated>
+<published>2026-11-15T15:00:00+09:00</published>
+<updated>2026-11-15T15:00:00+09:00</updated>
 <summary>After finishing the MVP, the first internal build went up, but the deploy script stopped us once along the way.</summary>
 <content type="html">&lt;p&gt;The first MVP of Moss Garden, an idle game for iOS, went up to TestFlight as 1.0.0 (1) for internal testing after a deploy script stopped the first attempt. Processing took about three minutes, and the build was not submitted for review or opened to external testers.&lt;/p&gt;
 &lt;h2&gt;What was in the MVP&lt;/h2&gt;
@@ -114,8 +114,8 @@
 <id>https://mossgarden.ipe.rest/journal/garden-redesign/</id>
 <title>The day we redrew the garden</title>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/journal/garden-redesign/"/>
-<published>2026-11-14T00:00:00+09:00</published>
-<updated>2026-11-14T00:00:00+09:00</updated>
+<published>2026-11-14T13:15:00+09:00</published>
+<updated>2026-11-14T13:15:00+09:00</updated>
 <summary>After hearing the app looked rather dull overall, we reworked the garden screen from scratch.</summary>
 <content type="html">&lt;p&gt;We redrew the garden screen of Moss Garden, an idle game for iOS, after hearing that the design felt dull. It now has a deeper forest palette, a large garden scene with hills, a lotus pond and fireflies, and view-only decorations that never change the pace of the game.&lt;/p&gt;
 &lt;h2&gt;Starting with color&lt;/h2&gt;
