@@ -13,11 +13,11 @@ Die Postkarte enthält nur das Gartenbild. Das obere Menü, die Jahreszeit-Chips
 
 Unter dem Bild stehen der Name der App, die Jahreszeit, die Anzahl der Jahre, seit der Garten besteht, und das Datum des Speicherns. Rechts ist ein kleiner Jahreszeiten-Stempel zu sehen. Die Schrift richtet sich nach Ihrer Sprache.
 
-Ob Ihr Spitzname darauf erscheint, können Sie selbst wählen. Schalten Sie den Spitznamen aus, wird die Postkarte ohne diese Zeile neu gezeichnet.
+Wenn Sie einen Spitznamen festgelegt haben, können Sie wählen, ob er darauf erscheint. Schalten Sie den Spitznamen aus, wird die Postkarte ohne diese Zeile neu gezeichnet.
 
 ## Was nicht darauf steht
 
-Tau, Anzahl der Tipps, Uhrzeit und Standort gehören nicht auf die Postkarte. Der Dateiname enthält nur Datum und Uhrzeit.
+Tau, die Anzahl der Berührungen, Uhrzeit und Standort gehören nicht auf die Postkarte. Der Dateiname enthält nur Datum und Uhrzeit.
 
 ## Die Berechtigung wird nur beim Speichern abgefragt
 

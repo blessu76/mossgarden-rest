@@ -13,11 +13,11 @@ La carte postale ne contient que l'image du jardin. Le menu du haut, les puces d
 
 Sous l'image, on lit le nom de l'application, la saison, le nombre d'années depuis lesquelles le jardin existe et la date d'enregistrement. Un petit tampon de saison est imprimé à droite. Les textes suivent la langue de votre appareil.
 
-Vous choisissez d'afficher ou non votre pseudo. Si vous désactivez l'interrupteur du pseudo, la carte est redessinée sans cette ligne.
+Si vous avez choisi un pseudo, vous décidez de l'afficher ou non. Si vous désactivez l'interrupteur du pseudo, la carte est redessinée sans cette ligne.
 
 ## Ce qui n'y figure pas
 
-La rosée, le nombre de touches, l'heure et la position ne sont pas sur la carte. Le nom du fichier ne contient que la date et l'heure.
+La rosée, le nombre d'appuis, l'heure et la position ne sont pas sur la carte. Le nom du fichier ne contient que la date et l'heure.
 
 ## L'autorisation n'est demandée qu'à l'enregistrement
 

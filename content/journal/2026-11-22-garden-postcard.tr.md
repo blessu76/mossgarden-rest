@@ -1,9 +1,9 @@
 ---
-title: "Bahçeni bir kartpostal olarak kaydet"
-description: "Bahçe ekranındaki kamera düğmesine dokunarak bahçe görselini 4:5 bir kartpostala dönüştür. Fotoğraflar uygulamasına kaydedebilir ya da paylaşabilirsin."
+title: "Bahçenizi bir kartpostal olarak kaydedin"
+description: "Bahçe ekranındaki kamera düğmesine dokunarak bahçe görselini 4:5 bir kartpostala dönüştürün. Fotoğraflar uygulamasına kaydedebilir ya da paylaşabilirsiniz."
 copy_review: iris 2026-11-19
 ---
-Bahçeni tek bir görselde saklamak istediğinde kartpostalı kullan. Bahçe ekranındaki kamera düğmesine dokunduğunda önizleme açılır. Oradan kartpostalı Fotoğraflar uygulamasına kaydedebilir ya da başka bir uygulamayla paylaşabilirsin.
+Bahçenizi tek bir görselde saklamak istediğinizde kartpostalı kullanın. Bahçe ekranındaki kamera düğmesine dokunduğunuzda önizleme açılır. Oradan kartpostalı Fotoğraflar uygulamasına kaydedebilir ya da başka bir uygulamayla paylaşabilirsiniz.
 
 ## Yalnızca bahçe görseli yer alır
 
@@ -11,9 +11,9 @@ Kartpostalda yalnızca bahçe görseli bulunur. Üst menü, mevsim çipleri ve y
 
 ## Kartpostalda yazanlar
 
-Görselin altında uygulamanın adı, mevsim, bahçenin kaç yıldır sürdüğü ve kaydettiğin tarih yazar. Sağ tarafta küçük bir mevsim damgası basılır. Yazılar cihazının diline göre görünür.
+Görselin altında uygulamanın adı, mevsim, bahçenin kaç yıldır sürdüğü ve kaydettiğiniz tarih yazar. Sağ tarafta küçük bir mevsim damgası basılır. Yazılar cihazınızın diline göre görünür.
 
-Takma adını eklemek isteğe bağlıdır. Takma ad anahtarını kapatırsan kartpostal, takma ad satırı olmadan yeniden çizilir.
+Takma adınızı ekleyip eklemeyeceğinizi seçebilirsiniz. Takma ad anahtarını kapatırsanız kartpostal, takma ad satırı olmadan yeniden çizilir.
 
 ## Yer almayanlar
 
@@ -21,7 +21,7 @@ Takma adını eklemek isteğe bağlıdır. Takma ad anahtarını kapatırsan kar
 
 ## İzin yalnızca kaydederken istenir
 
-Uygulama, Fotoğraflar'a kaydederken izin ister. Fotoğraflarını okumak için izin istemez, yalnızca ekleme izni ister. İzni reddedersen kısa bir uyarı çıkar ve bahçeni eskisi gibi oynamaya devam edebilirsin.
+Uygulama, Fotoğraflar'a kaydederken izin ister. Fotoğraflarınızı okumak için izin istemez, yalnızca ekleme izni ister. İzni reddederseniz kısa bir uyarı çıkar ve bahçenizi eskisi gibi oynamaya devam edebilirsiniz.
 
 ## Sık sorulan sorular
 
@@ -29,7 +29,7 @@ Uygulama, Fotoğraflar'a kaydederken izin ister. Fotoğraflarını okumak için 
 Fotoğraflar uygulamasına kaydedilir. Paylaşmak sistemin paylaşım sayfasını açar.
 
 ### Kartpostalda her zaman takma ad olur mu?
-Hayır. Bunu sen seçersin ve kapatırsan takma ad kartpostaldan çıkar.
+Hayır. Bunu siz seçersiniz ve kapatırsanız takma ad kartpostaldan çıkar.
 
 ### Moss Garden nasıl bir oyun?
-Moss Garden, iOS için bir boşta oynama (idle) oyunudur. Bahçende bitki ekip büyütürsün ve zamanla çiy toplarsın.
+Moss Garden, iOS için bir boşta oynama (idle) oyunudur. Bahçenizde bitki ekip büyütürsünüz ve zamanla çiy toplarsınız.

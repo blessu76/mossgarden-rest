@@ -13,7 +13,7 @@ The postcard holds only the garden picture. The top menu, season chips, and hint
 
 Under the picture you will see the app name, the season, how many years the garden has been running, and the date you saved it. A small season stamp is printed on the right. The text follows your language.
 
-You can choose whether to include your nickname. Turn off the nickname switch and the postcard is drawn again without the nickname line.
+If you have set a nickname, you can choose whether to include it. Turn off the nickname switch and the postcard is drawn again without the nickname line.
 
 ## What is not included
 
