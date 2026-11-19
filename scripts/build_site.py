@@ -343,17 +343,21 @@ def load_published(root):
 
 
 def record_published(root, slug, when):
-    """Store the publish time of one post (ops/publish_daily.sh calls this before the build). Raises ValueError on bad input."""
+    """Store the publish time of one post (ops/publish_daily.sh calls this before the build). Raises ValueError on bad input.
+    Idempotent: a slug that already has a time keeps its first time (a re-run after a failed push must not move it). -> True when recorded, False when kept."""
     if not PUBLISHED_SLUG_RE.match(slug):
         raise ValueError("bad slug %r" % (slug,))
     parse_published(when)
     data, errs = load_published(root)
     if errs:
         raise ValueError("; ".join(errs))
+    if slug in data:
+        return False
     data[slug] = when
     f = Path(root) / PUBLISHED_AT
     f.parent.mkdir(parents=True, exist_ok=True)
     f.write_text(json.dumps(dict(sorted(data.items())), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    return True
 
 
 def published_iso(post):
@@ -796,11 +800,11 @@ def main(argv=None):
     root = Path(a.root).resolve()
     if a.record_published:
         try:
-            record_published(root, *a.record_published)
+            recorded = record_published(root, *a.record_published)
         except ValueError as ex:
             print("build_site: %s" % ex, file=sys.stderr)
             return 1
-        print("build_site: recorded %s at %s" % (a.record_published[0], a.record_published[1]))
+        print("build_site: %s %s at %s" % ("recorded" if recorded else "kept (already recorded):", a.record_published[0], a.record_published[1]))
         return 0
     if a.built_through:
         print(built_through(root))

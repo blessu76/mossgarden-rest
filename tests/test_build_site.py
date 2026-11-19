@@ -370,9 +370,8 @@ class PublishedTimeTests(unittest.TestCase):
         root = Path(tempfile.mkdtemp())
         try:
             bs.record_published(root, "garden-guests", "2026-11-19T12:45")
-            bs.record_published(root, "garden-guests", "2026-11-19T12:50")  # a re-run overwrites
             bs.record_published(root, "seasonal-plants", "2026-11-18T13:15")
-            self.assertEqual(bs.load_published(root), ({"garden-guests": "2026-11-19T12:50", "seasonal-plants": "2026-11-18T13:15"}, []))
+            self.assertEqual(bs.load_published(root), ({"garden-guests": "2026-11-19T12:45", "seasonal-plants": "2026-11-18T13:15"}, []))
             with self.assertRaises(ValueError):
                 bs.record_published(root, "garden-guests", "2026-11-19 12:45")  # wrong shape
             with self.assertRaises(ValueError):
@@ -381,6 +380,21 @@ class PublishedTimeTests(unittest.TestCase):
                 bs.record_published(root, "Garden Guests", "2026-11-19T12:45")  # bad slug
             self.assertEqual(bs.published_iso({"published_at": "2026-11-19T12:50"}), "2026-11-19T12:50:00+09:00")
             self.assertIsNone(bs.published_iso({"published_at": None}))
+        finally:
+            shutil.rmtree(root)
+
+    def test_record_published_keeps_the_first_time_for_a_slug(self):
+        root = Path(tempfile.mkdtemp())
+        try:
+            self.assertTrue(bs.record_published(root, "garden-guests", "2026-11-19T12:45"))
+            before = (Path(root) / bs.PUBLISHED_AT).read_text(encoding="utf-8")
+            # a later run (e.g. retry after a failed push) must not move the recorded time
+            self.assertFalse(bs.record_published(root, "garden-guests", "2026-11-19T13:30"))
+            self.assertEqual((Path(root) / bs.PUBLISHED_AT).read_text(encoding="utf-8"), before)
+            self.assertEqual(bs.load_published(root), ({"garden-guests": "2026-11-19T12:45"}, []))
+            # a new slug is still recorded
+            self.assertTrue(bs.record_published(root, "seasonal-plants", "2026-11-18T13:15"))
+            self.assertEqual(bs.load_published(root), ({"garden-guests": "2026-11-19T12:45", "seasonal-plants": "2026-11-18T13:15"}, []))
         finally:
             shutil.rmtree(root)
 
