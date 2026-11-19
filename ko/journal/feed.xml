@@ -4,10 +4,30 @@
 <id>https://mossgarden.ipe.rest/ko/journal/</id>
 <title>제작 저널 — 이끼정원 (Moss Garden)</title>
 <subtitle>이끼정원을 만드는 이야기를 하루에 한 편씩 올립니다.</subtitle>
-<updated>2026-11-18T00:00:00+09:00</updated>
+<updated>2026-11-19T00:00:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/ko/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/"/>
 <author><name>ipe()</name></author>
+<entry>
+<id>https://mossgarden.ipe.rest/ko/journal/garden-guests/</id>
+<title>정원에 찾아오는 손님들을 도감에 적습니다</title>
+<link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/garden-guests/"/>
+<published>2026-11-19T00:00:00+09:00</published>
+<updated>2026-11-19T00:00:00+09:00</updated>
+<summary>정원을 지나가는 작은 손님들을 도감에 기록하고, 가끔 찾아오는 특별한 손님을 모아 보는 이야기입니다.</summary>
+<content type="html">&lt;p&gt;iOS용 방치형 게임 이끼정원에는 정원을 찾아오는 작은 손님들이 있고, 도감에는 식물과 함께 손님 칩이 있어서 다녀간 손님을 적어 둡니다. 가끔은 금빛이나 흰빛을 띤 특별한 손님이 오고, 손님이 쌓이면 정원을 꾸며 주는 장식이 열립니다. 이 모든 것은 정원의 겉모습에만 닿고 이슬이나 정산, 생산량은 바뀌지 않습니다.&lt;/p&gt;
+&lt;h2&gt;손님은 도감에 남습니다&lt;/h2&gt;
+&lt;p&gt;정원을 비워 두는 동안에도 손님은 찾아옵니다. 다시 정원을 열면 복귀 창에 다녀간 손님이 한 줄로 보입니다. 도감의 손님 칩에서는 손님 종마다 몇 번 다녀갔는지와 특별한 손님을 만났는지가 카드에 점으로 표시됩니다. 새 손님이나 특별한 손님이 오면 짧은 알림이 뜹니다.&lt;/p&gt;
+&lt;h2&gt;가끔 특별한 손님이 옵니다&lt;/h2&gt;
+&lt;p&gt;방문할 때마다 아주 드물게 금빛이나 흰빛을 띤 모습으로 오는 손님이 있습니다. 날씨와는 상관이 없습니다. 새 그림을 따로 그리지 않고 손님의 색만 바꾸어 보여 주는 방식이라, 같은 손님이라도 만난 순간이 달라집니다.&lt;/p&gt;
+&lt;h2&gt;모이면 정원이 조금 환해집니다&lt;/h2&gt;
+&lt;p&gt;손님이 일정한 수만큼 쌓이면 빛 고리, 반딧불이 든 병, 달돌 같은 장식이 열리고, 열린 장식은 정원에 저절로 나타납니다. 이 장식은 외형일 뿐이라 이슬을 더 벌게 해 주지 않습니다. 그래서 서두르지 않고 천천히 모아도 손해가 없습니다.&lt;/p&gt;
+&lt;h2&gt;자주 묻는 질문&lt;/h2&gt;
+&lt;h3&gt;손님이 오면 이슬을 더 벌 수 있나요?&lt;/h3&gt;
+&lt;p&gt;아니요. 손님과 장식은 정원의 겉모습에만 영향을 주고 이슬, 정산, 생산량은 그대로입니다.&lt;/p&gt;
+&lt;h3&gt;앱을 열지 않은 동안에도 손님이 오나요?&lt;/h3&gt;
+&lt;p&gt;네. 정원을 비워 둔 동안 다녀간 손님은 다시 열었을 때 복귀 창에 한 줄로 보여 드립니다.&lt;/p&gt;</content>
+</entry>
 <entry>
 <id>https://mossgarden.ipe.rest/ko/journal/seasonal-plants/</id>
 <title>계절이 바뀌면 정원에 피는 식물도 바뀝니다</title>
