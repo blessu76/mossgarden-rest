@@ -186,6 +186,23 @@ class PublishDaily(unittest.TestCase):
         self.assertIn("nothing to publish", r2.stdout.strip().splitlines()[-1])
         self.assertEqual(self.head(self.origin), after)
 
+    def test_second_run_same_day_leaves_published_at_and_commits_alone(self):
+        self.mark_reviewed()
+        r = self.run_publish()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        times = self.clone / "content" / "journal" / "published_at.json"
+        first_bytes = times.read_bytes()
+        self.assertIn('"synthetic-post"', first_bytes.decode("utf-8"))
+        commits = git("rev-list", "--count", "HEAD", cwd=self.clone)
+        origin_head = self.head(self.origin)
+        r2 = self.run_publish()           # same day again: kept time, nothing to publish
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        self.assertIn("nothing to publish", r2.stdout.strip().splitlines()[-1])
+        self.assertEqual(times.read_bytes(), first_bytes)
+        self.assertEqual(git("rev-list", "--count", "HEAD", cwd=self.clone), commits)
+        self.assertEqual(self.head(self.origin), origin_head)
+        self.assertEqual(git("status", "--porcelain", cwd=self.clone), "")
+
     def test_post_without_copy_review_is_skipped(self):
         before = self.head(self.origin)
         r = self.run_publish()

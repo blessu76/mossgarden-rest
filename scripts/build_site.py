@@ -794,7 +794,8 @@ def main(argv=None):
     ap.add_argument("--built-through", action="store_true", help="print the newest post date already built into /journal/ and exit")
     ap.add_argument("--check", action="store_true", help="validate sources only")
     ap.add_argument("--record-published", nargs=2, metavar=("SLUG", "YYYY-MM-DDTHH:MM"),
-                    help="store a post's publish time (KST) in content/journal/published_at.json and exit (ops/publish_daily.sh)")
+                    help="store a post's publish time (KST) in content/journal/published_at.json and exit (ops/publish_daily.sh). "
+                         "A slug that already has a time keeps it; to change one, edit published_at.json by hand.")
     ap.add_argument("--require-all", action="store_true", help="fail unless every language in games.json is complete")
     a = ap.parse_args(argv)
     root = Path(a.root).resolve()
@@ -804,7 +805,12 @@ def main(argv=None):
         except ValueError as ex:
             print("build_site: %s" % ex, file=sys.stderr)
             return 1
-        print("build_site: %s %s at %s" % ("recorded" if recorded else "kept (already recorded):", a.record_published[0], a.record_published[1]))
+        slug, when = a.record_published
+        if recorded:
+            print("build_site: recorded %s at %s" % (slug, when))
+        else:  # the time that stays is the one already on file, not the rejected new one
+            kept_at = load_published(root)[0][slug]
+            print("build_site: kept %s at %s, ignored %s" % (slug, kept_at, when))
         return 0
     if a.built_through:
         print(built_through(root))
