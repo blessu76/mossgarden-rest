@@ -4,10 +4,34 @@
 <id>https://mossgarden.ipe.rest/ko/journal/</id>
 <title>제작 저널 — 이끼정원 (Moss Garden)</title>
 <subtitle>이끼정원을 만드는 이야기를 하루에 한 편씩 올립니다.</subtitle>
-<updated>2026-11-20T00:00:00+09:00</updated>
+<updated>2026-11-21T17:00:00+09:00</updated>
 <link rel="self" type="application/atom+xml" href="https://mossgarden.ipe.rest/ko/journal/feed.xml"/>
 <link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/"/>
 <author><name>ipe()</name></author>
+<entry>
+<id>https://mossgarden.ipe.rest/ko/journal/ipad-garden/</id>
+<title>아이패드에서는 정원이 더 넓게 보입니다</title>
+<link rel="alternate" type="text/html" href="https://mossgarden.ipe.rest/ko/journal/ipad-garden/"/>
+<published>2026-11-21T17:00:00+09:00</published>
+<updated>2026-11-21T17:00:00+09:00</updated>
+<summary>이끼정원은 아이패드의 큰 화면에 맞춰 정원과 도감을 넓게 보여 주고, 가로로 돌려도 쓸 수 있습니다.</summary>
+<content type="html">&lt;p&gt;이끼정원은 폰에서 짧게 들여다보는 정원이지만, 아이패드처럼 화면이 큰 기기에서도 편하게 보이도록 다듬었습니다. 화면이 커졌다고 글자와 카드가 끝없이 늘어나지는 않습니다.&lt;/p&gt;
+&lt;h2&gt;큰 화면에서는 정원이 더 크게&lt;/h2&gt;
+&lt;p&gt;아이패드에서는 정원이 화면 위쪽에 넉넉하게 자리 잡고, 그 아래에 식물 카드가 가운데로 모여 보입니다. 카드가 화면 끝까지 길게 늘어나지 않아서 읽기 편합니다.&lt;/p&gt;
+&lt;h2&gt;가로로 돌려도 됩니다&lt;/h2&gt;
+&lt;p&gt;아이패드를 가로로 돌리면 정원은 왼쪽에, 식물 카드와 메뉴는 오른쪽 패널에 놓입니다. 거치대에 세워 두고 가끔 들여다보기에 좋습니다.&lt;/p&gt;
+&lt;h2&gt;도감은 칸이 더 많아집니다&lt;/h2&gt;
+&lt;p&gt;도감은 화면이 넓으면 한 줄에 더 많은 칸이 보입니다. 만난 식물과 손님을 한눈에 훑어볼 수 있습니다.&lt;/p&gt;
+&lt;h2&gt;폰에서는 그대로입니다&lt;/h2&gt;
+&lt;p&gt;아이폰에서는 예전과 같은 세로 화면으로 보입니다. 큰 화면을 위한 배치는 아이패드에서만 달라집니다.&lt;/p&gt;
+&lt;h2&gt;자주 묻는 질문&lt;/h2&gt;
+&lt;h3&gt;아이패드에서 가로로 쓸 수 있나요?&lt;/h3&gt;
+&lt;p&gt;네. 아이패드에서는 가로로 돌려도 정원이 왼쪽, 메뉴가 오른쪽에 놓여 그대로 쓸 수 있습니다.&lt;/p&gt;
+&lt;h3&gt;아이폰 화면도 바뀌나요?&lt;/h3&gt;
+&lt;p&gt;아니요. 아이폰은 세로 화면 그대로입니다.&lt;/p&gt;
+&lt;h3&gt;이끼정원은 어떤 게임인가요?&lt;/h3&gt;
+&lt;p&gt;이끼정원은 iOS용 방치형 게임입니다. 식물을 심고 키우면서 이슬을 모으는 정원 게임입니다.&lt;/p&gt;</content>
+</entry>
 <entry>
 <id>https://mossgarden.ipe.rest/ko/journal/field-guide/</id>
 <title>도감에 남는 정원</title>
